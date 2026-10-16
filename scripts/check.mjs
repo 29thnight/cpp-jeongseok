@@ -106,3 +106,38 @@ for(const marker of ['docs.google.com','drive.google.com','비공개 검토본',
 assert.equal([...firstHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(firstHtml.includes('&lt;iostream&gt;'));
 console.log('PASS: 00-2 approved endl examples, source preservation, illustration, privacy, navigation, comments');
+
+// Standard stream objects and function manipulators are different categories,
+// even when a manipulator is passed to operator<< without call parentheses.
+const hello = 'std::cout << "Hello World!" << std::endl;';
+const helloHtml = renderCode({text:hello,lang:'cpp'});
+assert(helloHtml.includes('<span class="hljs-global">cout</span>'));
+assert(helloHtml.includes('<span class="hljs-title function_">endl</span>'));
+assert.equal(decode(helloHtml.replace(/<[^>]*>/g,'')).trimEnd(),hello);
+for(const name of ['cin','cout','cerr','clog','wcin','wcout','wcerr','wclog']) {
+  for(const separator of ['::',' :: ']) {
+    assert(renderCode({text:`std${separator}${name};`,lang:'cpp'}).includes(`<span class="hljs-global">${name}</span>`));
+  }
+}
+for(const name of ['endl','ends','flush','ws','boolalpha','noboolalpha','showbase','noshowbase','showpoint','noshowpoint','showpos','noshowpos','skipws','noskipws','uppercase','nouppercase','unitbuf','nounitbuf','internal','left','right','dec','hex','oct','fixed','scientific','hexfloat','defaultfloat']) {
+  for(const suffix of [';', '(std::cout);']) {
+    const output=renderCode({text:`std :: ${name}${suffix}`,lang:'cpp'});
+    assert(output.includes(`<span class="hljs-title function_">${name}</span>`),`Manipulator ${name}${suffix}`);
+  }
+}
+const shadowed=renderCode({text:'int cout = 1; int endl = 2; std::cout << cout << std::endl;',lang:'cpp'});
+assert.equal([...shadowed.matchAll(/class="hljs-local">cout</g)].length,2);
+assert(shadowed.includes('class="hljs-local">endl</span>'));
+assert(shadowed.includes('class="hljs-global">cout</span>'));
+assert(shadowed.includes('class="hljs-title function_">endl</span>'));
+const protectedTokens=renderCode({text:'// std::cout std::endl\n"std::cout std::endl"; custom::endl; std::unknown;',lang:'cpp'});
+assert(!protectedTokens.includes('hljs-global'));
+assert(!protectedTokens.includes('hljs-title function_'));
+assert(css.includes('.prose pre .hljs-global{color:#d4d4d4}'));
+assert(css.includes('.prose pre .hljs-title.function_,.prose pre .hljs-title{color:#dcdcaa}'));
+assert((luminance('d4d4d4')+.05)/(luminance('1e1e1e')+.05)>=4.5);
+for(const [,block] of firstRendered) {
+  assert(block.includes('class="hljs-global">cout</span>'));
+  assert(block.includes('class="hljs-title function_">endl</span>'));
+}
+console.log('PASS: stream globals, no-parenthesis/explicit manipulators, whitespace, local-name collisions, protected literals/comments, exact Hello World text and deployed lesson token categories');

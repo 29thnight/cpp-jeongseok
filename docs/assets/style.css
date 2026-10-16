@@ -41,3 +41,6 @@
 .prose .concept-figure img{display:block;width:100%;max-width:100%;height:auto}
 .prose .concept-figure figcaption{margin-top:12px;color:#616168;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
 @media(max-width:740px){.prose .concept-figure{margin:26px 0 30px}.prose .concept-figure figcaption{font-size:12px}}
+
+/* Namespace-scope standard stream objects use the default editor foreground. */
+.prose pre .hljs-global{color:#d4d4d4}

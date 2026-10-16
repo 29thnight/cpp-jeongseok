@@ -8,6 +8,19 @@ const escapeHtml = value => value.replace(/[&<>"']/g, char => ({
 }[char]));
 const standardTypes = new Set(['vector', 'string', 'string_view', 'array', 'span', 'optional', 'variant', 'unique_ptr', 'shared_ptr', 'weak_ptr', 'map', 'set', 'unordered_map', 'unordered_set', 'pair', 'tuple', 'size_t']);
 
+// Qualified standard streams are namespace-scope objects, not local variables.
+const standardStreams = new Set(['cin', 'cout', 'cerr', 'clog', 'wcin', 'wcout', 'wcerr', 'wclog']);
+// These functions may be passed to operator<< / operator>> without parentheses.
+const streamManipulators = new Set([
+  'endl', 'ends', 'flush', 'ws', 'boolalpha', 'noboolalpha', 'showbase', 'noshowbase',
+  'showpoint', 'noshowpoint', 'showpos', 'noshowpos', 'skipws', 'noskipws', 'uppercase',
+  'nouppercase', 'unitbuf', 'nounitbuf', 'internal', 'left', 'right', 'dec', 'hex', 'oct',
+  'fixed', 'scientific', 'hexfloat', 'defaultfloat'
+]);
+const qualifiedStandard = prefix => /\bstd\s*::\s*$/.test(prefix);
+const standardTokenClass = word => standardStreams.has(word) ? 'hljs-global'
+  : streamManipulators.has(word) ? 'hljs-title function_' : null;
+
 // Lexical supplementation, not compiler/IntelliSense semantic analysis.
 // Find simple declarations (including nested template types and range-for).
 // Ignore comments and literals so they cannot invent variable names.
@@ -26,15 +39,33 @@ export function highlightCpp(source) {
   // Only decorate plain text nodes. Never rewrite an HTML attribute, a string,
   // or a comment, and never change the source text or whitespace.
   const stack = [];
-  return html.split(/(<[^>]+>)/g).map(part => {
+  let precedingText = '';
+  const parts = html.split(/(<[^>]+>)/g);
+  return parts.map((part, index) => {
     if (part.startsWith('</')) { stack.pop(); return part; }
-    if (part.startsWith('<')) { stack.push(part); return part; }
+    if (part.startsWith('<')) {
+      // highlight.js marks explicit endl(...) calls as built-ins. Apply the
+      // same function category as endl passed without parentheses, but never
+      // touch nested string/comment spans or unrelated built-ins.
+      if (!stack.length && part === '<span class="hljs-built_in">'
+          && qualifiedStandard(precedingText)) {
+        const category = standardTokenClass(parts[index + 1]);
+        if (category) part = `<span class="${category}">`;
+      }
+      stack.push(part);
+      return part;
+    }
+    const prefix = precedingText;
+    precedingText += part;
     if (stack.length) return part;
     return part.replace(/\b[A-Za-z_]\w*\b/g, (word, offset, text) => {
-      if (word === 'std' && text.slice(offset + word.length).startsWith('::')) return `<span class="hljs-namespace">${word}</span>`;
-      if (['cout', 'cin', 'cerr', 'clog'].includes(word) && /std::$/.test(text.slice(0, offset))) return `<span class="hljs-variable">${word}</span>`;
+      if (word === 'std' && /^\s*::/.test(text.slice(offset + word.length))) return `<span class="hljs-namespace">${word}</span>`;
+      if (qualifiedStandard(prefix + text.slice(0, offset))) {
+        const category = standardTokenClass(word);
+        if (category) return `<span class="${category}">${word}</span>`;
+        if (standardTypes.has(word)) return `<span class="hljs-stl-type">${word}</span>`;
+      }
       if (variables.has(word)) return `<span class="hljs-local">${word}</span>`;
-      if (standardTypes.has(word) && /std::$/.test(text.slice(0, offset))) return `<span class="hljs-stl-type">${word}</span>`;
       return word;
     });
   }).join('');
