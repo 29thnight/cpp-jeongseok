@@ -23,3 +23,40 @@ if (tocLinks.length && 'IntersectionObserver' in window) {
   }, {rootMargin:'-5% 0px -65% 0px'});
   document.querySelectorAll('.prose h2').forEach(h=>observer.observe(h));
 }
+
+// Official giscus widget. No tokens or account credentials belong in this config.
+const comments = document.querySelector('.giscus[data-comments-repo]');
+if (comments) {
+  const status = document.querySelector('.comments-status');
+  const script = document.createElement('script');
+  script.src = 'https://giscus.app/client.js';
+  script.async = true;
+  script.crossOrigin = 'anonymous';
+  const options = {
+    repo: comments.dataset.commentsRepo,
+    'repo-id': comments.dataset.commentsRepoId,
+    category: comments.dataset.commentsCategory,
+    'category-id': comments.dataset.commentsCategoryId,
+    mapping: 'pathname', strict: '1',
+    'reactions-enabled': '1', 'emit-metadata': '0',
+    'input-position': 'top', theme: 'light', lang: 'ko'
+  };
+  for (const [key, value] of Object.entries(options)) script.setAttribute(`data-${key}`, value);
+  const timeout = setTimeout(() => {
+    status.textContent = '댓글을 불러오지 못했거나 연결이 지연되고 있습니다. 페이지를 새로고침하거나 아래 GitHub 링크를 이용해 주세요.';
+  }, 20000);
+  script.addEventListener('error', () => {
+    clearTimeout(timeout);
+    status.textContent = '댓글 서버에 연결하지 못했습니다. 페이지를 새로고침하거나 아래 GitHub 링크를 이용해 주세요.';
+  });
+  window.addEventListener('message', event => {
+    const frame = comments.querySelector('iframe.giscus-frame');
+    if (event.origin !== 'https://giscus.app' || event.source !== frame?.contentWindow || !event.data?.giscus) return;
+    if (event.data.giscus.resizeHeight) {
+      clearTimeout(timeout);
+      status.hidden = true;
+      frame.title = 'C++의 정석 강좌 댓글';
+    }
+  });
+  comments.appendChild(script);
+}

@@ -36,7 +36,14 @@ npm test
 
 ## 댓글
 
-GitHub Discussions / giscus 연결은 아직 설정하지 않았습니다. 사이트에는 준비 중 상태만 표시하며 외부 댓글 스크립트를 로드하지 않습니다. 앱 설치 및 권한 승인을 받은 후 별도 작업으로 연결합니다.
+강좌 하단에서 [giscus](https://giscus.app/ko)를 사용합니다. 공식 giscus 앱은 `29thnight/cpp-jeongseok` 저장소에만 설치되어 있으며 저장소 기본정보 읽기와 Discussions 읽기·쓰기 권한을 사용합니다. 댓글은 공개 GitHub Discussions의 Announcements 카테고리에 저장됩니다. 방문자는 댓글 작성 시 자신의 GitHub 계정으로 giscus에 로그인해야 합니다.
+
+- `content/comments.json`: 공개 저장소/카테고리 ID와 활성화 여부. 비밀번호나 토큰은 필요하지 않습니다
+- 페이지 `pathname`과 엄격한 제목 일치로 수업별 대화를 구분합니다. 공개 수업의 경로를 바꾸면 기존 댓글 연결도 점검하세요
+- 한국어, 밝은 테마, 상단 입력창을 사용합니다. 공식 외부 스크립트는 댓글이 있는 강좌에서만 불러옵니다
+- 처음 댓글이나 반응이 생길 때 Discussion이 생성됩니다. 검증을 위한 테스트 댓글은 만들지 않습니다
+- 연결 실패 시 새로고침 안내와 GitHub Discussions 링크를 제공합니다. JavaScript가 꺼진 경우에도 링크를 이용할 수 있습니다
+- `enabled: false` 또는 필수 설정 누락 시 준비 중 안내만 표시하고 외부 댓글 스크립트를 로드하지 않습니다
 
 ## 디자인 및 폰트
 

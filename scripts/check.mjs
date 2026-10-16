@@ -39,3 +39,23 @@ assert(!homeHtml.includes('class="cover-logo"'));
 assert(homeHtml.includes('<img class="brand-icon"'));
 assert(existsSync('docs/assets/fonts/NotoSans-Bold.woff'));
 console.log('PASS: typographic cover, retained header logo, self-hosted cover font');
+
+const {renderComments} = await import('./comments.mjs');
+const commentsConfig = JSON.parse(readFileSync('content/comments.json','utf8'));
+const commentsHtml = renderComments(commentsConfig);
+assert(commentsHtml.includes('data-comments-category-id="DIC_kwDOVLkfG84DIkjH"'));
+assert(commentsHtml.includes('aria-labelledby="comments-heading"'));
+assert(lessonHtml.includes(commentsHtml));
+assert(!homeHtml.includes('data-comments-repo='), 'Only lessons should load comments');
+for (const config of [{}, {...commentsConfig,enabled:false}, {...commentsConfig,categoryId:''}]) {
+  const fallback=renderComments(config);
+  assert(fallback.includes('현재는 댓글을 작성할 수 없습니다'));
+  assert(!fallback.includes('data-comments-repo='));
+}
+assert(renderComments({...commentsConfig,category:'<unsafe>"'}).includes('&lt;unsafe&gt;&quot;'));
+const app=readFileSync('docs/assets/app.js','utf8');
+assert(app.includes("script.src = 'https://giscus.app/client.js'"));
+assert(app.includes("mapping: 'pathname', strict: '1'"));
+assert(app.includes("theme: 'light', lang: 'ko'"));
+assert(app.includes("event.source !== frame?.contentWindow"));
+console.log('PASS: per-lesson giscus config, Korean UI, strict mapping, safe disabled/missing-config fallback, origin/source validation');

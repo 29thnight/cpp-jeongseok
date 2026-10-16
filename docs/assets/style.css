@@ -24,3 +24,12 @@
 @font-face{font-family:CoverSans;src:url('fonts/NotoSans-Bold.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
 .cover-code{font-family:CoverSans,sans-serif;letter-spacing:-9px}
 .cover-code span{letter-spacing:-12px}
+
+/* The official comment iframe stays within narrow lesson layouts. */
+.comments{min-width:0;overflow-wrap:anywhere}
+.comments .giscus{margin-top:24px;min-height:160px;width:100%}
+.comments .giscus-frame{width:100%;border:0}
+.comments .comments-status{margin-top:14px}
+.comments .comments-help{margin-top:18px}
+.comments-help a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:740px){.comments{padding:18px 14px}.comments .giscus{margin-top:18px}}
