@@ -9,18 +9,18 @@
 <p>예제는 특별한 표시가 없다면 C++20을 기준으로 합니다. 더 새로운 기능을 다루게 되면 필요한 표준과 도구 지원을 별도로 표시합니다. 오래된 코드의 표현은 그것을 읽는 데 필요한 맥락에서 소개합니다.</p>
 <h2 id="section-3">첫 번째 코드 읽기</h2>
 <p>아직 모든 문법을 이해할 필요는 없습니다. 프로그램 안에서 데이터가 만들어지고, 사용되고, 정리되는 순서를 먼저 살펴봅시다.</p>
-<pre><code class="language-cpp">#include &lt;iostream&gt;
-#include &lt;string&gt;
-#include &lt;vector&gt;
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
 
-int main()
-{
-    const std::vector&lt;std::string&gt; topics{
-        &quot;values&quot;, &quot;lifetime&quot;, &quot;ownership&quot;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">const</span> std::vector&lt;std::string&gt; topics{
+        <span class="hljs-string">&quot;values&quot;</span>, <span class="hljs-string">&quot;lifetime&quot;</span>, <span class="hljs-string">&quot;ownership&quot;</span>
     };
 
-    for (const auto&amp; topic : topics) {
-        std::cout &lt;&lt; topic &lt;&lt; &#39;\n&#39;;
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span>&amp; topic : topics) {
+        std::cout &lt;&lt; topic &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
     }
 }
 </code></pre>

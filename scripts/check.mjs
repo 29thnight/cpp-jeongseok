@@ -5,3 +5,26 @@ const root='docs';const html=[];function walk(dir){for(const f of readdirSync(di
 for(const file of html){const text=readFileSync(file,'utf8');assert(text.includes('lang="ko"'));assert(text.includes('name="viewport"'));for(const m of text.matchAll(/(?:href|src)="([^"]+)"/g)){let url=m[1];if(url.startsWith('https://'))continue;if(url.startsWith('#')){assert(text.includes(`id="${url.slice(1)}"`),`${file}: ${url}`);continue;}assert(url.startsWith('/cpp-jeongseok/'),`${file}: invalid base ${url}`);const [p,hash]=url.slice('/cpp-jeongseok/'.length).split('#');let target=path.join(root,p);if(p.endsWith('/')||!p)target=path.join(target,'index.html');assert(existsSync(target),`${file}: missing ${target}`);if(hash)assert(readFileSync(target,'utf8').includes(`id="${hash}"`),`${file}: missing #${hash}`)}}
 assert(readFileSync('docs/assets/style.css','utf8').includes('font-family:D2Coding'));
 console.log(`PASS: ${html.length} HTML pages, local assets, base paths, and anchor targets`);
+
+// Verify token coverage, escaping, text preservation, and theme contrast.
+const { renderCode } = await import('./highlight.mjs');
+const sample = '// Comment\nconst int count = 42;\nif (count) { return "<tag>&value"; }';
+const highlighted = renderCode({text:sample,lang:'cpp'});
+for (const token of ['comment','type','number','keyword','string']) {
+  assert(highlighted.includes(`class="hljs-${token}"`), `Missing C++ ${token}`);
+}
+assert(!highlighted.includes('<tag>'), 'Code must be HTML-escaped');
+assert(!renderCode({text:'<script>alert(1)</script>',lang:'unknown'}).includes('<script>'));
+assert(renderCode({text:'int value = 1;',lang:'c++'}).includes('hljs-type'));
+const decode = text => text.replace(/&quot;/g,'"').replace(/&#x27;|&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+const lessonSource = readFileSync('content/introduction.md','utf8').match(/```cpp\n([\s\S]*?)```/)[1].trimEnd();
+const lessonHtml = readFileSync('docs/lessons/introduction/index.html','utf8');
+const codeHtml = lessonHtml.match(/<pre><code[^>]*>([\s\S]*?)<\/code><\/pre>/)[1];
+assert.equal(decode(codeHtml.replace(/<[^>]*>/g,'' )).trimEnd(),lessonSource, 'Syntax highlighting must preserve code text');
+assert(lessonHtml.includes('<code>topics</code>'), 'Inline code must remain unchanged');
+const luminance = color => color.match(/[a-f0-9]{2}/gi).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+for(const color of ['c9a7ff','79d7de','b7df8a','ffbb82','a5afbd','91beff','f3d986']){
+  const ratio=(luminance(color)+.05)/(luminance('25252c')+.05);
+  assert(ratio>=4.5, `Low contrast token ${color}: ${ratio}`);
+}
+console.log('PASS: syntax token coverage, safe fallback, code preservation, inline code, all token contrast >= 4.5:1');
