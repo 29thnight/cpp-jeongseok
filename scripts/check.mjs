@@ -32,3 +32,10 @@ console.log('PASS: syntax token coverage, safe fallback, code preservation, inli
 for(const name of ['vector','string']) assert(codeHtml.includes(`<span class="hljs-stl-type">${name}</span>`), `Missing STL type ${name}`);
 for(const name of ['topic','topics']) assert.equal([...codeHtml.matchAll(new RegExp(`<span class="hljs-local">${name}</span>`, 'g'))].length,2, `Declaration/use coverage for ${name}`);
 console.log('PASS: current lesson STL types and both declaration/use occurrences of topic/topics');
+
+const homeHtml=readFileSync('docs/index.html','utf8');
+assert(homeHtml.includes('<div class="cover-code" aria-hidden="true">C<span>++</span></div>'));
+assert(!homeHtml.includes('class="cover-logo"'));
+assert(homeHtml.includes('<img class="brand-icon"'));
+assert(existsSync('docs/assets/fonts/NotoSans-Bold.woff'));
+console.log('PASS: typographic cover, retained header logo, self-hosted cover font');

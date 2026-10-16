@@ -20,6 +20,7 @@
 
 /* User-supplied C++ logo, displayed without cropping or recoloring. */
 .brand-icon{display:block;object-fit:contain;background:transparent;flex-shrink:0}
-.cover-logo{display:block;width:230px;height:auto;max-width:65%;object-fit:contain;align-self:center;z-index:2}
-@media(max-width:1000px){.cover-logo{width:200px}}
-@media(max-width:740px){.cover-logo{width:170px}}
+/* The cover wordmark alone uses a bold proportional sans serif. */
+@font-face{font-family:CoverSans;src:url('fonts/NotoSans-Bold.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+.cover-code{font-family:CoverSans,sans-serif;letter-spacing:-9px}
+.cover-code span{letter-spacing:-12px}

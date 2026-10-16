@@ -44,7 +44,7 @@ GitHub Discussions / giscus 연결은 아직 설정하지 않았습니다. 사�
 
 제목, 본문, 코드 모두 NAVER의 D2Coding을 사용합니다. 폰트는 외부 CDN 요청 없이 자체 호스팅하며 `font-display: swap`을 사용합니다. 출처와 SIL OFL 라이선스는 `assets/fonts/`에 있습니다. 폰트 라이선스는 교재 원문과 사이트 코드의 라이선스를 의미하지 않습니다. **교재/사이트 라이선스는 아직 선택하지 않았습니다.**
 
-헤더와 표지에는 사용자가 제공한 C++ 로고 PNG 원본을 사용합니다. 비율과 색상을 유지하며 이미지 자체는 변형하지 않았습니다. 로고의 권리는 해당 권리자에게 있습니다.
+헤더에는 사용자가 제공한 C++ 로고 PNG 원본을 사용합니다. 비율과 색상을 유지하며 이미지 자체는 변형하지 않았습니다. 로고의 권리는 해당 권리자에게 있습니다.
 
 ## 코드 색상표
 
@@ -56,3 +56,5 @@ Microsoft의 [Visual Studio C++ Enhanced 스타일 테마](https://github.com/mi
 - 배경: `#1E1E1E`
 
 구문 강조는 highlight.js와 선언 패턴을 보완한 정적 어휘 분석입니다. 컴파일러나 IntelliSense의 완전한 의미 분석은 아니며 복잡한 별칭, 매크로, 이름 가림 등을 정확히 구분한다는 보장은 없습니다. 현재 소개 예제의 `std::vector`, `std::string`, `topic`, `topics` 선언과 사용은 테스트로 검증합니다. 본문 인라인 코드는 별도 스타일을 유지합니다.
+
+표지의 C++ 글자에만 Noto Sans Bold를 자체 호스팅하여 사용합니다. 본문과 코드 등 나머지 텍스트는 D2Coding입니다. Noto Sans의 SIL OFL 1.1 및 출처는 `assets/fonts/NotoSans-LICENSE.txt`에 포함했습니다.
