@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 8,
+  "revision": 9,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -10,11 +10,11 @@
       "title": "AI 시대에 C++을 배워야 하는 이유",
       "goal": "AI 코드 제안의 검토 책임을 구분하고, 추가 검증 방법과 C++ 학습 이유를 자신의 프로젝트 제약에 연결해 설명한다.",
       "prerequisites": [],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/ai-era-cpp/index.html",
       "evidence": {
         "examples": {
           "result": "not_applicable",
@@ -45,11 +45,16 @@
           "result": "passed",
           "checked_at": "2026-10-16T03:51:00+00:00",
           "summary": "사용자가 문체를 통일한 최신 검토본의 공개 저장소 및 사이트 게시를 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-16T03:55:05+00:00",
+          "summary": "배포 성공 후 공개 페이지 본문과 목차 및 댓글 위젯을 브라우저에서 확인했다."
         }
       },
-      "next_action": "승인한 수업의 실제 배포와 공개 링크를 확인한다.",
+      "next_action": "게시된 수업의 검토 의견을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T03:51:05+00:00"
+      "updated_at": "2026-10-16T03:55:05+00:00"
     },
     {
       "id": "00-2",
@@ -1216,6 +1221,13 @@
       "patch_hash": "e5706c209447c0b4021c53e9cd7051311da9e83f26f2441518775f86de15cd2d",
       "revision": 8,
       "recorded_at": "2026-10-16T03:51:05+00:00"
+    },
+    {
+      "run_id": "publish_20261016_00-1_live",
+      "lesson_id": "00-1",
+      "patch_hash": "bd6ed11e90532e3029b50fe5910fdb752218a8276b70ad54fe910d254a22a58b",
+      "revision": 9,
+      "recorded_at": "2026-10-16T03:55:05+00:00"
     }
   ]
 }
