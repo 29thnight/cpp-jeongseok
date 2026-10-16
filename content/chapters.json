@@ -16,6 +16,14 @@
     "tags": "AI 인공지능 검증 요구사항 학습 성능 수명 C++20"
   },
   {
+    "number": "00-2",
+    "title": "개발 환경과 첫 실행",
+    "description": "C++20 개발 환경 · Hello World! · 빌드와 실행 · 오류 복구",
+    "status": "published",
+    "slug": "first-execution",
+    "tags": "Visual Studio 개발 환경 컴파일 빌드 Hello World endl C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",

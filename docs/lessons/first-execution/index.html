@@ -1,0 +1,116 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>개발 환경과 첫 실행 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=ce3fbc11cd62"><script src="/cpp-jeongseok/assets/app.js?v=e834a179b979" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">00-2 / FIRST EXECUTION</p><h1>개발 환경과 첫 실행</h1><p class="article-deck">소스 코드를 작성하고 빌드한 뒤,<br>직접 실행하고 오류를 고쳐 보기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-16">2026년 10월 16일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>WRITE. BUILD.<br>RUN.</span><span class="article-symbol">&gt;_</span><small>SOURCE / BUILD / EXECUTION</small></div><div class="prose"><p>코드를 입력하면 곧바로 프로그램이 실행될까요? C++에서는 작성한 소스 파일을 실행 파일로 만드는 과정이 필요합니다. 이번 수업에서는 개발 도구를 준비하고, 화면에 짧은 문장을 출력한 뒤, 문장을 바꾸어 다시 실행해 보겠습니다. 마지막에는 일부러 문법 오류를 만들어 보고 직접 고칩니다.</p>
+<p>앞 수업에서 살펴본 ‘예상하기 → 확인하기 → 원인을 좁히기’를 실제 도구에서 처음 적용하는 단계입니다. 모든 문법을 외울 필요는 없습니다. 지금의 목표는 자신이 수정한 코드가 실제 실행 결과에 반영되는지 확인하는 것입니다.</p>
+<h2 id="section-1">이 수업을 마치면</h2>
+<p>C++ 콘솔 프로젝트를 만들고 C++20 언어 표준을 지정할 수 있습니다.</p>
+<p>소스 수정, 빌드, 실행을 구분하고 예상 출력과 실제 출력을 비교할 수 있습니다.</p>
+<p>간단한 문법 오류의 첫 진단을 읽고 수정한 뒤 다시 실행할 수 있습니다.</p>
+<h2 id="section-2">1 어떤 도구를 준비할까요</h2>
+<p>이 수업의 기본 경로는 Windows의 Visual Studio입니다. Visual Studio Code와는 다른 제품입니다. 이미 C++을 빌드할 수 있는 환경이 있다면 새로 설치하지 않고 같은 예제를 실행해도 됩니다. 다만 사용하는 컴파일러와 C++20 설정 방법은 확인해야 합니다.</p>
+<p>편집기는 글을 적듯 코드를 입력하는 도구이고, 컴파일러는 C++ 소스를 번역하는 도구입니다. 링커는 번역 결과와 필요한 라이브러리를 연결하여 실행 파일을 만드는 일을 맡습니다. Visual Studio 같은 통합 개발 환경은 편집, 빌드, 실행, 오류 확인을 한곳에서 사용할 수 있게 묶어 줍니다. 컴파일과 링크의 세부 과정은 뒤의 수업에서 다시 다루겠습니다.</p>
+<p>Visual Studio Installer에서 ‘C++를 사용한 데스크톱 개발’ 워크로드를 선택합니다. 설치 화면에 표시되는 C++ 도구와 Windows SDK를 함께 확인합니다. 이미 Visual Studio가 설치되어 있다면 Installer의 ‘수정’에서 워크로드를 추가할 수 있습니다. 설치 위치나 구성 요소 이름은 버전에 따라 달라질 수 있으므로, 화면이 다르면 아래 공식 설치 안내를 기준으로 확인합니다. [참고 1]</p>
+<p>관리자 권한이나 라이선스 조건은 설치 환경에 따라 다릅니다. 이 수업은 특정 에디션의 사용 자격을 보장하지 않습니다. 사용하는 에디션의 조건을 확인하고 설치를 진행해 주세요.</p>
+<h2 id="section-3">2 소스와 실행 결과 사이</h2>
+<p>프로그램을 만들 때는 다음 세 가지를 구분하겠습니다.</p>
+<ol>
+<li><p>소스 파일을 수정하고 저장합니다. 사람이 읽고 바꾸는 C++ 코드는 보통 .cpp 파일에 들어갑니다.</p>
+</li>
+<li><p>빌드합니다. 필요한 컴파일과 링크를 수행하여 실행할 프로그램을 준비합니다. 바뀌지 않은 결과는 빌드 도구가 재사용할 수도 있습니다.</p>
+</li>
+<li><p>실행합니다. 만들어진 프로그램을 시작하고 출력을 확인합니다.</p>
+</li>
+</ol>
+<figure class="concept-figure">
+  <a href="/cpp-jeongseok/assets/illustrations/00-2-source-build-run.webp" aria-label="소스 작성과 빌드, 실행 개념도 크게 보기">
+    <img src="/cpp-jeongseok/assets/illustrations/00-2-source-build-run.webp" width="1672" height="941" loading="lazy" decoding="async" alt="왼쪽의 소스 코드 문서, 가운데 렌치와 조립 블록이 놓인 작업대, 오른쪽의 출력 막대가 있는 터미널 창이 화살표로 이어진 그림">
+  </a>
+  <figcaption>AI로 생성한 개념 그림입니다. 소스 코드 작성 → 빌드 → 실행의 흐름을 단순화해 보여 주며, 실제 컴파일러의 내부 처리 단계를 나타내지는 않습니다.</figcaption>
+</figure>
+
+<p>파일을 저장했다고 해서 실행 파일이 자동으로 최신 내용이 되는 것은 아닙니다. 반대로 실행 버튼을 눌렀을 때 도구가 먼저 빌드해 주기도 합니다. 버튼 한 번으로 이어서 처리하더라도 ‘만들기’와 ‘실행하기’는 서로 다른 작업입니다.</p>
+<h3 id="section-4">잠깐 예측해 보기</h3>
+<p>출력 문장을 바꾸었는데 빌드가 실패했습니다. 이전에 만들어 둔 실행 파일을 실행하면 어떤 문장이 보일까요? 새 코드로 실행 파일을 만들지 못했으므로 이전 문장이 보일 수 있습니다. 그래서 화면에 무언가 출력되었다는 사실만 보지 않고, 이번 빌드가 성공했는지와 수정한 문장이 나오는지를 함께 확인해야 합니다.</p>
+<h2 id="section-5">3 첫 콘솔 프로젝트 만들기</h2>
+<p>Visual Studio에서 ‘새 프로젝트 만들기’를 선택합니다. C++, Windows, Console 또는 콘솔 태그로 필터링하고 C++ ‘콘솔 앱’을 선택합니다. C# 콘솔 앱이나 Windows 데스크톱 GUI 프로젝트를 고르지 않도록 언어를 확인합니다. 프로젝트 이름은 FirstRun처럼 짧게 정하겠습니다. [참고 2]</p>
+<p>프로젝트가 만들어지면 솔루션 탐색기에서 프로젝트를 우클릭하고 ‘속성’을 엽니다. 설정 대상을 ‘모든 구성’으로 선택한 뒤, ‘C/C++ → 언어 → C++ 언어 표준’에서 ‘ISO C++20 표준 (/std:c++20)’을 선택합니다. 플랫폼은 ‘모든 플랫폼’으로 선택하여 설정하거나, 실제 빌드할 플랫폼에 같은 설정이 적용되었는지 확인합니다. 이 수업은 최신 실험 기능을 선택하는 /std:c++latest 대신 C++20으로 범위를 고정합니다. [참고 3]</p>
+<p>첫 출력 예제는 이전 C++ 표준에서도 동작합니다. 문장이 출력되었다고 해서 C++20 설정까지 확인된 것은 아니므로, 언어 표준은 속성 창에서 따로 확인합니다.</p>
+<p>설정 항목이 보이지 않는다면 C++ 프로젝트를 선택했는지, C++ 워크로드가 설치되었는지부터 확인합니다. 속성 창을 닫은 뒤에는 프로젝트에 만들어진 .cpp 파일을 엽니다. 템플릿이 만든 내용을 아래 코드로 바꿉니다. 같은 프로젝트에 main 함수를 가진 파일을 여러 개 추가하지 않습니다.</p>
+<h2 id="section-6">4 첫 문장을 출력하기</h2>
+<p>다음 코드를 입력하고 저장합니다. 출력 문자열은 처음에는 영문으로 사용합니다. 한글 출력은 소스 파일 인코딩과 터미널 설정을 함께 확인해야 하므로, 첫 실행에서는 별도의 문제를 섞지 않겠습니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+ 
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-variable">cout</span> &lt;&lt; <span class="hljs-string">&quot;Hello World!&quot;</span> &lt;&lt; <span class="hljs-namespace">std</span>::endl;
+    <span class="hljs-control">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>실행하기 전에 예상 출력을 적어 보세요. 따옴표와 세미콜론까지 출력될까요?</p>
+<p>Hello World!</p>
+<p>큰따옴표는 문자열의 범위를 나타내므로 화면에 나오지 않습니다. <code>std::endl</code>은 줄바꿈 문자를 출력한 뒤 출력 버퍼를 비우도록 요청합니다(flush). 첫 예제에서는 이 방식으로 한 줄을 마치겠습니다. 세미콜론은 이 문장을 마친다는 C++ 구문의 일부입니다.</p>
+<p>코드의 역할도 필요한 만큼만 확인하겠습니다. <code>#include &lt;iostream&gt;</code>은 표준 입출력 기능의 선언을 사용할 수 있도록 헤더를 포함합니다. <code>int main()</code>은 이 콘솔 프로그램이 실행될 때 호출되는 시작 함수입니다. 운영체제와 런타임의 준비 과정까지 프로그램의 모든 첫 명령이라고 뜻하는 것은 아닙니다. 중괄호 안에는 main이 수행할 내용이 들어갑니다.</p>
+<p><code>std::cout</code>은 표준 출력 스트림입니다. 이 예제에서는 콘솔에 문장을 보냅니다. &lt;&lt;의 자세한 연산자 규칙과 std의 이름 공간은 뒤에서 다루겠습니다. <code>return 0;</code>은 main을 끝내며 성공을 나타내는 종료 상태를 돌려줍니다. 이 숫자를 화면에 출력하는 것은 아닙니다. main의 끝에 도달하면 <code>return 0;</code>과 같은 효과가 있지만, 첫 예제에서는 끝나는 지점을 명시하겠습니다.</p>
+<h2 id="section-7">5 빌드하고 실제 결과 확인하기</h2>
+<p>‘빌드 → 솔루션 빌드’를 실행하고 출력 창에서 성공 여부를 확인합니다. 그다음 ‘디버그 → 디버깅하지 않고 시작’을 실행합니다. 기본 키 설정에서는 Ctrl+F5에 해당하지만, 키 설정이 달라졌다면 메뉴를 사용합니다. [참고 4, 5]</p>
+<p>콘솔 창에서 Hello World!가 출력되는지 확인합니다. 실행 환경에 따라 종료 코드나 창을 닫으라는 안내가 덧붙을 수 있습니다. 프로그램이 직접 출력한 문장과 개발 도구가 표시한 안내를 구분해 보세요.</p>
+<p>이번에는 문자열의 World를 C++로 바꿉니다. 저장하고 다시 빌드한 뒤 실행합니다. Hello C++!가 보여야 합니다. 여기까지 확인했다면 소스의 변경이 실제 실행에 반영되는 경로를 직접 확인한 것입니다.</p>
+<p>원래 문장이 그대로 보인다면 저장 여부, 빌드 성공 여부, 실행한 프로젝트 순서로 확인합니다. 여러 프로젝트가 있는 솔루션에서는 의도한 프로젝트가 시작 프로젝트인지도 살펴봅니다. 처음부터 전체 코드를 지우거나 도구를 다시 설치하기보다, 어느 단계가 예상과 달랐는지 하나씩 좁힙니다.</p>
+<h2 id="section-8">6 일부러 오류를 만들어 보기</h2>
+<p>문자열을 첫 예제의 Hello World!로 되돌린 뒤, <code>std::cout</code>으로 시작하는 줄 끝의 세미콜론 하나만 지우고 저장합니다. 다음 코드는 의도적으로 컴파일에 실패하도록 만든 예제입니다. 정상 예제와 같은 파일에서 잠깐 실험한 후 반드시 복구합니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+ 
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-variable">cout</span> &lt;&lt; <span class="hljs-string">&quot;Hello World!&quot;</span> &lt;&lt; <span class="hljs-namespace">std</span>::endl
+    <span class="hljs-control">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>다시 빌드하면 실패해야 합니다. 오류 목록이나 출력 창에서 첫 진단의 파일과 줄을 확인합니다. 컴파일러는 세미콜론이 빠진 줄이 아니라 다음 return 근처에서 문제를 발견했다고 표시할 수도 있습니다. 진단의 위치는 원인을 찾는 출발점이지, 항상 실제 실수가 있는 정확한 위치를 보장하는 것은 아닙니다.</p>
+<p>이전에 성공한 프로그램을 실행할지 묻는 창이 나타나면, 이번 실습에서는 실행하지 않습니다. 먼저 빠진 세미콜론을 넣고 다시 빌드하여 성공을 확인합니다. 그 뒤 실행 결과를 비교합니다. 오류 문구와 번호는 컴파일러와 버전에 따라 다를 수 있으므로 특정 번호를 외우는 대신 무엇이 빠졌고 어디에서 발견되었는지를 읽어 보세요.</p>
+<h2 id="section-9">7 막혔을 때 확인할 순서</h2>
+<p>프로젝트 목록에 C++ 콘솔 앱이 없다면 설치 워크로드와 언어 필터를 확인합니다. iostream을 찾지 못한다면 오타뿐 아니라 C++ 도구 설치와 프로젝트 구성을 확인합니다. main이 중복되었다는 링크 오류가 나면 같은 실행 프로그램에 시작 함수가 여러 개 있는지 살펴봅니다.</p>
+<p>빌드가 성공했는데 출력이 예상과 다르다면 문자열, 저장 상태, 실행 대상부터 확인합니다. 창이 바로 닫혀 결과를 보지 못했다면 ‘디버깅하지 않고 시작’ 메뉴를 사용하거나 이미 열려 있는 터미널에서 실행할 수 있습니다. 이 문제를 피하려고 코드에 <code>system(&quot;pause&quot;)</code>를 넣을 필요는 없습니다.</p>
+<p>다른 사람에게 도움을 요청할 때는 사용한 도구와 버전, C++ 표준 설정, 짧은 재현 코드, 첫 오류 메시지, 예상한 출력과 실제 결과를 함께 적습니다. 화면 전체를 보내기 전에는 사용자 이름이나 개인 경로가 필요 이상으로 포함되지 않았는지도 확인합니다.</p>
+<h2 id="section-10">연습 문제</h2>
+<h3 id="section-11">연습 1 두 줄 출력</h3>
+<p>첫 줄에는 Ready., 둘째 줄에는 Start.가 나오도록 정상 예제를 수정해 보세요. 출력할 문장마다 <code>std::cout</code> 문장을 하나씩 사용합니다. 실행 전에 줄바꿈 위치를 적고, 실행한 뒤 두 줄로 나오는지 확인합니다.</p>
+<h3 id="section-12">연습 2 저장과 빌드</h3>
+<p>친구가 “파일을 저장했으니 새 프로그램도 만들어졌어”라고 말했습니다. 어떤 단계가 빠져 있는지 설명해 보세요. 실행 버튼이 자동으로 빌드를 수행하는 경우와 구분해서 답합니다.</p>
+<h3 id="section-13">연습 3 실패한 빌드 뒤의 출력</h3>
+<p>문장을 바꾸고 세미콜론을 지운 뒤 빌드에 실패했습니다. 그런데 실행 창에는 예전 문장이 보입니다. 새 코드가 정상이라는 증거일까요? 확인할 항목 두 가지를 적어 보세요.</p>
+<h3 id="section-14">연습 4 내 실행 기록</h3>
+<p>도구 이름과 버전, 선택한 C++ 표준, 정상 예제의 출력, 문법 오류를 복구한 결과를 네 줄로 기록해 보세요. 하지 않은 검증을 했다고 적지 않습니다.</p>
+<h2 id="section-15">해설</h2>
+<p>연습 1은 아래처럼 작성할 수 있습니다. 각 <code>std::endl</code>이 줄을 바꾸므로 Ready.와 Start.는 다른 줄에 출력됩니다. 이때 출력 버퍼를 비우는 요청도 함께 수행합니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+ 
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-variable">cout</span> &lt;&lt; <span class="hljs-string">&quot;Ready.&quot;</span> &lt;&lt; <span class="hljs-namespace">std</span>::endl;
+    <span class="hljs-namespace">std</span>::<span class="hljs-variable">cout</span> &lt;&lt; <span class="hljs-string">&quot;Start.&quot;</span> &lt;&lt; <span class="hljs-namespace">std</span>::endl;
+    <span class="hljs-control">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>연습 2에서 저장은 소스 파일의 변경을 보관한 것입니다. 실행 파일을 갱신하려면 필요한 빌드가 성공해야 합니다. 실행 명령이 먼저 빌드하는 설정이라면 두 동작이 연속으로 이루어지지만, 저장 자체가 빌드라는 뜻은 아닙니다.</p>
+<p>연습 3은 새 코드가 정상이라는 증거가 아닙니다. 먼저 이번 빌드가 성공했는지 확인하고, 실행 대상이 마지막에 성공했던 이전 실행 파일인지 확인합니다. 세미콜론을 복구해 빌드를 성공시킨 뒤 바꾼 문장이 출력되는지 다시 비교합니다.</p>
+<p>연습 4는 예시 문장을 그대로 복사하는 문제가 아닙니다. 자신이 사용한 환경과 관찰한 결과를 남기는 연습입니다. 도구의 메뉴 안내만 읽었다면 실제 설치와 실행까지 확인한 것으로 적지 않습니다.</p>
+<h2 id="section-16">다음 수업으로</h2>
+<p>이제 짧은 코드를 바꾸어 빌드하고 결과를 확인할 수 있습니다. 다음 수업에서는 프로그램이 어떤 순서로 실행되는지 예상하고, 디버거에서 한 줄씩 따라가며 그 예상을 확인하겠습니다.</p>
+<h2 id="section-17">참고 자료와 확인 범위</h2>
+<p>[참고 1] Microsoft Learn, Visual Studio에서 C++ 지원 설치</p>
+<p><a href="https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170">https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170</a></p>
+<p>[참고 2] Microsoft Learn, Create a C++ console app project</p>
+<p><a href="https://learn.microsoft.com/en-us/cpp/build/vscpp-step-1-create?view=msvc-170">https://learn.microsoft.com/en-us/cpp/build/vscpp-step-1-create?view=msvc-170</a></p>
+<p>[참고 3] Microsoft Learn, /std 언어 표준 지정</p>
+<p><a href="https://learn.microsoft.com/en-us/cpp/build/reference/std-specify-language-standard-version?view=msvc-170">https://learn.microsoft.com/en-us/cpp/build/reference/std-specify-language-standard-version?view=msvc-170</a></p>
+<p>[참고 4] Microsoft Learn, Build and run a C++ console app</p>
+<p><a href="https://learn.microsoft.com/en-us/cpp/build/vscpp-step-2-build?view=msvc-170">https://learn.microsoft.com/en-us/cpp/build/vscpp-step-2-build?view=msvc-170</a></p>
+<p>[참고 5] Microsoft Learn, Default keyboard shortcuts in Visual Studio</p>
+<p><a href="https://learn.microsoft.com/en-us/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=visualstudio">https://learn.microsoft.com/en-us/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=visualstudio</a></p>
+<p>도구 안내는 2026년 10월 16일 공식 문서를 기준으로 확인했습니다. 정상 예제, 문자열 변경, 두 줄 출력과 오류 복구는 GCC 14.2.0의 C++20 모드에서 컴파일하고 실행했습니다. 세미콜론 누락 예제의 컴파일 실패도 확인했습니다. Windows Visual Studio 설치 화면과 MSVC 빌드는 직접 실행하여 검증하지 않았습니다.</p>
+</div><section class="lesson-end"><span>00-2 학습을 마쳤습니다</span><h2>다음은 디버거로 실행을 따라갑니다</h2><p>다음 수업은 준비 중입니다.</p><a href="/cpp-jeongseok/lessons/ai-era-cpp/">← 00-1 AI 시대에 C++을 배워야 하는 이유</a><br><a href="/cpp-jeongseok/#curriculum">전체 학습 목차로 돌아가기 →</a></section><section class="comments" aria-labelledby="comments-heading"><h2 id="comments-heading">함께 이야기하기</h2>
+<p>질문이나 의견을 남겨 주세요. GitHub 계정으로 로그인하면 댓글을 작성할 수 있습니다.<br>댓글과 반응은 공개 GitHub Discussions에 저장됩니다.</p>
+<div class="giscus" data-comments-repo="29thnight/cpp-jeongseok" data-comments-repo-id="R_kgDOVLkfGw" data-comments-category="Announcements" data-comments-category-id="DIC_kwDOVLkfG84DIkjH"></div>
+<p class="comments-status" role="status">댓글을 불러오는 중입니다…</p>
+<noscript><p>댓글을 보려면 JavaScript를 켜 주세요.</p></noscript>
+<p class="comments-help">댓글이 보이지 않나요? <a href="https://github.com/29thnight/cpp-jeongseok/discussions">GitHub Discussions에서 확인하기 ↗</a></p>
+</section></article><aside class="article-sidebar"><div class="sticky"><p class="eyebrow">IN THIS CHAPTER</p><nav aria-label="이 글의 목차"><h2>이 글의 목차</h2><a href="#section-1">이 수업을 마치면</a><a href="#section-2">1 어떤 도구를 준비할까요</a><a href="#section-3">2 소스와 실행 결과 사이</a><a href="#section-5">3 첫 콘솔 프로젝트 만들기</a><a href="#section-6">4 첫 문장을 출력하기</a><a href="#section-7">5 빌드하고 실제 결과 확인하기</a><a href="#section-8">6 일부러 오류를 만들어 보기</a><a href="#section-9">7 막혔을 때 확인할 순서</a><a href="#section-10">연습 문제</a><a href="#section-15">해설</a><a href="#section-16">다음 수업으로</a><a href="#section-17">참고 자료와 확인 범위</a></nav><div class="sidebar-note"><span>제1판 · C++20</span><p>예상한 결과와 확인한 사실을<br>구분하며 읽어 보세요.</p></div><a class="source-link" href="https://github.com/29thnight/cpp-jeongseok/blob/main/content/first-execution.md">이 글의 원문 보기 ↗</a></div></aside></main><footer><div class="wrap footer-inner"><a class="footer-brand" href="/cpp-jeongseok/">C++의 정석<span>기초부터 설계까지, 오래 남는 이해.</span></a><div><a href="https://github.com/29thnight/cpp-jeongseok">소스 저장소 ↗</a><p>© 2026 29thnight · 제1판 초안</p><a class="font-credit" href="/cpp-jeongseok/assets/fonts/OFL.txt">서체: NAVER D2Coding · OFL</a></div></div></footer></body></html>
