@@ -8,9 +8,23 @@ import unittest
 spec = importlib.util.spec_from_file_location('curriculum', Path(__file__).resolve().parents[1] / 'scripts/curriculum.py')
 c = importlib.util.module_from_spec(spec); spec.loader.exec_module(c)
 
+def initial_state(source):
+    """Keep the curriculum definition; isolate unit tests from writing progress."""
+    data = copy.deepcopy(source)
+    data['revision'] = 0
+    data['runs'] = []
+    for lesson in data['lessons']:
+        lesson.update(status='not_started', stage='A', review='not_requested',
+                      draft='absent', publication_path=None, evidence={},
+                      next_action='학습 목표를 정한다.', blocked_reason=None,
+                      updated_at='2026-10-16T00:00:00Z')
+    return c.validate(data)
+
+
 class CurriculumTests(unittest.TestCase):
     def setUp(self):
-        self.data, _ = c.load(c.DEFAULT)
+        source, _ = c.load(c.DEFAULT)
+        self.data = initial_state(source)
         self.temp = tempfile.TemporaryDirectory()
         self.path = Path(self.temp.name)/'state.json'
         self.path.write_text(json.dumps(self.data,ensure_ascii=False))
@@ -23,6 +37,36 @@ class CurriculumTests(unittest.TestCase):
         self.assertEqual(sum(x['track']=='optional' for x in self.data['lessons']),4)
         self.assertEqual(c.candidate(self.data)['id'],'00-1')
         self.assertEqual(sum(x['status']=='published' for x in self.data['lessons']),0)
+    def test_live_state_is_valid(self):
+        data, _ = c.load(c.DEFAULT)
+        self.assertEqual(len(data['lessons']), 57)
+    def test_fixture_does_not_mutate_progressed_state(self):
+        _, digest = c.load(self.path)
+        c.checkpoint(self.path, digest, 'fixture-progress', '00-1',
+                     dict(status='writing', stage='B', draft='private_durable'))
+        progressed, _ = c.load(self.path)
+        before = copy.deepcopy(progressed)
+        fixture = initial_state(progressed)
+        self.assertEqual(progressed, before)
+        self.assertEqual(fixture['revision'], 0)
+        self.assertEqual(fixture['runs'], [])
+        self.assertEqual(fixture['lessons'][0]['stage'], 'A')
+        self.assertEqual(fixture['lessons'][0]['draft'], 'absent')
+        self.assertEqual(fixture['lessons'][0]['status'], 'not_started')
+    def test_fixture_resets_review_and_blocked_progress(self):
+        source = copy.deepcopy(self.data)
+        source['lessons'][0].update(status='awaiting_review', stage='G',
+            review='pending', draft='private_durable',
+            evidence={k:dict(result='passed', checked_at='2026-10-16T00:00:00Z',
+                summary='검증 완료') for k in c.REQUIRED})
+        source['lessons'][1].update(status='blocked', blocked_reason='검토 대기')
+        c.validate(source)
+        fixture = initial_state(source)
+        self.assertTrue(all(x['status']=='not_started' and x['stage']=='A'
+            and x['draft']=='absent' and x['review']=='not_requested'
+            and not x['evidence'] and x['blocked_reason'] is None
+            for x in fixture['lessons']))
+        self.assertEqual(c.candidate(fixture)['id'], '00-1')
     def test_duplicate_id(self): self.reject(lambda d: d['lessons'][1].update(id='00-1'))
     def test_cycle(self): self.reject(lambda d: d['lessons'][0].update(prerequisites=['00-2']))
     def test_unknown_dependency(self): self.reject(lambda d: d['lessons'][0].update(prerequisites=['99-1']))
@@ -105,3 +149,4 @@ class CurriculumTests(unittest.TestCase):
         self.assertEqual(sum(line.startswith('| ') for line in output.splitlines()),58)
 
 if __name__=='__main__': unittest.main()
+
