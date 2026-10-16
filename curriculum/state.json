@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 1,
+  "revision": 7,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -10,15 +10,41 @@
       "title": "AI 시대에 C++을 배워야 하는 이유",
       "goal": "AI 코드 제안의 검토 책임을 구분하고, 추가 검증 방법과 C++ 학습 이유를 자신의 프로젝트 제약에 연결해 설명한다.",
       "prerequisites": [],
-      "status": "writing",
-      "stage": "B",
-      "review": "not_requested",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
       "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "확정한 세 학습 목표를 뒷받침할 사실과 개념을 공식 자료와 대조한다.",
+      "evidence": {
+        "examples": {
+          "result": "not_applicable",
+          "checked_at": "2026-10-16T03:24:57+00:00",
+          "summary": "실행 코드 없는 개념 수업으로 사례의 기대 결과만 검토했으며 컴파일과 실행은 하지 않았다."
+        },
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-16T03:24:57+00:00",
+          "summary": "공식 근거와 사례 전제 및 연습 해설을 대조하고 독립 검수 의견을 반영했다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-16T03:24:57+00:00",
+          "summary": "새 본문과 연습 네 개를 작성하고 초보자 범위 및 읽기용 문서의 전체 지면을 검수했다."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-16T03:24:57+00:00",
+          "summary": "참고 링크와 기존 사이트 빌드 및 테스트를 확인했다. 새 수업 게시 통합은 공개 승인 후 별도 검증한다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-16T03:24:57+00:00",
+          "summary": "공개 변경은 진척 두 파일만으로 제한하고 비공개 본문과 원본 식별정보가 없음을 대조했다."
+        }
+      },
+      "next_action": "비공개 검토본에 대한 사람의 검토를 기다린다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T03:05:06+00:00"
+      "updated_at": "2026-10-16T03:24:57+00:00"
     },
     {
       "id": "00-2",
@@ -1136,6 +1162,48 @@
       "patch_hash": "aa91c7fe802d85b15d4b89c529fd03a83714dffc6e0d2a505be6beea9a7fbf79",
       "revision": 1,
       "recorded_at": "2026-10-16T03:05:06+00:00"
+    },
+    {
+      "run_id": "run_20261016_0315_00-1_B",
+      "lesson_id": "00-1",
+      "patch_hash": "96ac3c0b0fb4bbbb97a2ba7f97dfa5ff399292a834dc175f512ec1afa240559f",
+      "revision": 2,
+      "recorded_at": "2026-10-16T03:24:57+00:00"
+    },
+    {
+      "run_id": "run_20261016_0315_00-1_C",
+      "lesson_id": "00-1",
+      "patch_hash": "deae2d83567a190d5e18dd686eb5b90011f4da1f6bf812cc11489bb0d11423cb",
+      "revision": 3,
+      "recorded_at": "2026-10-16T03:24:57+00:00"
+    },
+    {
+      "run_id": "run_20261016_0315_00-1_D",
+      "lesson_id": "00-1",
+      "patch_hash": "244d69b67f241aeebf8cb82cefac3bc484a86696d915558354698d5bd85113b2",
+      "revision": 4,
+      "recorded_at": "2026-10-16T03:24:57+00:00"
+    },
+    {
+      "run_id": "run_20261016_0315_00-1_E",
+      "lesson_id": "00-1",
+      "patch_hash": "dbb78f67c55a14fa478b34963bf2c3cff97a0a2272b138710661f5cd4943909e",
+      "revision": 5,
+      "recorded_at": "2026-10-16T03:24:57+00:00"
+    },
+    {
+      "run_id": "run_20261016_0315_00-1_F",
+      "lesson_id": "00-1",
+      "patch_hash": "4aa007dbc6c338a1ea45cf6fbee60c17bf41b7684e5ece3624673a1362d6aeee",
+      "revision": 6,
+      "recorded_at": "2026-10-16T03:24:57+00:00"
+    },
+    {
+      "run_id": "run_20261016_0315_00-1_G",
+      "lesson_id": "00-1",
+      "patch_hash": "f73bc200c1a4f7ecf46657f29d45919f0d966f8412dd08135f69d85307739182",
+      "revision": 7,
+      "recorded_at": "2026-10-16T03:24:57+00:00"
     }
   ]
 }
