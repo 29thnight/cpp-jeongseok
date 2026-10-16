@@ -10,7 +10,7 @@ console.log(`PASS: ${html.length} HTML pages, local assets, base paths, and anch
 const { renderCode } = await import('./highlight.mjs');
 const sample = '// Comment\nconst int count = 42;\nif (count) { return "<tag>&value"; }';
 const highlighted = renderCode({text:sample,lang:'cpp'});
-for (const token of ['comment','type','number','keyword','string']) {
+for (const token of ['comment','type','number','control','string']) {
   assert(highlighted.includes(`class="hljs-${token}"`), `Missing C++ ${token}`);
 }
 assert(!highlighted.includes('<tag>'), 'Code must be HTML-escaped');
@@ -23,8 +23,12 @@ const codeHtml = lessonHtml.match(/<pre><code[^>]*>([\s\S]*?)<\/code><\/pre>/)[1
 assert.equal(decode(codeHtml.replace(/<[^>]*>/g,'' )).trimEnd(),lessonSource, 'Syntax highlighting must preserve code text');
 assert(lessonHtml.includes('<code>topics</code>'), 'Inline code must remain unchanged');
 const luminance = color => color.match(/[a-f0-9]{2}/gi).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
-for(const color of ['c9a7ff','79d7de','b7df8a','ffbb82','a5afbd','91beff','f3d986']){
-  const ratio=(luminance(color)+.05)/(luminance('25252c')+.05);
+for(const color of ['569cd6','d8a0df','4ec9b0','9cdcfe','ce9178','b5cea8','57a64a','9a9a9a','c8c8c8','dcdcaa']){
+  const ratio=(luminance(color)+.05)/(luminance('1e1e1e')+.05);
   assert(ratio>=4.5, `Low contrast token ${color}: ${ratio}`);
 }
 console.log('PASS: syntax token coverage, safe fallback, code preservation, inline code, all token contrast >= 4.5:1');
+
+for(const name of ['vector','string']) assert(codeHtml.includes(`<span class="hljs-stl-type">${name}</span>`), `Missing STL type ${name}`);
+for(const name of ['topic','topics']) assert.equal([...codeHtml.matchAll(new RegExp(`<span class="hljs-local">${name}</span>`, 'g'))].length,2, `Declaration/use coverage for ${name}`);
+console.log('PASS: current lesson STL types and both declaration/use occurrences of topic/topics');

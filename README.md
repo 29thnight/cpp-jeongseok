@@ -43,3 +43,16 @@ GitHub Discussions / giscus 연결은 아직 설정하지 않았습니다. 사�
 사용자가 제공한 JetBrains Blog 화면의 출판형 헤더, 밝은 기사 본문, 넓은 여백, 오른쪽 목차 구조를 참고했습니다. JetBrains 로고, 기사 본문, 차트 또는 이미지는 복제하지 않았습니다. 독자적인 C++ 브랜드와 커버 그래픽을 사용합니다.
 
 제목, 본문, 코드 모두 NAVER의 D2Coding을 사용합니다. 폰트는 외부 CDN 요청 없이 자체 호스팅하며 `font-display: swap`을 사용합니다. 출처와 SIL OFL 라이선스는 `assets/fonts/`에 있습니다. 폰트 라이선스는 교재 원문과 사이트 코드의 라이선스를 의미하지 않습니다. **교재/사이트 라이선스는 아직 선택하지 않았습니다.**
+
+헤더와 표지에는 사용자가 제공한 C++ 로고 PNG 원본을 사용합니다. 비율과 색상을 유지하며 이미지 자체는 변형하지 않았습니다. 로고의 권리는 해당 권리자에게 있습니다.
+
+## 코드 색상표
+
+Microsoft의 [Visual Studio C++ Enhanced 스타일 테마](https://github.com/microsoft/vscode-cpptools/blob/main/Themes/themes/cpptools_dark_vs_new.json)를 기준으로 합니다. Microsoft는 이 동반 테마가 Visual Studio Enhanced와 가깝게 맞춘 테마라고 [설명](https://github.com/microsoft/vscode-cpptools/blob/main/Themes/README.md)합니다. MSVC 컴파일러 자체에 색상표가 있는 것은 아닙니다.
+
+- 키워드/기본 타입: `#569CD6`, 제어 흐름: `#D8A0DF`
+- STL 타입: `#4EC9B0`, 지역변수: `#9CDCFE`, 함수: `#DCDCAA`
+- 문자열: `#CE9178`, 숫자: `#B5CEA8`, 주석: `#57A64A`
+- 배경: `#1E1E1E`
+
+구문 강조는 highlight.js와 선언 패턴을 보완한 정적 어휘 분석입니다. 컴파일러나 IntelliSense의 완전한 의미 분석은 아니며 복잡한 별칭, 매크로, 이름 가림 등을 정확히 구분한다는 보장은 없습니다. 현재 소개 예제의 `std::vector`, `std::string`, `topic`, `topics` 선언과 사용은 테스트로 검증합니다. 본문 인라인 코드는 별도 스타일을 유지합니다.
