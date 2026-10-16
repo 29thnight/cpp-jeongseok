@@ -58,3 +58,16 @@ Microsoft의 [Visual Studio C++ Enhanced 스타일 테마](https://github.com/mi
 구문 강조는 highlight.js와 선언 패턴을 보완한 정적 어휘 분석입니다. 컴파일러나 IntelliSense의 완전한 의미 분석은 아니며 복잡한 별칭, 매크로, 이름 가림 등을 정확히 구분한다는 보장은 없습니다. 현재 소개 예제의 `std::vector`, `std::string`, `topic`, `topics` 선언과 사용은 테스트로 검증합니다. 본문 인라인 코드는 별도 스타일을 유지합니다.
 
 표지의 C++ 글자에만 Noto Sans Bold를 자체 호스팅하여 사용합니다. 본문과 코드 등 나머지 텍스트는 D2Coding입니다. Noto Sans의 SIL OFL 1.1 및 출처는 `assets/fonts/NotoSans-LICENSE.txt`에 포함했습니다.
+
+## 수업별 집필 상태
+
+본편 53수업과 선택 심화 4수업의 [진척표](curriculum/PROGRESS.md), [원본 상태](curriculum/state.json), [집필·재개 절차](curriculum/WORKFLOW.md)를 관리합니다. 기존 소개 1편은 별도이며 본편 완료로 세지 않습니다. 게시준비와 게시완료는 구분합니다.
+
+```sh
+python3 scripts/curriculum.py validate
+python3 scripts/curriculum.py next
+python3 scripts/curriculum.py render --check
+python3 -m unittest discover -s tests -v
+```
+
+`next`는 다음 작은 작업의 후보를 제안할 뿐 집필·게시하지 않습니다. 예약 주기와 실제 집필 실행기는 아직 설정하지 않았습니다. 실행 환경이 바뀌어도 이어갈 수 있도록 비공개 영속 초안 보관과 원격 상태 확인을 먼저 연결해야 합니다. 검토 전 본문과 비공개 참고 자료는 공개 저장소에 저장하지 않습니다.
