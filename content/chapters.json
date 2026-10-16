@@ -1,10 +1,67 @@
 [
- {"number":"00","title":"시작하기 전에","description":"이 책의 방향, 판본, 그리고 코드를 배우는 방법","status":"published","slug":"introduction","tags":"소개 학습 방법 판본 C++20 수명 소유권"},
- {"number":"01","title":"첫 번째 프로그램","description":"개발 환경 · 컴파일과 링크 · 빌드의 흐름","status":"planned","tags":"컴파일러 환경 빌드"},
- {"number":"02","title":"값과 타입","description":"초기화 · 표현식 · 제어 흐름 · 함수","status":"planned","tags":"기초 변수 함수"},
- {"number":"03","title":"객체의 수명과 소유권","description":"스코프 · 참조 · RAII · 스마트 포인터","status":"planned","tags":"수명 소유권 메모리"},
- {"number":"04","title":"표준 라이브러리로 생각하기","description":"컨테이너 · 알고리즘 · 반복자 · ranges","status":"planned","tags":"라이브러리 vector 범위"},
- {"number":"05","title":"타입으로 표현하는 설계","description":"클래스 · 불변식 · 복사와 이동 · 오류 처리","status":"planned","tags":"설계 클래스 객체"},
- {"number":"06","title":"제네릭 프로그래밍","description":"템플릿 · concepts · 컴파일 시간 계산","status":"planned","tags":"제네릭 템플릿 constexpr"},
- {"number":"07","title":"큰 프로그램을 읽는 힘","description":"경계와 의존성 · 동시성의 기초 · 성능과 설계","status":"planned","tags":"구조 아키텍처 엔진 성능"}
+  {
+    "number": "00",
+    "title": "시작하기 전에",
+    "description": "이 책의 방향, 판본, 그리고 코드를 배우는 방법",
+    "status": "published",
+    "slug": "introduction",
+    "tags": "소개 학습 방법 판본 C++20 수명 소유권"
+  },
+  {
+    "number": "00-1",
+    "title": "AI 시대에 C++을 배워야 하는 이유",
+    "description": "AI 코드 제안을 검토하는 과정과 C++ 학습 이유 · 연습 4개와 해설",
+    "status": "published",
+    "slug": "ai-era-cpp",
+    "tags": "AI 인공지능 검증 요구사항 학습 성능 수명 C++20"
+  },
+  {
+    "number": "01",
+    "title": "첫 번째 프로그램",
+    "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",
+    "status": "planned",
+    "tags": "컴파일러 환경 빌드"
+  },
+  {
+    "number": "02",
+    "title": "값과 타입",
+    "description": "초기화 · 표현식 · 제어 흐름 · 함수",
+    "status": "planned",
+    "tags": "기초 변수 함수"
+  },
+  {
+    "number": "03",
+    "title": "객체의 수명과 소유권",
+    "description": "스코프 · 참조 · RAII · 스마트 포인터",
+    "status": "planned",
+    "tags": "수명 소유권 메모리"
+  },
+  {
+    "number": "04",
+    "title": "표준 라이브러리로 생각하기",
+    "description": "컨테이너 · 알고리즘 · 반복자 · ranges",
+    "status": "planned",
+    "tags": "라이브러리 vector 범위"
+  },
+  {
+    "number": "05",
+    "title": "타입으로 표현하는 설계",
+    "description": "클래스 · 불변식 · 복사와 이동 · 오류 처리",
+    "status": "planned",
+    "tags": "설계 클래스 객체"
+  },
+  {
+    "number": "06",
+    "title": "제네릭 프로그래밍",
+    "description": "템플릿 · concepts · 컴파일 시간 계산",
+    "status": "planned",
+    "tags": "제네릭 템플릿 constexpr"
+  },
+  {
+    "number": "07",
+    "title": "큰 프로그램을 읽는 힘",
+    "description": "경계와 의존성 · 동시성의 기초 · 성능과 설계",
+    "status": "planned",
+    "tags": "구조 아키텍처 엔진 성능"
+  }
 ]

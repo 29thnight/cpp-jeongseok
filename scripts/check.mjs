@@ -59,3 +59,14 @@ assert(app.includes("mapping: 'pathname', strict: '1'"));
 assert(app.includes("theme: 'light', lang: 'ko'"));
 assert(app.includes("event.source !== frame?.contentWindow"));
 console.log('PASS: per-lesson giscus config, Korean UI, strict mapping, safe disabled/missing-config fallback, origin/source validation');
+
+const aiHtml=readFileSync('docs/lessons/ai-era-cpp/index.html','utf8');
+const aiSource=readFileSync('content/ai-era-cpp.md','utf8');
+assert(aiHtml.includes(commentsHtml));
+assert(homeHtml.includes('/cpp-jeongseok/lessons/ai-era-cpp/'));
+assert(lessonHtml.includes('/cpp-jeongseok/lessons/ai-era-cpp/'));
+assert(aiHtml.includes('00-2 ‘개발 환경과 첫 실행’은 준비 중입니다.'));
+for(const n of [1,2,3,4]) assert(aiSource.includes(`연습 ${n} 해설`));
+for(const privateMarker of ['docs.google.com','drive.google.com','비공개 검토본','CalpicoFile_','Sentinel_']) assert(!aiHtml.includes(privateMarker));
+assert.equal([...aiHtml.matchAll(/<h1[ >]/g)].length,1);
+console.log('PASS: 00-1 navigation, four exercises/answers, comments, private marker exclusion, one article h1');
