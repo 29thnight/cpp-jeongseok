@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 9,
+  "revision": 16,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -60,19 +60,45 @@
       "id": "00-2",
       "track": "core",
       "title": "개발 환경과 첫 실행",
-      "goal": "개발 환경과 첫 실행의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "C++20 콘솔 프로젝트를 설정하고 소스 수정·빌드·실행을 구분하며 첫 컴파일 오류를 고쳐 다시 실행한다.",
       "prerequisites": [
         "00-1"
       ],
-      "status": "not_started",
-      "stage": "A",
-      "review": "not_requested",
-      "draft": "absent",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
+      "evidence": {
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-16T15:05:34.259847+00:00",
+          "summary": "C++20 정상·변경·두 줄 출력과 의도된 컴파일 실패·복구를 실제 검증했다. Windows 도구 실행은 검증 범위에서 제외했다."
+        },
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-16T15:08:58.429916+00:00",
+          "summary": "C++20 개념과 연습 해설을 공식 자료와 실제 예제에 대조했다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-16T15:08:58.429916+00:00",
+          "summary": "설명체와 예측·실습 흐름을 통일하고 새 개념 그림과 문서 전 페이지를 검토했다."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-16T15:08:58.429916+00:00",
+          "summary": "공식 참고 자료와 비공개 검토 묶음 재읽기를 확인했다. 공개 배포는 아직 대상이 아니다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-16T15:08:58.429916+00:00",
+          "summary": "새로 작성한 자료와 최소 상태 변경을 검수하고 비공개 보관 권한을 확인했다."
+        }
+      },
+      "next_action": "비공개 검토본의 사용자 검수를 기다린다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "updated_at": "2026-10-16T15:09:34+00:00"
     },
     {
       "id": "00-3",
@@ -1228,6 +1254,55 @@
       "patch_hash": "bd6ed11e90532e3029b50fe5910fdb752218a8276b70ad54fe910d254a22a58b",
       "revision": 9,
       "recorded_at": "2026-10-16T03:55:05+00:00"
+    },
+    {
+      "run_id": "run_20261016_1500_00-2_A",
+      "lesson_id": "00-2",
+      "patch_hash": "35b306006966246bf1c0108a4962af72e596bb2b804a290dc3e582c6c11920b0",
+      "revision": 10,
+      "recorded_at": "2026-10-16T14:58:38+00:00"
+    },
+    {
+      "run_id": "run_20261016_1500_00-2_B",
+      "lesson_id": "00-2",
+      "patch_hash": "e6f4f7bf067fb722403449effefdcf93726f910e6253ae9ab2d398e812ea55bf",
+      "revision": 11,
+      "recorded_at": "2026-10-16T15:03:54+00:00"
+    },
+    {
+      "run_id": "run_20261016_1500_00-2_C",
+      "lesson_id": "00-2",
+      "patch_hash": "60ae0677fb7adcf9ebc3743e58d9ac3942447e5d19fbf6d80ce70287badd3977",
+      "revision": 12,
+      "recorded_at": "2026-10-16T15:05:34+00:00"
+    },
+    {
+      "run_id": "run_20261016_1500_00-2_D",
+      "lesson_id": "00-2",
+      "patch_hash": "92140a4244c97f90754fbf50c3c82eb62ffc7db201d805aaf972666815a01bb9",
+      "revision": 13,
+      "recorded_at": "2026-10-16T15:07:17+00:00"
+    },
+    {
+      "run_id": "run_20261016_1500_00-2_E",
+      "lesson_id": "00-2",
+      "patch_hash": "6f3d8c42656424aaf2bf06aaf01607f23a0f20ea71cd6357f7fbf0694bb27ca4",
+      "revision": 14,
+      "recorded_at": "2026-10-16T15:08:14+00:00"
+    },
+    {
+      "run_id": "run_20261016_1500_00-2_F",
+      "lesson_id": "00-2",
+      "patch_hash": "d7ee68d72b4fbbd5df6f9d730800f3767682081641500217b3edf3478c35aeda",
+      "revision": 15,
+      "recorded_at": "2026-10-16T15:08:58+00:00"
+    },
+    {
+      "run_id": "run_20261016_1500_00-2_G",
+      "lesson_id": "00-2",
+      "patch_hash": "8ac8f069cd179859f7f92eea5a0e66dcfbca7869d544594d45072f92f4cb0190",
+      "revision": 16,
+      "recorded_at": "2026-10-16T15:09:34+00:00"
     }
   ]
 }
