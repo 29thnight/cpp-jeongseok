@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 17,
+  "revision": 18,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -64,11 +64,11 @@
       "prerequisites": [
         "00-1"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/first-execution/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -99,11 +99,16 @@
           "result": "passed",
           "checked_at": "2026-10-16T18:53:36+00:00",
           "summary": "사용자가 std::endl 수정 검토본의 게시를 승인함."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-16T23:37:29+00:00",
+          "summary": "GitHub Pages 배포 성공. 공개 페이지 본문·std::endl 코드·개념 그림 로딩·D2Coding·목차·한국어 댓글 UI를 브라우저에서 확인."
         }
       },
-      "next_action": "승인된 본문과 개념 그림의 배포 후 공개 페이지를 확인한다.",
+      "next_action": "게시 완료. 발견되는 정오 사항을 반영한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T18:53:36+00:00"
+      "updated_at": "2026-10-16T23:37:29+00:00"
     },
     {
       "id": "00-3",
@@ -1315,6 +1320,13 @@
       "patch_hash": "4aa41f893853daa9888d1172b227f757ab41a1e8511d1b03a7922c71e4229491",
       "revision": 17,
       "recorded_at": "2026-10-16T18:53:36+00:00"
+    },
+    {
+      "run_id": "00-2_deployed_verified_20261017",
+      "lesson_id": "00-2",
+      "patch_hash": "16954330a8369638f234a7bf1e93cb584949961c89a909489c7ae91001e37a56",
+      "revision": 18,
+      "recorded_at": "2026-10-16T23:37:29+00:00"
     }
   ]
 }
