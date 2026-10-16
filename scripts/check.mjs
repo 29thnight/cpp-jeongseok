@@ -70,3 +70,20 @@ for(const n of [1,2,3,4]) assert(aiSource.includes(`연습 ${n} 해설`));
 for(const privateMarker of ['docs.google.com','drive.google.com','비공개 검토본','CalpicoFile_','Sentinel_']) assert(!aiHtml.includes(privateMarker));
 assert.equal([...aiHtml.matchAll(/<h1[ >]/g)].length,1);
 console.log('PASS: 00-1 navigation, four exercises/answers, comments, private marker exclusion, one article h1');
+
+const figures=[...aiHtml.matchAll(/<figure class="concept-figure">([\s\S]*?)<\/figure>/g)];
+assert.equal(figures.length,2);
+for(const [,figure] of figures){
+  assert(figure.includes('<figcaption>') && figure.includes('AI로 생성한'));
+  assert(/alt="[^"]{20,}"/.test(figure));
+  assert(figure.includes('loading="lazy"') && figure.includes('decoding="async"'));
+  assert(figure.includes('width="1672" height="941"'));
+  const src=figure.match(/src="([^"]+)"/)[1];
+  assert(src.startsWith('/cpp-jeongseok/assets/illustrations/'));
+  assert(existsSync('docs/'+src.slice('/cpp-jeongseok/'.length)));
+  assert(figure.includes(`href="${src}"`));
+}
+assert(figures[1][1].includes('측정해야 합니다'));
+const css=readFileSync('assets/style.css','utf8');
+assert(css.includes('.prose .concept-figure img{display:block;width:100%;max-width:100%;height:auto}'));
+console.log('PASS: two original illustrations, accessible descriptions, captions, intrinsic aspect ratio, responsive sizing, full-size links, explicit measurement caveat');

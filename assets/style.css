@@ -33,3 +33,11 @@
 .comments .comments-help{margin-top:18px}
 .comments-help a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:740px){.comments{padding:18px 14px}.comments .giscus{margin-top:18px}}
+
+/* Inline teaching illustrations retain their native aspect ratio at every width. */
+.prose .concept-figure{margin:32px 0 38px;max-width:100%}
+.prose .concept-figure a{display:block;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.prose .concept-figure a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.prose .concept-figure img{display:block;width:100%;max-width:100%;height:auto}
+.prose .concept-figure figcaption{margin-top:12px;color:#616168;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+@media(max-width:740px){.prose .concept-figure{margin:26px 0 30px}.prose .concept-figure figcaption{font-size:12px}}
