@@ -141,3 +141,28 @@ for(const [,block] of firstRendered) {
   assert(block.includes('class="hljs-title function_">endl</span>'));
 }
 console.log('PASS: stream globals, no-parenthesis/explicit manipulators, whitespace, local-name collisions, protected literals/comments, exact Hello World text and deployed lesson token categories');
+
+const readingHtml=readFileSync('docs/lessons/reading-execution/index.html','utf8');
+const readingSource=readFileSync('content/reading-execution.md','utf8');
+assert(readingHtml.includes(commentsHtml));
+assert(homeHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
+assert(firstHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
+assert(readingHtml.includes('/cpp-jeongseok/lessons/first-execution/'));
+assert(homeHtml.includes('본편 3수업'));
+assert.equal([...readingHtml.matchAll(/<h1[ >]/g)].length,1);
+const readingBlocks=[...readingSource.matchAll(/```cpp\n([\s\S]*?)```/g)];
+const readingRendered=[...readingHtml.matchAll(/<pre><code class="[^"]*language-cpp[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
+assert.equal(readingBlocks.length,9);assert.equal(readingRendered.length,9);
+for(let i=0;i<readingBlocks.length;i++) {
+ assert.equal(decode(readingRendered[i][1].replace(/<[^>]*>/g,'')).trimEnd(),readingBlocks[i][1].trimEnd());
+ assert(readingRendered[i][1].includes('class="hljs-global">cout</span>'));
+ assert(readingRendered[i][1].includes('class="hljs-title function_">endl</span>'));
+}
+for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','[실행 추적 표]','[개념 일러스트 삽입]'])assert(!readingHtml.includes(marker));
+assert(readingHtml.includes('<code>#include &lt;iostream&gt;</code>'));
+assert(readingHtml.includes('<table>'));
+assert(readingHtml.includes('MSVC 빌드와 Visual Studio GUI 실습은 실행하지 않았습니다.'));
+assert(readingHtml.includes('width="1536" height="1024"'));
+assert(readingHtml.includes('00-3-read-follow-output.webp'));
+assert(readingHtml.includes('AI로 생성한 개념 일러스트'));
+console.log('PASS: 00-3 exact 9 code blocks, stream/manipulator syntax colors, illustration, trace table, privacy, navigation, comments, tool-test caveat');

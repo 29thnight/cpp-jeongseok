@@ -24,6 +24,14 @@
     "tags": "Visual Studio 개발 환경 컴파일 빌드 Hello World endl C++20"
   },
   {
+    "number": "00-3",
+    "title": "코드를 읽고 실행을 따라가기",
+    "description": "문장 순서와 출력 예측 · 주석과 return · 연습 4개와 해설",
+    "status": "published",
+    "slug": "reading-execution",
+    "tags": "실행 추적 출력 주석 return 디버거 endl C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",

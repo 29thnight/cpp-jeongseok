@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 25,
+  "revision": 26,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -118,9 +118,9 @@
       "prerequisites": [
         "00-2"
       ],
-      "status": "awaiting_review",
+      "status": "ready_to_publish",
       "stage": "G",
-      "review": "pending",
+      "review": "approved",
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
@@ -148,11 +148,16 @@
           "result": "passed",
           "checked_at": "2026-10-17T03:21:00+00:00",
           "summary": "원본 자료를 복제하거나 공개하지 않고 새 설명과 예제 및 그림을 비공개 보관했다."
+        },
+        "approval": {
+          "result": "passed",
+          "checked_at": "2026-10-17T03:33:00+00:00",
+          "summary": "사용자가 완성된 00-3 검토본과 포함된 독창적 예제·그림의 공개를 명시적으로 승인했다."
         }
       },
-      "next_action": "완성한 비공개 검토본의 사용자 검수와 게시 승인을 기다린다.",
+      "next_action": "승인된 수업을 배포하고 실제 공개 페이지를 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-17T03:22:48+00:00"
+      "updated_at": "2026-10-17T03:35:01+00:00"
     },
     {
       "id": "01-1",
@@ -1402,6 +1407,13 @@
       "patch_hash": "e25aefad370d9acabbe497faed6e9118e21e3eafc9199d72daaaee051db53f8c",
       "revision": 25,
       "recorded_at": "2026-10-17T03:22:48+00:00"
+    },
+    {
+      "run_id": "publish_20261017_00-3_approved",
+      "lesson_id": "00-3",
+      "patch_hash": "afa46f4765faf404f7eac6de1c956dd08d77c8e96513ad2be20ff1e60711e5e0",
+      "revision": 26,
+      "recorded_at": "2026-10-17T03:35:01+00:00"
     }
   ]
 }
