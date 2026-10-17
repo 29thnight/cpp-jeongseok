@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 26,
+  "revision": 27,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -118,11 +118,11 @@
       "prerequisites": [
         "00-2"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/reading-execution/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -153,11 +153,16 @@
           "result": "passed",
           "checked_at": "2026-10-17T03:33:00+00:00",
           "summary": "사용자가 완성된 00-3 검토본과 포함된 독창적 예제·그림의 공개를 명시적으로 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-17T03:38:00+00:00",
+          "summary": "승인된 본문과 그림을 공개하고 Pages 배포 성공 및 실서비스 HTML·이미지·CSS 일치를 확인했다. 브라우저 화면 실행은 환경 오류로 확인하지 못했다."
         }
       },
-      "next_action": "승인된 수업을 배포하고 실제 공개 페이지를 확인한다.",
+      "next_action": "공개된 수업의 독자 피드백을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-17T03:35:01+00:00"
+      "updated_at": "2026-10-17T03:38:40+00:00"
     },
     {
       "id": "01-1",
@@ -1414,6 +1419,13 @@
       "patch_hash": "afa46f4765faf404f7eac6de1c956dd08d77c8e96513ad2be20ff1e60711e5e0",
       "revision": 26,
       "recorded_at": "2026-10-17T03:35:01+00:00"
+    },
+    {
+      "run_id": "publish_20261017_00-3_live",
+      "lesson_id": "00-3",
+      "patch_hash": "8f07d4292490e506d5784bec2bdb5852c475c6d47494d61287a6ba060ab86cb8",
+      "revision": 27,
+      "recorded_at": "2026-10-17T03:38:40+00:00"
     }
   ]
 }
