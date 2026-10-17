@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 35,
+  "revision": 36,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -174,11 +174,11 @@
         "00-2",
         "00-3"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/variables-initialization/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -209,11 +209,16 @@
           "result": "passed",
           "checked_at": "2026-10-17T20:11:30+00:00",
           "summary": "사용자가 검토 완료와 이 수업의 본문·예제·그림 공개를 명시적으로 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-17T20:13:45+00:00",
+          "summary": "승인된 수업을 게시한 커밋의 Pages 배포 성공과 실서비스 본문·그림·스타일 응답 및 앞 수업 링크를 확인했다."
         }
       },
-      "next_action": "승인된 수업을 게시하고 실서비스 응답을 확인한다.",
+      "next_action": "게시된 수업의 피드백을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-17T20:11:41+00:00"
+      "updated_at": "2026-10-17T20:13:54+00:00"
     },
     {
       "id": "01-2",
@@ -1513,6 +1518,13 @@
       "patch_hash": "521e5d12019028a8274c1a0ba03441d165b26726fc4df67985fadc50ab8d8936",
       "revision": 35,
       "recorded_at": "2026-10-17T20:11:41+00:00"
+    },
+    {
+      "run_id": "01-1_20261017T2007_PUBLISHED",
+      "lesson_id": "01-1",
+      "patch_hash": "722d96a9845306b7bdb655bf627718cf83a96dbb3ce63d37cbbdda8a92399be3",
+      "revision": 36,
+      "recorded_at": "2026-10-17T20:13:54+00:00"
     }
   ]
 }
