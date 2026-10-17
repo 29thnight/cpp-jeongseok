@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 34,
+  "revision": 35,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -174,9 +174,9 @@
         "00-2",
         "00-3"
       ],
-      "status": "awaiting_review",
+      "status": "ready_to_publish",
       "stage": "G",
-      "review": "pending",
+      "review": "approved",
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
@@ -197,18 +197,23 @@
         },
         "links": {
           "result": "passed",
-          "checked_at": "2026-10-17T15:16:53+00:00",
-          "summary": "참고 근거와 비공개 검토본 읽기를 확인했다. 공개 통합과 게시 빌드는 별도 승인 뒤 검증한다."
+          "checked_at": "2026-10-17T20:11:30+00:00",
+          "summary": "사이트 빌드와 일곱 페이지의 내부 링크·앵커·이미지·구문 강조 검사가 통과했다."
         },
         "privacy": {
           "result": "passed",
-          "checked_at": "2026-10-17T15:16:53+00:00",
-          "summary": "공개 변경 두 파일에서 비공개 원본·본문·그림·식별정보가 없음을 검수했다."
+          "checked_at": "2026-10-17T20:11:30+00:00",
+          "summary": "공개 예정 본문·그림과 생성 파일을 검토하여 비공개 원본·개인 식별정보·검증 로그가 없음을 확인했다."
+        },
+        "approval": {
+          "result": "passed",
+          "checked_at": "2026-10-17T20:11:30+00:00",
+          "summary": "사용자가 검토 완료와 이 수업의 본문·예제·그림 공개를 명시적으로 승인했다."
         }
       },
-      "next_action": "비공개 검토본에 대한 사람의 검토와 별도 공개 승인을 기다린다.",
+      "next_action": "승인된 수업을 게시하고 실서비스 응답을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-17T15:17:59+00:00"
+      "updated_at": "2026-10-17T20:11:41+00:00"
     },
     {
       "id": "01-2",
@@ -1501,6 +1506,13 @@
       "patch_hash": "d30817554367b448673440307be1b6fd263d65b3aebf1c707189a72ff4c4aad4",
       "revision": 34,
       "recorded_at": "2026-10-17T15:17:59+00:00"
+    },
+    {
+      "run_id": "01-1_20261017T2007_READY",
+      "lesson_id": "01-1",
+      "patch_hash": "521e5d12019028a8274c1a0ba03441d165b26726fc4df67985fadc50ab8d8936",
+      "revision": 35,
+      "recorded_at": "2026-10-17T20:11:41+00:00"
     }
   ]
 }
