@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 27,
+  "revision": 34,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -168,21 +168,47 @@
       "id": "01-1",
       "track": "core",
       "title": "변수와 초기화: 기본 타입, 중괄호 초기화, const, 이름과 범위",
-      "goal": "변수와 초기화: 기본 타입, 중괄호 초기화, const, 이름과 범위의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "기본 타입을 중괄호로 초기화하고 초기화와 대입을 구분한다. const와 블록 범위의 효과를 예측한다. 초기화 누락과 좁히기 변환을 찾아 수정한다.",
       "prerequisites": [
         "00-1",
         "00-2",
         "00-3"
       ],
-      "status": "not_started",
-      "stage": "A",
-      "review": "not_requested",
-      "draft": "absent",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
+      "evidence": {
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-17T15:12:30+00:00",
+          "summary": "GCC C++20에서 정상 예제 네 개와 경계·연습 검사를 실행하고 오류 예제 다섯 개의 진단을 확인했다. UBSan 실행 통과. MSVC 실행은 하지 않았다."
+        },
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-17T15:16:53+00:00",
+          "summary": "C++20 공개 초안과 독립 검토로 초기화·변환·const·범위 설명과 연습 해설을 대조했다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-17T15:16:53+00:00",
+          "summary": "새 본문·예제·연습 다섯 개와 개념 그림을 작성하고 렌더링한 전체 지면을 검수했다."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-17T15:16:53+00:00",
+          "summary": "참고 근거와 비공개 검토본 읽기를 확인했다. 공개 통합과 게시 빌드는 별도 승인 뒤 검증한다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-17T15:16:53+00:00",
+          "summary": "공개 변경 두 파일에서 비공개 원본·본문·그림·식별정보가 없음을 검수했다."
+        }
+      },
+      "next_action": "비공개 검토본에 대한 사람의 검토와 별도 공개 승인을 기다린다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "updated_at": "2026-10-17T15:17:59+00:00"
     },
     {
       "id": "01-2",
@@ -1426,6 +1452,55 @@
       "patch_hash": "8f07d4292490e506d5784bec2bdb5852c475c6d47494d61287a6ba060ab86cb8",
       "revision": 27,
       "recorded_at": "2026-10-17T03:38:40+00:00"
+    },
+    {
+      "run_id": "run_20261017_1500_01-1_A",
+      "lesson_id": "01-1",
+      "patch_hash": "1d8b0ac8dfec7342a56c377b621de3afdcdfc65e662f86e47f9548e3dc089548",
+      "revision": 28,
+      "recorded_at": "2026-10-17T15:09:18+00:00"
+    },
+    {
+      "run_id": "run_20261017_1500_01-1_B",
+      "lesson_id": "01-1",
+      "patch_hash": "dc637e8c094c4a0c1d367be181e8e7d2816826d2a169616ffefb00e5309350c1",
+      "revision": 29,
+      "recorded_at": "2026-10-17T15:09:19+00:00"
+    },
+    {
+      "run_id": "run_20261017_1500_01-1_C",
+      "lesson_id": "01-1",
+      "patch_hash": "af588c60949d700214ede4c243e060b697d46f245d8cf30d60fb54054aa6babb",
+      "revision": 30,
+      "recorded_at": "2026-10-17T15:13:06+00:00"
+    },
+    {
+      "run_id": "run_20261017_1500_01-1_D",
+      "lesson_id": "01-1",
+      "patch_hash": "902a10eabe52ecb7cb93eb59a6b1da9dd8777725c2659028e15fdf0dce8e7df1",
+      "revision": 31,
+      "recorded_at": "2026-10-17T15:15:50+00:00"
+    },
+    {
+      "run_id": "run_20261017_1500_01-1_E",
+      "lesson_id": "01-1",
+      "patch_hash": "33a211b7b1b663792ee55b21ae4dbccc883aaf11f71fcac58a31d0da4b4166f6",
+      "revision": 32,
+      "recorded_at": "2026-10-17T15:15:50+00:00"
+    },
+    {
+      "run_id": "run_20261017_1500_01-1_F",
+      "lesson_id": "01-1",
+      "patch_hash": "a49838100fd7f1a4799076caf4bbf4de2bd405b48584065b4d1cd6c9131d850a",
+      "revision": 33,
+      "recorded_at": "2026-10-17T15:17:17+00:00"
+    },
+    {
+      "run_id": "run_20261017_1500_01-1_G",
+      "lesson_id": "01-1",
+      "patch_hash": "d30817554367b448673440307be1b6fd263d65b3aebf1c707189a72ff4c4aad4",
+      "revision": 34,
+      "recorded_at": "2026-10-17T15:17:59+00:00"
     }
   ]
 }
