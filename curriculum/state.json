@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 53,
+  "revision": 54,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -282,11 +282,11 @@
       "prerequisites": [
         "01-2"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/branch-loop/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -317,11 +317,16 @@
           "result": "passed",
           "checked_at": "2026-10-18T18:32:07+00:00",
           "summary": "사용자가 완성된 01-3 검토본과 포함된 독창적 예제 및 그림의 공개를 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-18T18:36:27+00:00",
+          "summary": "GitHub Pages 배포 성공 후 새 수업·앞 수업·홈·그림·예제 6개의 실서비스 바이트 일치를 확인했다. 브라우저 화면 검증은 실행 환경 제한으로 미실행이다."
         }
       },
-      "next_action": "승인된 수업을 게시하고 실제 배포를 확인한다.",
+      "next_action": "공개된 수업의 독자 피드백을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-18T18:32:07+00:00"
+      "updated_at": "2026-10-18T18:36:27+00:00"
     },
     {
       "id": "01-4",
@@ -1711,6 +1716,13 @@
       "patch_hash": "728ddbae4b2779b949483ef2f85bc206591492e0651c07a06926997b6f9a7f89",
       "revision": 53,
       "recorded_at": "2026-10-18T18:32:07+00:00"
+    },
+    {
+      "run_id": "01-3_20261018_publish_live",
+      "lesson_id": "01-3",
+      "patch_hash": "dda8dea98beffa07f8681cd71982d274609736dde7089ccf4b82ddae667f46ba",
+      "revision": 54,
+      "recorded_at": "2026-10-18T18:36:27+00:00"
     }
   ]
 }
