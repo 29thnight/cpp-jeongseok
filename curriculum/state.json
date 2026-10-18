@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 45,
+  "revision": 52,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -278,19 +278,45 @@
       "id": "01-3",
       "track": "core",
       "title": "분기와 반복: if, switch, for, while, 종료 조건",
-      "goal": "분기와 반복: if, switch, for, while, 종료 조건의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "분기 실행 경로를 예측하고, 반복문의 조건·본문·갱신 순서와 종료 조건을 설명하며, break와 continue의 대상을 구분한다.",
       "prerequisites": [
         "01-2"
       ],
-      "status": "not_started",
-      "stage": "A",
-      "review": "not_requested",
-      "draft": "absent",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
+      "evidence": {
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-18T15:15:11+00:00",
+          "summary": "C++20 예제 및 경계·실패 검사 41개 기대 결과 일치. 종료하지 않는 원본은 컴파일만 수행."
+        },
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-18T15:15:11+00:00",
+          "summary": "표준 문장 규칙과 종료 조건 검토, 독립 코드 검토 완료."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-18T15:15:11+00:00",
+          "summary": "본문·개념 그림·연습 6개와 해설 검토, 분기 순서 표현 보완."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-18T15:15:11+00:00",
+          "summary": "참고 원문과 비공개 검토본 재확인. 사이트 빌드·배포는 공개 승인 후 별도 수행."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-18T15:15:11+00:00",
+          "summary": "원본 문장·코드·이미지·위치 미포함 확인. 공개 변경은 상태와 진척표만 포함."
+        }
+      },
+      "next_action": "비공개 검토본에 대한 사용자 검수를 기다린다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "updated_at": "2026-10-18T15:15:12+00:00"
     },
     {
       "id": "01-4",
@@ -1624,6 +1650,55 @@
       "patch_hash": "d656671ffbbcc45cb06e48dea7cc6f996e1db0584323140444a799b5d683c786",
       "revision": 45,
       "recorded_at": "2026-10-18T05:09:13+00:00"
+    },
+    {
+      "run_id": "01-3_20261018T1500_A",
+      "lesson_id": "01-3",
+      "patch_hash": "3f7d6cb7cbc3f656593762328bb590e21a249c7185843485304e1330c4ee0a3b",
+      "revision": 46,
+      "recorded_at": "2026-10-18T15:15:11+00:00"
+    },
+    {
+      "run_id": "01-3_20261018T1500_B",
+      "lesson_id": "01-3",
+      "patch_hash": "b3addf197f9d41f5255ca50748fd5b83271d23fb8f85ed425469d8f3d7279743",
+      "revision": 47,
+      "recorded_at": "2026-10-18T15:15:11+00:00"
+    },
+    {
+      "run_id": "01-3_20261018T1500_C",
+      "lesson_id": "01-3",
+      "patch_hash": "8886f4e4a8427145ed8b888cf2161812333b59acf3f827c7ae4651e7e92a9696",
+      "revision": 48,
+      "recorded_at": "2026-10-18T15:15:12+00:00"
+    },
+    {
+      "run_id": "01-3_20261018T1500_D",
+      "lesson_id": "01-3",
+      "patch_hash": "882c49cdd3886a460afcb20bbc097d2f46768dac200a477e93afdc946ca1ee7c",
+      "revision": 49,
+      "recorded_at": "2026-10-18T15:15:12+00:00"
+    },
+    {
+      "run_id": "01-3_20261018T1500_E",
+      "lesson_id": "01-3",
+      "patch_hash": "7a5689806baea8bf73f044d46e9f29c9cc8382079634292975a29481040f9514",
+      "revision": 50,
+      "recorded_at": "2026-10-18T15:15:12+00:00"
+    },
+    {
+      "run_id": "01-3_20261018T1500_F",
+      "lesson_id": "01-3",
+      "patch_hash": "95c04b7d541f847e6f2cd6070ce688d35376eb1fc87949904ff9d793f0bbd863",
+      "revision": 51,
+      "recorded_at": "2026-10-18T15:15:12+00:00"
+    },
+    {
+      "run_id": "01-3_20261018T1500_G",
+      "lesson_id": "01-3",
+      "patch_hash": "12a148402a1d03bed4f8c963b4bb8c0d37e9355c726ceeb79a801b71c4f9e832",
+      "revision": 52,
+      "recorded_at": "2026-10-18T15:15:12+00:00"
     }
   ]
 }
