@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 44,
+  "revision": 45,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -228,11 +228,11 @@
       "prerequisites": [
         "01-1"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/calculation-conversion/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -263,11 +263,16 @@
           "result": "passed",
           "checked_at": "2026-10-18T05:02:58+00:00",
           "summary": "사용자가 완성 검토본의 공개를 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-18T05:09:13+00:00",
+          "summary": "승인된 본문과 그림 게시 후 배포 성공 및 실제 페이지와 자산의 HTTP 내용 일치를 확인했다."
         }
       },
-      "next_action": "승인된 수업 본문과 그림을 게시하고 실제 페이지를 확인한다.",
+      "next_action": "공개 수업의 독자 의견을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-18T05:02:58+00:00"
+      "updated_at": "2026-10-18T05:09:13+00:00"
     },
     {
       "id": "01-3",
@@ -1612,6 +1617,13 @@
       "patch_hash": "98021afec2d6056c8e0600b0a23c8b02fead12be48ea1907052f054ed4e43cdd",
       "revision": 44,
       "recorded_at": "2026-10-18T05:02:58+00:00"
+    },
+    {
+      "run_id": "01-2_20261018T0509_published",
+      "lesson_id": "01-2",
+      "patch_hash": "d656671ffbbcc45cb06e48dea7cc6f996e1db0584323140444a799b5d683c786",
+      "revision": 45,
+      "recorded_at": "2026-10-18T05:09:13+00:00"
     }
   ]
 }
