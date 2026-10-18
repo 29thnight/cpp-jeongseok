@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 52,
+  "revision": 53,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -282,9 +282,9 @@
       "prerequisites": [
         "01-2"
       ],
-      "status": "awaiting_review",
+      "status": "ready_to_publish",
       "stage": "G",
-      "review": "pending",
+      "review": "approved",
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
@@ -305,18 +305,23 @@
         },
         "links": {
           "result": "passed",
-          "checked_at": "2026-10-18T15:15:11+00:00",
-          "summary": "참고 원문과 비공개 검토본 재확인. 사이트 빌드·배포는 공개 승인 후 별도 수행."
+          "checked_at": "2026-10-18T18:32:07+00:00",
+          "summary": "사이트 빌드와 내부 링크, 선행 수업 탐색 및 그림과 예제 파일 연결 검사를 통과했다."
         },
         "privacy": {
           "result": "passed",
-          "checked_at": "2026-10-18T15:15:11+00:00",
-          "summary": "원본 문장·코드·이미지·위치 미포함 확인. 공개 변경은 상태와 진척표만 포함."
+          "checked_at": "2026-10-18T18:32:07+00:00",
+          "summary": "공개 예정 본문과 예제 및 그림을 대조하여 비공개 원본과 위치 및 파일 ID가 포함되지 않았음을 확인했다."
+        },
+        "approval": {
+          "result": "passed",
+          "checked_at": "2026-10-18T18:32:07+00:00",
+          "summary": "사용자가 완성된 01-3 검토본과 포함된 독창적 예제 및 그림의 공개를 승인했다."
         }
       },
-      "next_action": "비공개 검토본에 대한 사용자 검수를 기다린다.",
+      "next_action": "승인된 수업을 게시하고 실제 배포를 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-18T15:15:12+00:00"
+      "updated_at": "2026-10-18T18:32:07+00:00"
     },
     {
       "id": "01-4",
@@ -1699,6 +1704,13 @@
       "patch_hash": "12a148402a1d03bed4f8c963b4bb8c0d37e9355c726ceeb79a801b71c4f9e832",
       "revision": 52,
       "recorded_at": "2026-10-18T15:15:12+00:00"
+    },
+    {
+      "run_id": "01-3_20261018_publish_ready",
+      "lesson_id": "01-3",
+      "patch_hash": "728ddbae4b2779b949483ef2f85bc206591492e0651c07a06926997b6f9a7f89",
+      "revision": 53,
+      "recorded_at": "2026-10-18T18:32:07+00:00"
     }
   ]
 }

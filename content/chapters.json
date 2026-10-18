@@ -48,6 +48,14 @@
     "tags": "계산 변환 연산자 표현식 정수 나눗셈 나머지 static_cast bool 좁히기 범위 C++20"
   },
   {
+    "number": "01-3",
+    "title": "분기와 반복",
+    "description": "if와 switch · for와 while · 종료 조건 · break와 continue · 연습 6개와 해설",
+    "status": "published",
+    "slug": "branch-loop",
+    "tags": "분기 반복 조건 if else switch for while break continue 종료 C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",
