@@ -40,6 +40,14 @@
     "tags": "변수 초기화 기본 타입 const 범위 int double bool char C++20"
   },
   {
+    "number": "01-2",
+    "title": "계산과 변환",
+    "description": "산술·비교·논리 연산 · 정수 나눗셈 · 타입 변환 · 연습 6개와 해설",
+    "status": "published",
+    "slug": "calculation-conversion",
+    "tags": "계산 변환 연산자 표현식 정수 나눗셈 나머지 static_cast bool 좁히기 범위 C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",

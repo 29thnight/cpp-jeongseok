@@ -148,7 +148,7 @@ assert(readingHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(firstHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(readingHtml.includes('/cpp-jeongseok/lessons/first-execution/'));
-assert(homeHtml.includes('본편 4수업'));
+assert(homeHtml.includes('본편 5수업'));
 assert.equal([...readingHtml.matchAll(/<h1[ >]/g)].length,1);
 const readingBlocks=[...readingSource.matchAll(/```cpp\n([\s\S]*?)```/g)];
 const readingRendered=[...readingHtml.matchAll(/<pre><code class="[^"]*language-cpp[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
@@ -186,3 +186,65 @@ assert(variablesHtml.includes('hljs-local">remainingAttempts</span>'));
 assert(variablesHtml.includes('hljs-global">cout</span>'));
 assert(variablesHtml.includes('hljs-title function_">endl</span>'));
 console.log('PASS: 01-1 approved code preservation, five exercise answers, navigation, illustration, privacy, comments and syntax colors');
+
+
+const calculationHtml=readFileSync('docs/lessons/calculation-conversion/index.html','utf8');
+const calculationSource=readFileSync('content/calculation-conversion.md','utf8');
+const publishedChapters=JSON.parse(readFileSync('content/chapters.json','utf8')).filter(c=>c.status==='published');
+assert.equal(publishedChapters.length,6, 'Introduction plus five published lessons');
+assert(publishedChapters.some(c=>c.number==='01-2'&&c.slug==='calculation-conversion'&&c.title==='계산과 변환'));
+assert.equal([...calculationHtml.matchAll(/<h1[ >]/g)].length,1);
+assert(calculationHtml.includes(commentsHtml));
+assert(homeHtml.includes('/cpp-jeongseok/lessons/calculation-conversion/'));
+assert(variablesHtml.includes('/cpp-jeongseok/lessons/calculation-conversion/'));
+assert(calculationHtml.includes('/cpp-jeongseok/lessons/variables-initialization/'));
+assert(!variablesHtml.includes('다음 수업은 준비 중입니다.'));
+assert(calculationHtml.includes('다음 수업은 준비 중입니다.'));
+assert(homeHtml.includes(`본편 ${publishedChapters.length-1}수업`));
+assert(readFileSync('README.md','utf8').includes(`본편 ${publishedChapters.length-1}수업`));
+const calculationBlocks=[...calculationSource.matchAll(/```(cpp|text)\n([\s\S]*?)```/g)];
+const calculationRendered=[...calculationHtml.matchAll(/<pre><code class="[^"]*language-(cpp|plaintext)[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
+assert.equal(calculationBlocks.length,9);
+assert.equal(calculationRendered.length,9);
+for(let i=0;i<calculationBlocks.length;i++){
+  assert.equal(calculationRendered[i][1],calculationBlocks[i][1]==='cpp'?'cpp':'plaintext');
+  assert.equal(decode(calculationRendered[i][2].replace(/<[^>]*>/g,'')).trimEnd(),calculationBlocks[i][2].trimEnd(),`01-2 block ${i+1} text preservation`);
+}
+for(const n of [1,2,3,4,5,6]) assert(calculationSource.includes(`문제 ${n} 정답`));
+for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','[ILLUSTRATION]','CHECKPOINT','manifest.json','/workspace/']){
+  assert(!calculationSource.includes(marker));
+  assert(!calculationHtml.includes(marker));
+}
+assert(calculationHtml.includes('GCC 14.2.0'));
+assert(calculationHtml.includes('MSVC와 Visual Studio의 실행 화면은 확인하지 않았습니다.'));
+assert(calculationHtml.includes('static_cast&lt;double&gt;(total)'));
+assert(calculationHtml.includes('static_cast&lt;int&gt;(4.8)'));
+assert(calculationHtml.includes('&lt;limits&gt;의 std::numeric_limits'));
+assert(!/<(?:double|int|limits)>/.test(calculationHtml), 'C++ template arguments and headers must not become HTML tags');
+const calculationFigures=[...calculationHtml.matchAll(/<figure class="concept-figure">([\s\S]*?)<\/figure>/g)];
+assert.equal(calculationFigures.length,1);
+const calculationFigure=calculationFigures[0][1];
+assert(calculationFigure.includes('width="1200" height="800"'));
+assert(calculationFigure.includes('loading="lazy"')&&calculationFigure.includes('decoding="async"'));
+assert(calculationFigure.includes('AI 생성 개념 일러스트'));
+assert(calculationFigure.includes('실제 메모리 구조나 부동소수점의 정확한 표현 방식을 나타내지는 않습니다.'));
+assert(/alt="[^"]{20,}"/.test(calculationFigure));
+const calculationImage='/cpp-jeongseok/assets/illustrations/01-2-counting-measuring.webp';
+assert(calculationFigure.includes(`href="${calculationImage}"`));
+assert(calculationFigure.includes(`src="${calculationImage}"`));
+assert(readFileSync('assets/illustrations/01-2-counting-measuring.webp').equals(readFileSync('docs/assets/illustrations/01-2-counting-measuring.webp')));
+const calculationFiles=['01-integer-division.cpp','02-conversion-timing.cpp','03-boolean-conditions.cpp','04-integer-limits.cpp'];
+assert.deepEqual(readdirSync('assets/examples/01-2').sort(),[...calculationFiles].sort(), 'Publish only standalone study examples');
+assert.deepEqual(readdirSync('docs/assets/examples/01-2').sort(),[...calculationFiles].sort());
+const runnableCalculationBlocks=calculationBlocks.filter(b=>b[1]==='cpp'&&b[2].includes('int main()'));
+assert.equal(runnableCalculationBlocks.length,4);
+for(let i=0;i<calculationFiles.length;i++){
+  const file=calculationFiles[i];
+  assert.equal(readFileSync(`assets/examples/01-2/${file}`,'utf8'),runnableCalculationBlocks[i][2]);
+  assert.equal(readFileSync(`docs/assets/examples/01-2/${file}`,'utf8'),runnableCalculationBlocks[i][2]);
+  assert(calculationHtml.includes(`/cpp-jeongseok/assets/examples/01-2/${file}`));
+}
+assert(calculationHtml.includes('hljs-global">cout</span>'));
+assert(calculationHtml.includes('hljs-title function_">boolalpha</span>'));
+assert(calculationHtml.includes('hljs-title function_">endl</span>'));
+console.log('PASS: 01-2 nine exact code/output blocks, six answers, escaped prose, original responsive figure, four exact downloadable examples, privacy, navigation, published count, comments and syntax colors');
