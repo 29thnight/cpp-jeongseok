@@ -64,6 +64,14 @@
     "tags": "콘솔 입력 검증 cin clear ignore EOF 경계값 반복 C++20"
   },
   {
+    "number": "02-1",
+    "title": "함수를 나누는 기준",
+    "description": "매개변수와 반환값 · 지역 변수 · 선언과 정의 · 연습 6개와 해설",
+    "status": "published",
+    "slug": "functions-basics",
+    "tags": "함수 매개변수 인수 반환값 return void 지역 변수 값 전달 선언 정의 MSVC C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",

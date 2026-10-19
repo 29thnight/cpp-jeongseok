@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 70,
+  "revision": 71,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -393,26 +393,26 @@
         "01-3",
         "01-4"
       ],
-      "status": "awaiting_review",
+      "status": "ready_to_publish",
       "stage": "G",
-      "review": "pending",
+      "review": "approved",
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
         "examples": {
           "result": "passed",
           "checked_at": "2026-10-19T15:14:01+00:00",
-          "summary": "C++20 엄격 경고 및 UBSan으로 정상·경계·의도된 실패 검증을 통과했다."
+          "summary": "변경 없는 예제는 GCC C++20 및 UBSan 보조 검증을 통과했다. MSVC 실행은 미검증이다."
         },
         "technical": {
           "result": "passed",
-          "checked_at": "2026-10-19T15:22:43+00:00",
-          "summary": "함수 호출·반환·범위와 연습 해설을 독립 검수했다."
+          "checked_at": "2026-10-19T22:22:47+00:00",
+          "summary": "MSVC C++20 실습 안내와 명령을 공식 자료로 재검토했다. 실제 MSVC 실행은 하지 않았다."
         },
         "editorial": {
           "result": "passed",
-          "checked_at": "2026-10-19T15:22:43+00:00",
-          "summary": "새 설명과 그림, 코드 표기 및 문서 렌더링을 확인했다."
+          "checked_at": "2026-10-19T22:22:47+00:00",
+          "summary": "수정된 본문과 코드 서식 및 PDF 배치를 다시 확인했다."
         },
         "links": {
           "result": "passed",
@@ -423,11 +423,16 @@
           "result": "passed",
           "checked_at": "2026-10-19T15:22:43+00:00",
           "summary": "원본 문장·예제·그림·위치가 포함되지 않도록 검토했다."
+        },
+        "approval": {
+          "result": "passed",
+          "checked_at": "2026-10-19T22:22:47+00:00",
+          "summary": "사용자가 MSVC 실습 안내로 수정된 본문·예제·그림의 게시를 승인했다."
         }
       },
-      "next_action": "완성한 검토본에 대한 사용자 검수를 기다린다.",
+      "next_action": "승인된 수정본을 정적 빌드하고 게시 및 배포를 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-19T15:24:22+00:00"
+      "updated_at": "2026-10-19T22:22:47+00:00"
     },
     {
       "id": "02-2",
@@ -1897,6 +1902,13 @@
       "patch_hash": "d4600601b7b27e039d310dd893c2bffba45ea66a059c4ef933f5c114db9f93e2",
       "revision": 70,
       "recorded_at": "2026-10-19T15:24:22+00:00"
+    },
+    {
+      "run_id": "02-1_20261019T2221_approved",
+      "lesson_id": "02-1",
+      "patch_hash": "6db85041bb368a73ac031115db3ace73f264f97c4951e84a46ef14b687807988",
+      "revision": 71,
+      "recorded_at": "2026-10-19T22:22:47+00:00"
     }
   ]
 }

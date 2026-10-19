@@ -1,0 +1,411 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>함수를 나누는 기준 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=9f1bf6bd3f3d"><script src="/cpp-jeongseok/assets/app.js?v=e834a179b979" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">02-1 / FUNCTIONS</p><h1>함수를 나누는 기준</h1><p class="article-deck">필요한 값을 건네고 결과를 돌려받으며,<br>함수가 맡은 일과 경계를 분명하게 만들기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-19">2026년 10월 19일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>PASS. COMPUTE.<br>RETURN.</span><span class="article-symbol">f(x)</span><small>PARAMETERS / RETURN VALUES / RESPONSIBILITY</small></div><div class="prose"><p>매개변수, 반환값, 지역 변수, 선언과 정의의 첫 소개</p>
+<p>지금까지는 변수를 만들고, 조건에 따라 다른 일을 하고, 반복하면서 입력을 검사했습니다. 작은 주문 계산기도 완성했습니다. 이제 프로그램에 들어가는 일이 조금씩 늘어납니다. 모든 코드를 <code>main</code> 안에 계속 쓰면 실행 순서는 보이지만, 어느 부분이 어떤 일을 맡았는지는 알아보기 어려워집니다.</p>
+<p>이번에는 <strong>하나의 일을 이름 붙여 묶고, 필요한 값을 건네고, 결과를 돌려받는 방법</strong>을 배웁니다. 목표는 무조건 함수를 많이 만드는 것이 아닙니다. 함수를 읽는 사람이 “무엇을 받아서 무엇을 해 주는가?”에 답할 수 있도록 만드는 것입니다.</p>
+<p>이 글을 마치면 다음을 직접 설명하고 작성할 수 있어야 합니다.</p>
+<ul>
+<li>매개변수와 인수를 구별하고, 정수 값을 함수에 전달하기</li>
+<li><code>return</code>으로 돌려준 값과 <code>std::cout</code>으로 표시한 내용을 구별하기</li>
+<li><code>void</code> 함수와 값을 반환하는 함수를 목적에 맞게 선택하기</li>
+<li>지역 변수와 값 매개변수의 범위를 이해하기</li>
+<li>선언과 정의를 구별하고, 호출 전에 필요한 정보를 배치하기</li>
+<li>입력 검사, 계산, 출력의 책임을 나누어 작은 프로그램 완성하기</li>
+</ul>
+<p>실습 환경은 <strong>Visual Studio의 MSVC와 C++20</strong>입니다. 기존 콘솔 프로젝트의 속성에서 <code>C/C++ → 언어 → C++ 언어 표준</code>을 <code>ISO C++20 표준(/std:c++20)</code>으로 설정합니다. 각 예제는 별도 프로젝트로 실행하거나 프로젝트에 이번에 실행할 <code>.cpp</code> 하나만 포함합니다. 여러 예제의 <code>main</code>을 한 프로젝트에 함께 넣지 않습니다. 면적과 개수는 이 글에서 정한 작은 정수 범위를 사용합니다.</p>
+<h2 id="section-1">1. 줄 수보다 맡은 일을 먼저 봅니다</h2>
+<p>교실 안내판에 정사각형 카드를 붙이려고 합니다. 한 변이 6인 카드 네 장과 한 변이 8인 카드 세 장이 차지하는 면적을 각각 알아야 합니다. 카드끼리는 겹치지 않고, 간격과 여백은 면적에 포함하지 않습니다. 길이 단위가 센티미터라면 계산 결과의 단위는 제곱센티미터입니다.</p>
+<p>두 묶음은 숫자만 다르고 계산 규칙은 같습니다. 한 변의 길이를 제곱한 뒤 카드 개수를 곱합니다. 이 규칙을 두 곳에 직접 쓰면, 나중에 계산 과정을 바꿀 때 두 곳을 모두 찾아야 합니다. 이름을 붙인 함수로 한 번 작성하면 필요한 곳에서 서로 다른 값을 넣어 사용할 수 있습니다.</p>
+<p>중요한 것은 세 줄을 두 줄로 줄이는 효과가 아닙니다. <strong>카드 면적을 구하는 규칙을 어디에서 확인하고 바꾸면 되는지 분명해지는 효과</strong>입니다. 호출하는 쪽은 계산의 세부 순서 대신 함수 이름을 보고 목적을 읽을 수 있습니다.</p>
+<h2 id="section-2">2. 함수는 입력을 받아 일을 하고 결과를 건넵니다</h2>
+<p>카드 면적 계산을 세 부분으로 나누어 봅시다.</p>
+<ul>
+<li>입력: 카드 한 변의 길이와 카드 개수</li>
+<li>처리: 한 장의 면적을 구하고 개수를 곱하기</li>
+<li>결과: 카드 전체가 차지하는 면적</li>
+</ul>
+<p>여기에서 입력은 반드시 키보드 입력을 뜻하지 않습니다. <strong>함수를 호출한 코드가 건네는 값</strong>도 함수의 입력입니다. 결과 역시 반드시 화면에 표시되는 글자를 뜻하지 않습니다. <strong>호출한 코드가 이어서 사용할 수 있는 값</strong>이 될 수 있습니다.</p>
+<p>함수 바깥에서는 무엇을 넣어야 하는지, 어떤 결과를 받을 수 있는지 알아야 합니다. 함수 안에서는 그 약속에 맞게 계산합니다. 이 경계가 분명하면 계산을 사용하는 쪽과 계산을 구현하는 쪽을 나누어 생각할 수 있습니다.</p>
+<figure class="concept-figure">
+<a href="/cpp-jeongseok/assets/illustrations/02-1-function-workbench.webp"><img src="/cpp-jeongseok/assets/illustrations/02-1-function-workbench.webp" width="1200" height="800" loading="lazy" decoding="async" alt="밝은 청색 작업대의 왼쪽으로 빈 카드가 들어가고 오른쪽으로 청록색 카드가 나온다. 함수의 입력, 처리, 결과를 비유한 그림이다."></a>
+<figcaption>AI 생성 개념 일러스트입니다. 입력을 받아 계산하고 결과를 돌려주는 함수를 작업대로 비유했습니다. 실제 메모리 구조나 실행 장치를 나타내는 그림은 아닙니다. 모든 함수가 입력과 반환값을 함께 갖는 것은 아닙니다.</figcaption>
+</figure>
+
+<p>모든 함수가 입력과 반환값을 모두 갖는 것은 아닙니다. 이번에는 먼저 정수 두 개를 받아 정수 하나를 돌려주는 함수로 시작하고, 뒤에서 값을 돌려주지 않는 출력 함수도 만납니다.</p>
+<h2 id="section-3">3. 처음 만드는 계산 함수</h2>
+<p>다음은 그대로 실행할 수 있는 완성 프로그램입니다. 파일 이름은 <code>01_card_area.cpp</code>입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">oneCardArea</span> = <span class="hljs-local">sideLength</span> * <span class="hljs-local">sideLength</span>;
+    <span class="hljs-type">int</span> <span class="hljs-local">totalArea</span> = <span class="hljs-local">oneCardArea</span> * <span class="hljs-local">cardCount</span>;
+    <span class="hljs-control">return</span> <span class="hljs-local">totalArea</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">smallCardArea</span> = <span class="hljs-title function_">calculateCardArea</span>(<span class="hljs-number">6</span>, <span class="hljs-number">4</span>);
+    <span class="hljs-type">int</span> <span class="hljs-local">largeCardArea</span> = <span class="hljs-title function_">calculateCardArea</span>(<span class="hljs-number">8</span>, <span class="hljs-number">3</span>);
+    <span class="hljs-type">int</span> <span class="hljs-local">combinedArea</span> = <span class="hljs-local">smallCardArea</span> + <span class="hljs-local">largeCardArea</span>;
+
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Small cards: &quot;</span> &lt;&lt; <span class="hljs-local">smallCardArea</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Large cards: &quot;</span> &lt;&lt; <span class="hljs-local">largeCardArea</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Combined area: &quot;</span> &lt;&lt; <span class="hljs-local">combinedArea</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>예상 출력은 다음과 같습니다.</p>
+<pre><code class="language-plaintext">Small cards: 144
+Large cards: 192
+Combined area: 336
+</code></pre>
+<p>처음 보는 부분을 함수의 첫 줄부터 읽어 봅시다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span></span>
+</code></pre>
+<p>맨 앞의 <code>int</code>는 <strong>반환형</strong>입니다. 이 함수가 계산을 마치면 정수 값을 돌려준다는 뜻입니다. <code>calculateCardArea</code>는 함수 이름입니다. 괄호 안의 <code>int sideLength</code>와 <code>int cardCount</code>는 <strong>매개변수</strong>입니다. 함수가 전달받을 값의 자료형과, 함수 안에서 그 값을 부를 이름을 적습니다. 매개변수가 여러 개이면 쉼표로 구분합니다.</p>
+<p>그 뒤의 중괄호 안이 <strong>함수 본문</strong>입니다. 앞에서 사용한 변수 선언과 계산식이 그대로 들어 있습니다. 마지막의 <code>return totalArea;</code>는 계산한 정수 값을 호출한 곳으로 돌려주면서 이번 함수 실행을 끝냅니다.</p>
+<p><code>main</code>에서 <code>calculateCardArea(6, 4)</code>라고 쓰면 함수를 <strong>호출</strong>합니다. 함수 이름만 적는 것과 다르게, 괄호와 전달할 값을 적어 실제로 일을 요청합니다. 이 호출은 정수 결과를 만들어 내므로 <code>smallCardArea</code>를 그 결과로 초기화할 수 있습니다.</p>
+<p>첫 번째 호출의 흐름을 차례대로 따라가 보세요.</p>
+<ol>
+<li><code>main</code>이 <code>calculateCardArea(6, 4)</code>를 호출합니다.</li>
+<li>함수의 <code>sideLength</code>는 <code>6</code>, <code>cardCount</code>는 <code>4</code>로 시작합니다.</li>
+<li><code>oneCardArea</code>에 <code>36</code>을 저장합니다.</li>
+<li><code>totalArea</code>에 <code>144</code>를 저장합니다.</li>
+<li><code>return totalArea;</code>가 값 <code>144</code>를 돌려줍니다.</li>
+<li><code>main</code>의 <code>smallCardArea</code>가 <code>144</code>로 초기화되고 다음 문장으로 진행합니다.</li>
+</ol>
+<p>두 번째 호출은 같은 함수 본문을 사용하지만 새로운 값 <code>8</code>과 <code>3</code>으로 계산합니다. 결과는 <code>192</code>입니다. 앞선 호출의 <code>totalArea</code>를 이어서 더하는 것이 아닙니다. 각 호출에서 필요한 지역 변수들이 만들어지고 해당 호출의 계산을 수행합니다.</p>
+<p>함수를 파일 위에 작성했다고 해서 프로그램 시작 때 그 본문부터 실행되는 것은 아닙니다. 여기서는 <code>main</code>의 흐름을 따라가다가 호출을 만났을 때 해당 함수의 일을 수행합니다. <strong>소스 파일에 적힌 위치와 실행 순서</strong>를 구별해야 합니다.</p>
+<h2 id="section-4">4. 매개변수는 받는 자리, 인수는 건네는 값입니다</h2>
+<p>정의에 적은 <code>sideLength</code>와 <code>cardCount</code>는 매개변수입니다. 호출할 때 적은 <code>6</code>과 <code>4</code>는 <strong>인수</strong>입니다. 비슷한 말이지만 보는 위치가 다릅니다. 함수는 매개변수로 값을 받고, 호출하는 코드는 인수를 전달합니다.</p>
+<p>인수에는 숫자만 적을 수 있는 것이 아닙니다. 이미 값을 가진 변수도 사용할 수 있습니다. 다음은 <code>main</code> 안에 들어갈 수 있는 코드 조각입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-type">int</span> <span class="hljs-local">side</span> = <span class="hljs-number">6</span>;
+<span class="hljs-type">int</span> <span class="hljs-local">count</span> = <span class="hljs-number">4</span>;
+<span class="hljs-type">int</span> <span class="hljs-local">area</span> = <span class="hljs-title function_">calculateCardArea</span>(<span class="hljs-local">side</span>, <span class="hljs-local">count</span>);
+</code></pre>
+<p>호출하는 쪽의 변수 이름이 함수의 매개변수 이름과 같을 필요는 없습니다. <code>side</code>가 가진 값은 첫 번째 매개변수 <code>sideLength</code>에, <code>count</code>가 가진 값은 두 번째 매개변수 <code>cardCount</code>에 전달됩니다. <strong>이 예제에서 대응 관계를 정하는 것은 이름이 아니라 순서</strong>입니다.</p>
+<p>순서를 바꾸면 문제가 생길 수 있습니다. <code>calculateCardArea(4, 6)</code>도 정수 두 개를 전달하므로 문법에는 맞지만, 한 변이 4인 카드 여섯 장을 계산해서 <code>96</code>을 돌려줍니다. 우리가 원한 <code>144</code>와 다릅니다. 컴파일러는 두 정수의 현실적인 의미까지 대신 판단하지 않습니다.</p>
+<p>함수의 첫 줄을 읽을 때 자료형만 보지 말고 매개변수 이름도 함께 보세요. 이름이 <code>a</code>, <code>b</code>이면 호출 순서의 의미를 기억해야 하지만, <code>sideLength</code>, <code>cardCount</code>이면 무엇이 먼저 오는지 더 쉽게 확인할 수 있습니다. 좋은 이름은 입력 순서 실수를 줄이는 작은 안내문입니다.</p>
+<p>이 함수는 인수 두 개가 필요합니다. <code>calculateCardArea(6)</code>이나 <code>calculateCardArea(6, 4, 2)</code>는 올바른 호출이 아닙니다. 지금은 자료형 변환에 기대지 않고 <code>int</code> 매개변수에 <code>int</code> 값을 전달합니다.</p>
+<h2 id="section-5">5. <code>return</code>과 화면 출력은 별개의 일입니다</h2>
+<p><code>return</code>은 호출한 코드에 값을 건넵니다. <code>std::cout</code>은 화면으로 연결된 표준 출력에 내용을 보냅니다. 결과를 사람이 볼 수 있게 만드는 일과, 다음 계산에서 사용할 값을 만드는 일은 구별해야 합니다.</p>
+<p>첫 예제의 계산 함수 안에는 <code>std::cout</code>이 없습니다. 그래도 <code>144</code>와 <code>192</code>라는 결과를 돌려줍니다. <code>main</code>은 두 값을 더하고, 그 뒤에 필요한 내용을 출력합니다. 반환값이 있으므로 화면에 표시하지 않고 비교하거나 합산하는 일도 가능합니다.</p>
+<p>반대로 함수가 <code>std::cout &lt;&lt; totalArea;</code>만 수행한다고 해서 그 숫자가 호출한 코드의 변수에 자동으로 저장되지는 않습니다. 출력한 문자를 다음 계산에서 쓰기 위해 다시 읽어 오는 방식으로 만들 필요도 없습니다. 계산 결과가 필요하다면 적절한 반환형과 <code>return</code>으로 값을 전달합니다.</p>
+<p>다음은 반환된 값을 버리는 호출입니다. 이미 정의한 계산 함수를 사용하는 코드 조각입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-title function_">calculateCardArea</span>(<span class="hljs-number">6</span>, <span class="hljs-number">4</span>);
+</code></pre>
+<p>계산은 수행하지만, 호출한 쪽이 결과를 변수에 저장하거나 다른 식에 사용하지 않습니다. 이 함수는 출력도 하지 않으므로 눈에 보이는 결과가 없습니다. 함수가 호출되지 않은 것과는 다른 상황입니다.</p>
+<p><code>return</code>은 현재 실행 중인 함수를 끝낸다는 점도 중요합니다. 일반 계산 함수에서 <code>return</code>을 만나면 <code>main</code> 전체가 끝나는 것이 아니라 그 함수를 부른 곳으로 돌아갑니다. 반면 이 프로그램의 <code>main</code>에서 <code>return 1;</code>을 만나면 <code>main</code>을 끝내며 실패를 나타내는 종료 코드를 전달합니다.</p>
+<p>정수를 반환하는 함수는 정상적으로 끝나는 모든 경로에서 정수 결과를 준비해야 합니다. 다음은 함수 정의만 보여 주는 코드 조각입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">atLeastOne</span><span class="hljs-params">(<span class="hljs-type">int</span> count)</span>
+</span>{
+    <span class="hljs-control">if</span> (<span class="hljs-local">count</span> &lt; <span class="hljs-number">1</span>)
+    {
+        <span class="hljs-control">return</span> <span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-control">return</span> <span class="hljs-local">count</span>;
+}
+</code></pre>
+<p><code>count</code>가 <code>1</code>보다 작으면 첫 번째 <code>return</code>에서 끝납니다. 그렇지 않으면 마지막 <code>return</code>까지 갑니다. 두 문장이 연속해서 값을 돌려주는 것이 아니라, 실제로 선택된 경로에서 하나만 실행됩니다.</p>
+<p>여기서 마지막 <code>return count;</code>를 빼면 일부 입력에서는 값을 반환하지 않은 채 본문 끝에 도달합니다. 이런 함수는 올바르지 않으며, 경고가 있더라도 실행해 결과를 믿으면 안 됩니다. <code>main</code>의 끝에 도달하면 <code>0</code>을 반환한 것으로 처리되는 특별한 규칙을 일반 <code>int</code> 함수에 적용하지 마세요.</p>
+<h2 id="section-6">6. 값을 돌려주지 않는 함수에는 <code>void</code>를 씁니다</h2>
+<p>출력 자체가 목적이라면 호출한 쪽에 정수 결과를 돌려줄 필요가 없을 수 있습니다. 다음은 그런 함수의 정의입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTotalArea</span><span class="hljs-params">(<span class="hljs-type">int</span> totalArea)</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Total area: &quot;</span> &lt;&lt; totalArea &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>반환형 <code>void</code>는 <strong>반환값이 없다</strong>는 뜻입니다. 매개변수가 없다는 뜻은 아닙니다. 이 함수는 <code>int</code> 값 하나를 입력으로 받아 화면에 표시하고 끝납니다. 호출은 <code>printTotalArea(144);</code>처럼 작성합니다.</p>
+<p>함수 본문의 끝에 도달하면 호출한 곳으로 돌아갑니다. 중간에 끝낼 필요가 있을 때는 값 없는 <code>return;</code>을 사용할 수 있지만, 지금처럼 마지막까지 수행하면 되는 함수에는 굳이 적지 않아도 됩니다.</p>
+<p><code>void</code> 함수의 호출 결과로 정수 변수를 초기화할 수는 없습니다. 예를 들어 <code>int area = printTotalArea(144);</code>는 잘못된 코드입니다. 화면에 <code>144</code>가 보이도록 작성했어도, 이 함수는 정수 값을 반환하지 않기 때문입니다.</p>
+<h2 id="section-7">7. 지역 변수와 값 매개변수는 자기 호출의 값입니다</h2>
+<p>함수 본문 안에서 선언한 변수는 <strong>지역 변수</strong>입니다. 앞에서 본 <code>oneCardArea</code>와 <code>totalArea</code>는 계산 함수 안에서 사용하는 이름입니다. <code>main</code>에서는 그 이름을 직접 사용할 수 없습니다. 필요한 결과를 <code>return</code>으로 받는 이유가 여기에 있습니다.</p>
+<p>이번에 사용하는 보통의 지역 변수는 선언된 블록을 벗어나면 더 이상 사용할 수 없습니다. 함수 안의 <code>if</code> 블록에 선언한 변수라면 그 블록 밖에서도 직접 사용할 수 없습니다. 이전에 배운 중괄호의 범위가 함수 본문에도 적용된다고 생각하면 됩니다.</p>
+<p>매개변수도 함수 안에서 사용하는 이름입니다. 이번에 배우는 <code>int</code> 매개변수는 호출할 때 전달한 정수 값을 받아 초기화되는 별도의 변수입니다. 이 방식을 <strong>값 전달</strong>이라고 부릅니다. 이 예제처럼 정수 값을 전달하면 함수 안에서 매개변수를 바꾸어도 호출한 쪽의 원래 변수가 바뀌지 않습니다. <a href="https://learn.microsoft.com/en-us/cpp/cpp/functions-cpp?view=msvc-170#function-parameters-and-arguments">Microsoft의 함수 설명</a>에서도 값 전달의 기본 동작을 확인할 수 있습니다.</p>
+<p>이를 직접 확인하는 완성 프로그램입니다. 파일 이름은 <code>02_local_copy.cpp</code>입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">addOne</span><span class="hljs-params">(<span class="hljs-type">int</span> number)</span>
+</span>{
+    <span class="hljs-local">number</span> = <span class="hljs-local">number</span> + <span class="hljs-number">1</span>;
+    <span class="hljs-control">return</span> <span class="hljs-local">number</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">number</span> = <span class="hljs-number">7</span>;
+    <span class="hljs-type">int</span> <span class="hljs-local">nextNumber</span> = <span class="hljs-title function_">addOne</span>(<span class="hljs-local">number</span>);
+
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Original: &quot;</span> &lt;&lt; <span class="hljs-local">number</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Returned: &quot;</span> &lt;&lt; <span class="hljs-local">nextNumber</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>예상 출력은 다음과 같습니다.</p>
+<pre><code class="language-plaintext">Original: 7
+Returned: 8
+</code></pre>
+<p>여기서는 차이를 확인하려고 일부러 두 위치에서 <code>number</code>라는 이름을 썼습니다. <code>main</code>의 <code>number</code>와 <code>addOne</code>의 매개변수 <code>number</code>는 서로 다른 변수입니다. 이름이 같다고 하나의 변수를 공유하는 것이 아닙니다.</p>
+<p>호출할 때 <code>main</code>의 값 <code>7</code>로 매개변수를 초기화합니다. 함수 안의 대입은 매개변수만 <code>8</code>로 바꿉니다. 이어서 <code>8</code>을 반환하고, <code>main</code>은 그 값을 <code>nextNumber</code>에 저장합니다. 따라서 원래 값과 반환된 값을 동시에 확인할 수 있습니다.</p>
+<p>원래 변수에 새 값을 반영하고 싶다면 호출하는 쪽에서 <code>number = addOne(number);</code>라고 명시적으로 대입하면 됩니다. 이때 원래 값이 바뀌는 이유는 함수 안의 대입이 아니라 <strong>호출한 쪽에서 반환값을 다시 저장했기 때문</strong>입니다.</p>
+<p>지역 변수의 이름을 바깥에서 사용할 수 없다고 해서 계산 결과까지 사라져 쓸 수 없는 것은 아닙니다. 정수 반환값은 호출한 곳으로 전달됩니다. 첫 예제의 지역 변수 <code>totalArea</code>가 맡은 작업을 마친 뒤에도 <code>main</code>의 <code>smallCardArea</code>에는 전달받은 값 <code>144</code>가 남습니다.</p>
+<h2 id="section-8">8. 선언은 사용 방법을 알리고, 정의는 본문을 제공합니다</h2>
+<p>첫 프로그램에서는 계산 함수 전체를 <code>main</code> 위에 작성했습니다. 그래서 <code>main</code>에서 호출을 만났을 때 컴파일러가 함수의 이름과 자료형 정보를 이미 알 수 있었습니다.</p>
+<p>반대로 <code>main</code>을 먼저 보여 주고 자세한 함수 본문을 아래에 배치하고 싶을 수도 있습니다. 이때는 호출보다 앞에 <strong>함수 선언</strong>을 적습니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span></span>;
+</code></pre>
+<p>함수의 첫 줄과 비슷하지만 본문이 없고 세미콜론으로 끝납니다. “정수 두 개를 받아 정수를 돌려주는 함수가 있다”는 정보를 알립니다. 실제 계산 방법은 들어 있지 않습니다.</p>
+<p>중괄호와 본문까지 작성하면 <strong>함수 정의</strong>입니다. 정의도 함수에 대한 정보를 알리므로 선언의 역할을 함께 합니다. 따라서 함수 정의를 호출보다 앞에 썼다면, 같은 함수의 별도 선언을 반드시 추가할 필요는 없습니다. <a href="https://learn.microsoft.com/en-us/cpp/cpp/declarations-and-definitions-cpp?view=msvc-170">Microsoft의 선언과 정의 설명</a>에서 두 역할을 더 살펴볼 수 있습니다.</p>
+<p>다음 완성 프로그램은 선언을 먼저 쓰는 배치입니다. 파일 이름은 <code>03_declaration_definition.cpp</code>입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span></span>;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTotalArea</span><span class="hljs-params">(<span class="hljs-type">int</span> totalArea)</span></span>;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">totalArea</span> = <span class="hljs-title function_">calculateCardArea</span>(<span class="hljs-number">6</span>, <span class="hljs-number">4</span>);
+    <span class="hljs-title function_">printTotalArea</span>(<span class="hljs-local">totalArea</span>);
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span>
+</span>{
+    <span class="hljs-control">return</span> <span class="hljs-local">sideLength</span> * <span class="hljs-local">sideLength</span> * <span class="hljs-local">cardCount</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTotalArea</span><span class="hljs-params">(<span class="hljs-type">int</span> totalArea)</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Total area: &quot;</span> &lt;&lt; <span class="hljs-local">totalArea</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>예상 출력은 <code>Total area: 144</code> 한 줄입니다. 선언 자체가 계산을 실행하지는 않습니다. <code>main</code>에서 두 함수를 차례로 호출할 때 작업이 이루어집니다.</p>
+<p>지금 다루는 일반 함수에서는 호출 위치보다 앞에서 해당 함수의 선언을 볼 수 있어야 합니다. 정의를 아래로 옮기고 위의 선언까지 지우면 “아래에 있으니 나중에 알아서 찾겠지”라고 기대할 수 없습니다. 이름을 알 수 없다는 컴파일 오류가 발생할 수 있습니다.</p>
+<p>선언과 정의를 나누어 적을 때는 함수 이름, 반환형, 매개변수의 자료형과 순서를 일치시키세요. 선언의 매개변수 이름 자체는 정의와 달라도 되지만, 처음에는 같은 이름으로 작성하면 읽고 수정하기 쉽습니다.</p>
+<p>또한 이번에 만드는 일반 함수의 정의는 <code>main</code>의 중괄호 밖에 둡니다. <code>main</code> 안에 다른 일반 함수의 정의를 중첩해서 넣지 않습니다. 별도 선언을 사용할지, 정의를 위에 둘지는 배치 선택입니다. 어느 쪽이든 함수를 호출할 때 필요한 정보가 먼저 보여야 한다는 원칙은 같습니다.</p>
+<h2 id="section-9">9. 입력 검사, 계산, 출력의 경계를 정해 봅시다</h2>
+<p>이제 사용자에게 카드 한 변의 길이와 개수를 입력받겠습니다. 한 변의 길이는 <code>1</code>부터 <code>30</code>, 개수는 <code>1</code>부터 <code>20</code>까지 허용합니다. 이 범위에서 최대 면적은 <code>18000</code>이므로 이번 예제의 정수 계산 범위를 작고 분명하게 유지할 수 있습니다.</p>
+<p>작업을 세 가지로 설명할 수 있습니다.</p>
+<ul>
+<li>입력이 정수 두 개이며 허용 범위에 들어오는지 확인하기</li>
+<li>유효한 길이와 개수로 면적 계산하기</li>
+<li>길이, 개수, 면적을 정해진 형식으로 출력하기</li>
+</ul>
+<p>여기서는 입력과 검사를 <code>main</code>에 남깁니다. 계산은 <code>calculateCardArea</code>, 출력은 <code>printLayout</code>이 담당합니다. 입력받는 두 변수까지 다른 함수에서 처리하려고 아직 배우지 않은 전달 방법을 끌어올 필요는 없습니다. <strong>지금 아는 도구로 경계를 명료하게 만드는 것</strong>이 목표입니다.</p>
+<p>계산 함수의 사용 조건도 정합니다. 호출하는 쪽이 허용 범위를 확인한 값만 전달합니다. 함수가 자동으로 모든 잘못된 값을 고쳐 주는 것은 아닙니다. 다른 프로그램에서 이 함수를 가져다 쓴다면 입력 조건도 함께 확인해야 합니다.</p>
+<p>다음은 완성 프로그램 <code>04_checked_layout.cpp</code>입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span>
+</span>{
+    <span class="hljs-control">return</span> <span class="hljs-local">sideLength</span> * <span class="hljs-local">sideLength</span> * <span class="hljs-local">cardCount</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printLayout</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount, <span class="hljs-type">int</span> totalArea)</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Side length: &quot;</span> &lt;&lt; <span class="hljs-local">sideLength</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Card count: &quot;</span> &lt;&lt; <span class="hljs-local">cardCount</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Total area: &quot;</span> &lt;&lt; <span class="hljs-local">totalArea</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">sideLength</span> = <span class="hljs-number">0</span>;
+    <span class="hljs-type">int</span> <span class="hljs-local">cardCount</span> = <span class="hljs-number">0</span>;
+
+    <span class="hljs-control">if</span> (!(<span class="hljs-namespace">std</span>::<span class="hljs-global">cin</span> &gt;&gt; <span class="hljs-local">sideLength</span> &gt;&gt; <span class="hljs-local">cardCount</span>))
+    {
+        <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Enter two integers.\n&quot;</span>;
+        <span class="hljs-control">return</span> <span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-control">if</span> (<span class="hljs-local">sideLength</span> &lt; <span class="hljs-number">1</span> || <span class="hljs-local">sideLength</span> &gt; <span class="hljs-number">30</span> ||
+        <span class="hljs-local">cardCount</span> &lt; <span class="hljs-number">1</span> || <span class="hljs-local">cardCount</span> &gt; <span class="hljs-number">20</span>)
+    {
+        <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Allowed ranges: side 1-30, count 1-20.\n&quot;</span>;
+        <span class="hljs-control">return</span> <span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-type">int</span> <span class="hljs-local">totalArea</span> = <span class="hljs-title function_">calculateCardArea</span>(<span class="hljs-local">sideLength</span>, <span class="hljs-local">cardCount</span>);
+    <span class="hljs-title function_">printLayout</span>(<span class="hljs-local">sideLength</span>, <span class="hljs-local">cardCount</span>, <span class="hljs-local">totalArea</span>);
+}
+</code></pre>
+<p>입력으로 <code>6 4</code>를 주면 예상 출력은 다음과 같습니다.</p>
+<pre><code class="language-plaintext">Side length: 6
+Card count: 4
+Total area: 144
+</code></pre>
+<p><code>0 4</code>처럼 범위를 벗어나면 범위 안내문을 출력하고 종료합니다. <code>x 4</code>처럼 정수로 읽을 수 없는 입력이면 정수 두 개를 입력하라는 안내문을 출력하고 종료합니다. 실패한 경우에는 계산 함수까지 진행하지 않습니다.</p>
+<p>이 입력 코드는 스트림에서 정수 두 개를 읽는 예제입니다. 한 줄 전체가 정확히 두 정수로만 이루어졌는지까지 검사하지는 않습니다. 예를 들어 두 정수 뒤에 남은 문자를 검사하는 코드는 포함하지 않았습니다. 여기서는 안내한 형식의 입력과 범위 검사, 그리고 함수로 이어지는 흐름에 집중합니다.</p>
+<h2 id="section-10">10. 함수로 나눌지 판단하는 세 질문</h2>
+<p>첫째, <strong>이 묶음에 구체적인 이름을 붙일 수 있나요?</strong> “카드 면적 계산”은 무엇을 하는지 알 수 있지만, “중간 처리”는 본문을 열기 전에는 알기 어렵습니다. 이름이 계속 모호하다면 서로 다른 일이 한데 들어 있는지 확인해 보세요.</p>
+<p>둘째, <strong>무엇을 받아 무엇을 돌려주는지 분명한가요?</strong> 면적 계산에는 길이와 개수가 필요합니다. 화면에 어떤 제목을 표시할지는 필요하지 않습니다. 계산과 관계없는 입력이 계속 늘어난다면 함수가 여러 책임을 맡고 있을 수 있습니다.</p>
+<p>셋째, <strong>바뀌는 이유가 같은 코드끼리 묶였나요?</strong> 카드 면적 공식이 바뀌는 것과 출력 문구를 바꾸는 것은 다른 변경입니다. 분리하면 어느 부분을 고칠지 더 쉽게 알 수 있습니다. 재사용 횟수가 아직 한 번이어도 이 구분이 유용할 수 있습니다.</p>
+<p>반대로 이름을 붙여도 의미가 더 선명해지지 않고, 작은 계산을 확인하려고 여러 함수를 계속 오가야 한다면 지나치게 나눈 것일 수 있습니다. 한 줄 함수가 항상 좋은 것도, 긴 함수가 항상 나쁜 것도 아닙니다. 지금은 줄 수 제한을 외우기보다 책임과 값의 흐름을 설명하는 연습을 합니다.</p>
+<h2 id="section-11">11. 연습 문제</h2>
+<p>정답을 보기 전에 종이에 값의 이동을 적어 보세요. 오류 문제는 정상 예제와 구분해서 실행합니다. 실패하도록 만든 파일의 빌드 실패는 이 연습에서 관찰하려는 결과입니다.</p>
+<h3 id="section-12">문제 1. 함수의 약속 읽기</h3>
+<p>첫 번째 완성 프로그램의 <code>calculateCardArea</code>에 대해 답하세요.</p>
+<ol>
+<li>반환형과 매개변수 두 개의 이름은 무엇인가요?</li>
+<li><code>calculateCardArea(5, 2)</code>의 인수와 반환값은 무엇인가요?</li>
+<li>이 호출만 적었을 때 화면에 숫자가 표시되나요?</li>
+<li>호출한 <code>main</code>에서 <code>oneCardArea</code>라는 지역 변수를 직접 읽을 수 있나요?</li>
+</ol>
+<h3 id="section-13">문제 2. 연습 시간 계산하기</h3>
+<p>횟수와 한 회의 시간을 받아 전체 연습 시간을 돌려주는 <code>calculatePracticeMinutes</code>를 작성하세요. 두 매개변수와 반환형은 <code>int</code>입니다. 이번에는 쉬는 시간을 포함하지 않으며, 횟수는 <code>1</code>부터 <code>10</code>, 한 회의 시간은 <code>1</code>부터 <code>30</code>으로 제한합니다.</p>
+<p>완성 프로그램에서 <code>5</code>회씩 <code>8</code>분인 계획과 <code>3</code>회씩 <code>6</code>분인 계획을 각각 계산한 뒤 두 결과를 한 줄씩 출력하세요. 계산 함수 안에서는 출력하지 않습니다.</p>
+<h3 id="section-14">문제 3. 출력한 숫자를 다음 계산에 쓰고 싶습니다</h3>
+<p>아래 함수는 값을 두 배로 만들어 출력합니다. 이 숫자를 호출한 쪽에서 저장하고, 거기에 <code>1</code>을 더한 값도 구하고 싶습니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">showTwice</span><span class="hljs-params">(<span class="hljs-type">int</span> value)</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; value * <span class="hljs-number">2</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>반환값을 제공하는 <code>twice</code>로 바꾸고, <code>7</code>을 전달해 얻은 값과 그 값에 <code>1</code>을 더한 값을 출력하는 완성 프로그램을 작성하세요. 왜 <code>int doubled = showTwice(7);</code>로는 해결되지 않는지도 설명하세요.</p>
+<h3 id="section-15">문제 4. 같은 이름이면 같은 변수일까요?</h3>
+<p><code>02_local_copy.cpp</code>를 다시 보세요. 함수 안에서 <code>number</code>를 바꾸었는데도 첫 출력이 <code>7</code>인 이유를 설명하세요. 또 <code>main</code>에서 <code>int nextNumber = addOne(number);</code> 다음 줄에 <code>number = nextNumber;</code>를 추가하면 두 출력이 각각 어떻게 달라지는지 예측하세요.</p>
+<h3 id="section-16">문제 5. 지역 변수에 접근한 오류 고치기</h3>
+<p>다음 완성 프로그램 <code>ex05_scope_error.cpp</code>는 의도적으로 컴파일 오류를 포함합니다. 실행하기 전에 어느 이름이 문제인지 찾아보세요.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateFrameWidth</span><span class="hljs-params">(<span class="hljs-type">int</span> width)</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">margin</span> = <span class="hljs-number">2</span>;
+    <span class="hljs-control">return</span> width + <span class="hljs-local">margin</span> * <span class="hljs-number">2</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">margin</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>테두리 안쪽 너비가 <code>10</code>이고 좌우 여백이 각각 <code>2</code>일 때 전체 너비를 출력하도록 고치세요. 여백을 전역 변수로 옮기지 말고, 함수가 돌려주는 값을 사용하세요.</p>
+<h3 id="section-17">문제 6. 선언은 있는데 실행 파일이 만들어지지 않습니다</h3>
+<p>다음 완성 프로그램 <code>ex06_missing_definition.cpp</code>에는 함수 선언과 호출이 있습니다. 하지만 의도적으로 정의를 빠뜨렸습니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> boxWidth, <span class="hljs-type">int</span> boxCount)</span></span>;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-title function_">calculateShelfLength</span>(<span class="hljs-number">12</span>, <span class="hljs-number">4</span>) &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>정수 두 개를 곱한 선반 길이를 돌려주는 정의를 추가하세요. 또 이 문제와 문제 5의 오류가 어떻게 다른지 설명하세요. 상자 너비는 <code>1</code>부터 <code>30</code>, 상자 개수는 <code>1</code>부터 <code>10</code>의 작은 정수라고 가정합니다.</p>
+<h2 id="section-18">12. 정답과 해설</h2>
+<h3 id="section-19">정답 1. 선언된 이름과 전달된 값을 구별합니다</h3>
+<p>반환형은 <code>int</code>이고 매개변수 이름은 <code>sideLength</code>, <code>cardCount</code>입니다. 호출의 인수는 순서대로 <code>5</code>, <code>2</code>이며, 한 장의 면적 <code>25</code>에 개수 <code>2</code>를 곱하므로 반환값은 <code>50</code>입니다.</p>
+<p>이 함수는 출력하지 않습니다. 반환값을 받는 코드와 <code>std::cout</code>을 사용하는 코드를 따로 작성해야 숫자를 볼 수 있습니다. <code>oneCardArea</code>는 계산 함수의 지역 변수이므로 <code>main</code>에서 직접 읽을 수 없습니다. <code>main</code>은 함수가 반환한 전체 면적을 받아 사용합니다.</p>
+<h3 id="section-20">정답 2. 같은 계산을 두 입력에 재사용합니다</h3>
+<p>완성 프로그램 <code>ex02_practice_minutes.cpp</code>입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculatePracticeMinutes</span><span class="hljs-params">(<span class="hljs-type">int</span> roundCount, <span class="hljs-type">int</span> minutesPerRound)</span>
+</span>{
+    <span class="hljs-control">return</span> <span class="hljs-local">roundCount</span> * <span class="hljs-local">minutesPerRound</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">firstPlan</span> = <span class="hljs-title function_">calculatePracticeMinutes</span>(<span class="hljs-number">5</span>, <span class="hljs-number">8</span>);
+    <span class="hljs-type">int</span> <span class="hljs-local">secondPlan</span> = <span class="hljs-title function_">calculatePracticeMinutes</span>(<span class="hljs-number">3</span>, <span class="hljs-number">6</span>);
+
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">firstPlan</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">secondPlan</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>예상 출력은 첫 줄 <code>40</code>, 둘째 줄 <code>18</code>입니다. 횟수와 한 회의 시간은 매번 인수로 전달합니다. 함수 본문 안에 특정 계획의 숫자를 고정하지 않았으므로 동일한 계산 규칙을 두 계획에 사용할 수 있습니다.</p>
+<h3 id="section-21">정답 3. 계산 결과를 반환하고 출력은 호출한 쪽에서 합니다</h3>
+<p>완성 프로그램 <code>ex03_return_instead_of_output.cpp</code>입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">twice</span><span class="hljs-params">(<span class="hljs-type">int</span> value)</span>
+</span>{
+    <span class="hljs-control">return</span> value * <span class="hljs-number">2</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">doubled</span> = <span class="hljs-title function_">twice</span>(<span class="hljs-number">7</span>);
+    <span class="hljs-type">int</span> <span class="hljs-local">nextValue</span> = <span class="hljs-local">doubled</span> + <span class="hljs-number">1</span>;
+
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">doubled</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">nextValue</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>예상 출력은 첫 줄 <code>14</code>, 둘째 줄 <code>15</code>입니다. 반환형을 <code>int</code>로 바꾸고, 계산한 값을 <code>return</code>으로 돌려줍니다. <code>main</code>은 반환값을 <code>doubled</code>에 저장하므로 다음 계산에서도 사용할 수 있습니다.</p>
+<p>원래의 <code>showTwice</code>는 반환형이 <code>void</code>입니다. 화면으로 숫자를 보내는 동작은 있지만, 정수 변수를 초기화할 반환값은 없습니다. 따라서 <code>int doubled = showTwice(7);</code>는 잘못된 코드입니다.</p>
+<h3 id="section-22">정답 4. 반환값을 대입할 때 원래 변수도 바뀝니다</h3>
+<p><code>addOne</code>의 매개변수는 <code>main</code>의 변수와 다른 변수이며, 호출 시점의 정수 값으로 초기화됩니다. 함수 안에서 변경한 것은 그 매개변수입니다. 그래서 원래 프로그램은 <code>Original: 7</code>, <code>Returned: 8</code>을 출력합니다.</p>
+<p><code>number = nextNumber;</code>를 추가하면 호출한 쪽에서 반환받은 <code>8</code>을 원래 변수에 대입합니다. 그 뒤의 예상 출력은 <code>Original: 8</code>, <code>Returned: 8</code>입니다. 함수가 원래 변수를 직접 고친 것이 아니라, <code>main</code>에 추가한 대입문이 값을 바꾸었다고 설명할 수 있어야 합니다.</p>
+<h3 id="section-23">정답 5. 지역 변수 이름 대신 반환값을 사용합니다</h3>
+<p><code>main</code>에서 사용한 <code>margin</code>이 문제입니다. 이 이름은 <code>calculateFrameWidth</code> 본문 안에서 선언되었으며, <code>main</code>에서는 사용할 수 없습니다. 아직 실행하기 전, 컴파일 단계에서 이름을 찾지 못하는 오류입니다. 정확한 진단 문구는 컴파일러마다 다를 수 있습니다.</p>
+<p>완성 프로그램 <code>ex05_scope_fixed.cpp</code>입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateFrameWidth</span><span class="hljs-params">(<span class="hljs-type">int</span> width)</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">margin</span> = <span class="hljs-number">2</span>;
+    <span class="hljs-control">return</span> width + <span class="hljs-local">margin</span> * <span class="hljs-number">2</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> <span class="hljs-local">frameWidth</span> = <span class="hljs-title function_">calculateFrameWidth</span>(<span class="hljs-number">10</span>);
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">frameWidth</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+</code></pre>
+<p>예상 출력은 <code>14</code> 한 줄입니다. 함수에 안쪽 너비 <code>10</code>을 전달하고 계산된 전체 너비를 받습니다. 여백 변수를 바깥으로 꺼내지 않아도 필요한 결과를 전달할 수 있습니다.</p>
+<h3 id="section-24">정답 6. 선언에 대응하는 정의를 제공합니다</h3>
+<p>완성 프로그램 <code>ex06_definition_added.cpp</code>입니다.</p>
+<pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> boxWidth, <span class="hljs-type">int</span> boxCount)</span></span>;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-title function_">calculateShelfLength</span>(<span class="hljs-number">12</span>, <span class="hljs-number">4</span>) &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> boxWidth, <span class="hljs-type">int</span> boxCount)</span>
+</span>{
+    <span class="hljs-control">return</span> <span class="hljs-local">boxWidth</span> * <span class="hljs-local">boxCount</span>;
+}
+</code></pre>
+<p>예상 출력은 <code>48</code> 한 줄입니다. 위의 선언이 호출에 필요한 정보를 제공하고, 아래의 정의가 실제 계산 방법을 제공합니다. 선언만으로는 함수 본문이 저절로 만들어지지 않습니다.</p>
+<p>문제 5는 호출한 코드에서 변수 이름을 알 수 없는 컴파일 오류입니다. 문제 6에서는 선언 덕분에 함수의 이름, 매개변수, 반환형을 알 수 있습니다. 그러나 실행 파일에 연결해야 할 실제 정의가 없습니다. 일반적인 빌드 도구에서는 링크 단계에서 정의를 찾을 수 없다는 오류가 나타납니다.</p>
+<p>빌드를 한 번에 수행하는 편집기에서는 둘 다 “빌드 실패”로 보일 수 있습니다. 메시지에 선언되지 않은 이름이 나오는지, 연결할 정의를 찾지 못했다는 내용이 나오는지 읽는 습관을 들이세요. 두 경우의 해결 방법은 다릅니다.</p>
+<p>Visual Studio의 출력 창에서 문제 5는 컴파일 오류, 문제 6은 연결 오류로 구분해 읽습니다. 단계를 직접 나누어 확인하려면 Visual Studio의 x64 Native Tools Command Prompt를 열고 예제 폴더로 이동합니다. <code>cl /nologo /std:c++20 /EHsc /utf-8 /c ex06_missing_definition.cpp /Fomissing.obj</code>는 객체 파일까지만 만드는 명령입니다. 이어서 <code>cl /nologo missing.obj /Femissing.exe</code>를 실행하면 호출한 함수의 정의가 없어 링크가 실패할 것으로 예상됩니다. <code>cl</code>을 찾지 못한다면 일반 명령 프롬프트가 아니라 Visual Studio 개발자 명령 프롬프트인지 확인하세요. <code>/c</code>의 동작은 <a href="https://learn.microsoft.com/en-us/cpp/build/reference/c-compile-without-linking?view=msvc-170">Microsoft의 컴파일 전용 옵션 설명</a>에서 확인할 수 있습니다.</p>
+<h2 id="section-25">마무리: 함수의 경계에는 값과 약속이 있습니다</h2>
+<p>함수를 만들 때는 본문부터 잘라 옮기기보다 다음 문장을 먼저 완성해 보세요. “이 함수는 무엇을 받아, 어떤 일을 하고, 무엇을 돌려준다.” 반환값이 없다면 무엇을 수행하고 끝나는지 설명하면 됩니다.</p>
+<p>마지막으로 코드 없이 다음을 말할 수 있는지 확인해 보세요.</p>
+<ul>
+<li>매개변수는 함수가 받는 자리이고, 인수는 호출할 때 건네는 값입니다.</li>
+<li><code>return</code>은 현재 함수를 끝내며, 반환값이 있으면 호출한 곳에 전달합니다.</li>
+<li><code>std::cout</code>으로 출력했다고 정수 반환값이 생기는 것은 아닙니다.</li>
+<li><code>void</code>는 반환값이 없다는 뜻이며, 매개변수는 있을 수 있습니다.</li>
+<li>이번의 정수 값 매개변수를 바꾸어도 호출한 쪽의 변수는 자동으로 바뀌지 않습니다.</li>
+<li>지역 변수는 자신이 선언된 범위에서 사용합니다.</li>
+<li>호출 전에는 함수의 선언을 볼 수 있어야 하고, 실제 호출할 함수의 정의도 필요합니다.</li>
+<li>나눌 기준은 정해진 줄 수보다 함수가 맡은 일과 값의 흐름입니다.</li>
+</ul>
+<p>이제 앞에서 만든 작은 프로그램을 다시 보면서, 계산 한 가지에 이름을 붙이고 필요한 값을 매개변수로 전달해 보세요. 한 번에 모든 부분을 함수로 바꾸지 않아도 됩니다. 반환받은 값이 원래 프로그램과 같은 결과를 만드는지 확인하면서 경계를 하나씩 정하면 됩니다.</p>
+<h2 id="section-26">예제 내려받기</h2>
+<p>각 파일은 별도 프로젝트로 실행하거나, 프로젝트에 실행할 <code>.cpp</code> 파일 하나만 포함하세요. 문제 5의 범위 오류 파일과 문제 6의 정의 누락 파일은 의도적으로 빌드에 실패하는 연습 예제입니다. 정답 파일과 구분하여 사용하세요.</p>
+<ul>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/01_card_area.cpp">카드 면적 계산</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/02_local_copy.cpp">값 매개변수와 원래 변수</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/03_declaration_definition.cpp">선언과 정의를 나눈 배치</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/04_checked_layout.cpp">입력 검사·계산·출력</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/ex02_practice_minutes.cpp">문제 2 정답: 연습 시간 계산</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/ex03_return_instead_of_output.cpp">문제 3 정답: 출력 대신 반환</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/ex05_scope_error.cpp">문제 5: 지역 변수 범위 오류 (컴파일 실패 예제)</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/ex05_scope_fixed.cpp">문제 5 정답: 반환값 사용</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/ex06_missing_definition.cpp">문제 6: 정의 누락 (링크 실패 예제)</a></li>
+<li><a href="/cpp-jeongseok/assets/examples/02-1/ex06_definition_added.cpp">문제 6 정답: 정의 추가</a></li>
+</ul>
+</div><section class="lesson-end"><span>02-1 학습을 마쳤습니다</span><h2>함수의 역할을 직접 설명해 보세요</h2><p>무엇을 받아 어떤 일을 하고 무엇을 돌려주는지 확인하며, 앞에서 만든 프로그램에 적용해 보세요.</p><a href="/cpp-jeongseok/lessons/console-program/">← 01-4 작은 콘솔 프로그램</a><br><a href="/cpp-jeongseok/#curriculum">전체 학습 목차로 돌아가기 →</a></section><section class="comments" aria-labelledby="comments-heading"><h2 id="comments-heading">함께 이야기하기</h2>
+<p>질문이나 의견을 남겨 주세요. GitHub 계정으로 로그인하면 댓글을 작성할 수 있습니다.<br>댓글과 반응은 공개 GitHub Discussions에 저장됩니다.</p>
+<div class="giscus" data-comments-repo="29thnight/cpp-jeongseok" data-comments-repo-id="R_kgDOVLkfGw" data-comments-category="Announcements" data-comments-category-id="DIC_kwDOVLkfG84DIkjH"></div>
+<p class="comments-status" role="status">댓글을 불러오는 중입니다…</p>
+<noscript><p>댓글을 보려면 JavaScript를 켜 주세요.</p></noscript>
+<p class="comments-help">댓글이 보이지 않나요? <a href="https://github.com/29thnight/cpp-jeongseok/discussions">GitHub Discussions에서 확인하기 ↗</a></p>
+</section></article><aside class="article-sidebar"><div class="sticky"><p class="eyebrow">IN THIS CHAPTER</p><nav aria-label="이 글의 목차"><h2>이 글의 목차</h2><a href="#section-1">1. 줄 수보다 맡은 일을 먼저 봅니다</a><a href="#section-2">2. 함수는 입력을 받아 일을 하고 결과를 건넵니다</a><a href="#section-3">3. 처음 만드는 계산 함수</a><a href="#section-4">4. 매개변수는 받는 자리, 인수는 건네는 값입니다</a><a href="#section-5">5. <code>return</code>과 화면 출력은 별개의 일입니다</a><a href="#section-6">6. 값을 돌려주지 않는 함수에는 <code>void</code>를 씁니다</a><a href="#section-7">7. 지역 변수와 값 매개변수는 자기 호출의 값입니다</a><a href="#section-8">8. 선언은 사용 방법을 알리고, 정의는 본문을 제공합니다</a><a href="#section-9">9. 입력 검사, 계산, 출력의 경계를 정해 봅시다</a><a href="#section-10">10. 함수로 나눌지 판단하는 세 질문</a><a href="#section-11">11. 연습 문제</a><a href="#section-18">12. 정답과 해설</a><a href="#section-25">마무리: 함수의 경계에는 값과 약속이 있습니다</a><a href="#section-26">예제 내려받기</a></nav><div class="sidebar-note"><span>제1판 · C++20</span><p>함수의 이름과 값의 흐름으로<br>맡은 일을 설명해 보세요.</p></div><a class="source-link" href="https://github.com/29thnight/cpp-jeongseok/blob/main/content/functions-basics.md">이 글의 원문 보기 ↗</a></div></aside></main><footer><div class="wrap footer-inner"><a class="footer-brand" href="/cpp-jeongseok/">C++의 정석<span>기초부터 설계까지, 오래 남는 이해.</span></a><div><a href="https://github.com/29thnight/cpp-jeongseok">소스 저장소 ↗</a><p>© 2026 29thnight · 제1판 초안</p><a class="font-credit" href="/cpp-jeongseok/assets/fonts/OFL.txt">서체: NAVER D2Coding · OFL</a></div></div></footer></body></html>

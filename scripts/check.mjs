@@ -148,7 +148,7 @@ assert(readingHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(firstHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(readingHtml.includes('/cpp-jeongseok/lessons/first-execution/'));
-assert(homeHtml.includes('본편 7수업'));
+assert(homeHtml.includes('본편 8수업'));
 assert.equal([...readingHtml.matchAll(/<h1[ >]/g)].length,1);
 const readingBlocks=[...readingSource.matchAll(/```cpp\n([\s\S]*?)```/g)];
 const readingRendered=[...readingHtml.matchAll(/<pre><code class="[^"]*language-cpp[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
@@ -191,7 +191,7 @@ console.log('PASS: 01-1 approved code preservation, five exercise answers, navig
 const calculationHtml=readFileSync('docs/lessons/calculation-conversion/index.html','utf8');
 const calculationSource=readFileSync('content/calculation-conversion.md','utf8');
 const publishedChapters=JSON.parse(readFileSync('content/chapters.json','utf8')).filter(c=>c.status==='published');
-assert.equal(publishedChapters.length,8, 'Introduction plus seven published lessons');
+assert.equal(publishedChapters.length,9, 'Introduction plus eight published lessons');
 assert(publishedChapters.some(c=>c.number==='01-2'&&c.slug==='calculation-conversion'&&c.title==='계산과 변환'));
 assert.equal([...calculationHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(calculationHtml.includes(commentsHtml));
@@ -299,6 +299,73 @@ assert(consoleHtml.includes('hljs-local">quantity</span>'));
 assert(consoleHtml.includes('GCC 14.2.0'));
 assert(consoleHtml.includes('MSVC 및 Visual Studio'));
 console.log('PASS: 01-4 exact code/downloads, escaped prose, original illustration, privacy, navigation, comments, syntax colors and test limits');
+
+const functionsSource=readFileSync('content/functions-basics.md','utf8');
+const functionsHtml=readFileSync('docs/lessons/functions-basics/index.html','utf8');
+assert(publishedChapters.some(c=>c.number==='02-1'&&c.slug==='functions-basics'&&c.title==='함수를 나누는 기준'));
+assert.equal([...functionsHtml.matchAll(/<h1[ >]/g)].length,1);
+assert(functionsHtml.includes(commentsHtml));
+assert(homeHtml.includes('/cpp-jeongseok/lessons/functions-basics/'));
+assert(consoleHtml.includes('/cpp-jeongseok/lessons/functions-basics/'));
+assert(!consoleHtml.includes('다음 수업은 준비 중입니다.'));
+assert(functionsHtml.includes('/cpp-jeongseok/lessons/console-program/'));
+const functionsBlocks=[...functionsSource.matchAll(/^```(cpp|text)\n([\s\S]*?)^```/gm)];
+const functionsRendered=[...functionsHtml.matchAll(/<pre><code class="[^"]*language-(cpp|plaintext)[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
+assert.equal(functionsBlocks.filter(b=>b[1]==='cpp').length,17);
+assert.equal(functionsBlocks.length,functionsRendered.length);
+for(let i=0;i<functionsBlocks.length;i++){
+ assert.equal(functionsRendered[i][1],functionsBlocks[i][1]==='cpp'?'cpp':'plaintext');
+ assert.equal(decode(functionsRendered[i][2].replace(/<[^>]*>/g,'')).trimEnd(),functionsBlocks[i][2].trimEnd(),`02-1 block ${i+1} exact text`);
+}
+for(const n of [1,2,3,4,5,6]){
+ assert(functionsSource.includes(`### 문제 ${n}.`));
+ assert(functionsSource.includes(`### 정답 ${n}.`));
+}
+const functionsFiles=['01_card_area.cpp','02_local_copy.cpp','03_declaration_definition.cpp','04_checked_layout.cpp','ex02_practice_minutes.cpp','ex03_return_instead_of_output.cpp','ex05_scope_error.cpp','ex05_scope_fixed.cpp','ex06_missing_definition.cpp','ex06_definition_added.cpp'];
+const functionsPrograms=functionsBlocks.filter(b=>b[1]==='cpp'&&b[2].includes('int main()'));
+assert.equal(functionsPrograms.length,10);
+for(const dir of ['assets/examples/02-1','docs/assets/examples/02-1']){
+ assert.deepEqual(readdirSync(dir).sort(),[...functionsFiles].sort(),'Only the ten educational C++ source files may be published');
+ for(const file of functionsFiles){
+  const program=readFileSync(`${dir}/${file}`,'utf8');
+  assert(functionsPrograms.some(b=>b[2]===program),`02-1 ${file} must match a complete source block exactly`);
+  assert(functionsHtml.includes(`/cpp-jeongseok/assets/examples/02-1/${file}`));
+ }
+}
+assert(functionsHtml.includes('컴파일 실패 예제'));
+assert(functionsHtml.includes('링크 실패 예제'));
+assert(functionsHtml.includes('의도적으로 빌드에 실패하는 연습 예제'));
+const functionsFigures=[...functionsHtml.matchAll(/<figure class="concept-figure">([\s\S]*?)<\/figure>/g)];
+assert.equal(functionsFigures.length,1);
+const functionsFigure=functionsFigures[0][1];
+const functionsImage='/cpp-jeongseok/assets/illustrations/02-1-function-workbench.webp';
+assert(functionsFigure.includes(`href="${functionsImage}"`));
+assert(functionsFigure.includes(`src="${functionsImage}"`));
+assert(functionsFigure.includes('width="1200" height="800"'));
+assert(functionsFigure.includes('loading="lazy"')&&functionsFigure.includes('decoding="async"'));
+assert(/alt="[^"]{20,}"/.test(functionsFigure));
+assert(functionsFigure.includes('AI 생성 개념 일러스트'));
+assert(functionsFigure.includes('실제 메모리 구조나 실행 장치를 나타내는 그림은 아닙니다.'));
+assert(readFileSync('assets/illustrations/02-1-function-workbench.webp').equals(readFileSync('docs/assets/illustrations/02-1-function-workbench.webp')));
+for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','[ILLUSTRATION]','/workspace/','CHECKPOINT','manifest.json']){
+ assert(!functionsSource.includes(marker),`02-1 source: unexpected private marker ${marker}`);
+ assert(!functionsHtml.includes(marker),`02-1 HTML: unexpected private marker ${marker}`);
+}
+assert(functionsSource.includes('Visual Studio의 MSVC와 C++20'));
+assert(functionsSource.includes('ISO C++20 표준(/std:c++20)'));
+assert(functionsSource.includes('x64 Native Tools Command Prompt'));
+for(const command of ['cl /nologo /std:c++20 /EHsc /utf-8 /c ex06_missing_definition.cpp /Fomissing.obj','cl /nologo missing.obj /Femissing.exe']){
+ assert(functionsSource.includes('`'+command+'`'));
+ assert(functionsHtml.includes('<code>'+command+'</code>'));
+}
+assert(!/GCC|g\+\+|Clang|clang\+\+|UBSan/.test(functionsSource),'02-1 must retain the approved MSVC lesson baseline');
+assert(functionsHtml.includes('hljs-global">cout</span>'));
+assert(functionsHtml.includes('hljs-global">cin</span>'));
+assert(functionsHtml.includes('hljs-local">sideLength</span>'));
+assert(functionsHtml.includes('hljs-title function_">calculateCardArea</span>'));
+assert(functionsHtml.includes('&lt;iostream&gt;'));
+assert(!/<(?:iostream|limits)>/.test(functionsHtml));
+console.log('PASS: 02-1 exact 17 C++ blocks and outputs, six exercises/answers, ten source-only downloads, original figure, privacy, MSVC baseline/commands, navigation, comments and syntax colors');
 
 // Course policy: no strikethrough; range tildes must survive Markdown parsing.
 for (const file of html) {
