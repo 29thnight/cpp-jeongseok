@@ -148,7 +148,7 @@ assert(readingHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(firstHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(readingHtml.includes('/cpp-jeongseok/lessons/first-execution/'));
-assert(homeHtml.includes('본편 6수업'));
+assert(homeHtml.includes('본편 7수업'));
 assert.equal([...readingHtml.matchAll(/<h1[ >]/g)].length,1);
 const readingBlocks=[...readingSource.matchAll(/```cpp\n([\s\S]*?)```/g)];
 const readingRendered=[...readingHtml.matchAll(/<pre><code class="[^"]*language-cpp[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
@@ -191,7 +191,7 @@ console.log('PASS: 01-1 approved code preservation, five exercise answers, navig
 const calculationHtml=readFileSync('docs/lessons/calculation-conversion/index.html','utf8');
 const calculationSource=readFileSync('content/calculation-conversion.md','utf8');
 const publishedChapters=JSON.parse(readFileSync('content/chapters.json','utf8')).filter(c=>c.status==='published');
-assert.equal(publishedChapters.length,7, 'Introduction plus six published lessons');
+assert.equal(publishedChapters.length,8, 'Introduction plus seven published lessons');
 assert(publishedChapters.some(c=>c.number==='01-2'&&c.slug==='calculation-conversion'&&c.title==='계산과 변환'));
 assert.equal([...calculationHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(calculationHtml.includes(commentsHtml));
@@ -269,3 +269,33 @@ assert(branchHtml.includes('giscus'));
 assert(branchHtml.includes('lessons/calculation-conversion/'));
 assert(calculationHtml.includes('lessons/branch-loop/'));
 console.log('PASS: 01-3 code preservation, six downloads, accessible original figure, privacy, navigation and comments');
+const consoleSource=readFileSync('content/console-program.md','utf8');
+const consoleHtml=readFileSync('docs/lessons/console-program/index.html','utf8');
+assert.equal((consoleHtml.match(/<h1>/g)||[]).length,1);
+assert(consoleHtml.includes(commentsHtml));
+assert(consoleHtml.includes('lessons/branch-loop/'));
+assert(branchHtml.includes('lessons/console-program/'));
+assert(homeHtml.includes('lessons/console-program/'));
+const consoleBlocks=[...consoleSource.matchAll(/^```cpp\n([\s\S]*?)^```/gm)];
+const consoleRendered=[...consoleHtml.matchAll(/<pre><code class="[^"]*language-cpp[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
+assert.equal(consoleBlocks.length,2);assert.equal(consoleRendered.length,2);
+for(let i=0;i<2;i++){
+ assert.equal(decode(consoleRendered[i][1].replace(/<[^>]*>/g,'')).trimEnd(),consoleBlocks[i][1].trimEnd());
+ assert.equal(readFileSync('assets/examples/01-4/'+['extraction_demo.cpp','order_counter.cpp'][i],'utf8'),consoleBlocks[i][1]);
+}
+for(const f of ['extraction_demo.cpp','order_counter.cpp','exercise6_price150.cpp']) {
+ assert(consoleHtml.includes('/cpp-jeongseok/assets/examples/01-4/'+f));
+ assert(readFileSync('assets/examples/01-4/'+f).equals(readFileSync('docs/assets/examples/01-4/'+f)));
+}
+for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','[ILLUSTRATION]','/workspace/','CHECKPOINT'])assert(!consoleHtml.includes(marker));
+assert(consoleHtml.includes('&lt;limits&gt;'));
+assert(!/<(?:limits|iostream|std::streamsize)>/.test(consoleHtml));
+assert(consoleHtml.includes('width="1200" height="800"'));
+assert(consoleHtml.includes('AI 생성 개념 일러스트'));
+assert(consoleHtml.includes('loading="lazy"')&&consoleHtml.includes('decoding="async"'));
+assert(consoleHtml.includes('hljs-global">cin</span>'));
+assert(consoleHtml.includes('hljs-global">cout</span>'));
+assert(consoleHtml.includes('hljs-local">quantity</span>'));
+assert(consoleHtml.includes('GCC 14.2.0'));
+assert(consoleHtml.includes('MSVC 및 Visual Studio'));
+console.log('PASS: 01-4 exact code/downloads, escaped prose, original illustration, privacy, navigation, comments, syntax colors and test limits');

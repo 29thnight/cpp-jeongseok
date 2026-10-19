@@ -56,6 +56,14 @@
     "tags": "분기 반복 조건 if else switch for while break continue 종료 C++20"
   },
   {
+    "number": "01-4",
+    "title": "작은 콘솔 프로그램",
+    "description": "입력 검증 · EOF · 경계값 · 반복 주문 처리 · 연습 6개와 해설",
+    "status": "published",
+    "slug": "console-program",
+    "tags": "콘솔 입력 검증 cin clear ignore EOF 경계값 반복 C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",
