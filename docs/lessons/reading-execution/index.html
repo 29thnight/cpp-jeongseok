@@ -1,15 +1,15 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>코드를 읽고 실행을 따라가기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=9f1bf6bd3f3d"><script src="/cpp-jeongseok/assets/app.js?v=e834a179b979" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">00-3 / READING EXECUTION</p><h1>코드를 읽고 실행을 따라가기</h1><p class="article-deck">실행할 문장과 지금까지의 출력을 나누어,<br>예상과 실제를 비교해 보기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-17">2026년 10월 17일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>READ. TRACE.<br>CHECK.</span><span class="article-symbol">&gt;_</span><small>STATEMENTS / OUTPUT / EVIDENCE</small></div><div class="prose"><p>코드는 읽었는데 어떤 결과가 나올지는 잘 모르겠다면, 어디부터 살펴보면 될까요? 우선 짧은 프로그램에서 지금 실행하는 문장과 지금까지 출력한 내용을 함께 적어 보겠습니다. 이번 수업에서는 새로운 문법을 많이 외우기보다, 예상한 결과를 실제 실행과 비교하는 방법을 익힙니다.</p>
-<p>앞 수업에서 만든 콘솔 프로젝트를 그대로 사용해도 됩니다. 예제는 하나씩 main이 들어 있는 기존 파일의 내용과 교체해서 실행하세요. 여러 예제의 main을 같은 프로젝트에 한꺼번에 추가하지 않습니다.</p>
+<p>앞 수업에서 만든 콘솔 프로젝트를 그대로 사용해도 됩니다. 예제는 하나씩 <code>main</code>이 들어 있는 기존 파일의 내용과 교체해서 실행하세요. 여러 예제의 <code>main</code>을 같은 프로젝트에 한꺼번에 추가하지 않습니다.</p>
 <h2 id="section-1">이 수업을 마치면</h2>
 <ul>
-<li>단순한 main 안의 출력 순서를 따라가며 결과를 먼저 적을 수 있습니다.</li>
+<li>단순한 <code>main</code> 안의 출력 순서를 따라가며 결과를 먼저 적을 수 있습니다.</li>
 <li>편집기의 줄바꿈, C++의 문장, 화면의 줄바꿈을 구분할 수 있습니다.</li>
 <li>예상과 실제 결과가 다를 때 처음 어긋난 문장을 찾아 이유를 설명할 수 있습니다.</li>
 </ul>
 <h2 id="section-2">1 실행할 문장과 준비하는 부분</h2>
-<p>이 수업의 예제는 <code>#include &lt;iostream&gt;</code>, <code>int main()</code>, 중괄호로 묶인 본문을 공통으로 사용합니다. #include는 표준 입출력 기능을 사용하는 데 필요한 헤더를 포함하는 전처리 지시문입니다. 실행 중 화면에 무언가를 출력하는 문장은 아닙니다.</p>
-<p>main은 이 콘솔 프로그램에서 살펴볼 실행의 시작점입니다. 정확히는 main에 들어오기 전에 실행 환경의 준비와 일부 초기화가 있을 수 있습니다. 지금 예제에는 그런 초기화를 직접 작성하지 않았으므로 main의 본문부터 따라가면 됩니다.</p>
-<p>본문의 {와 }는 여러 문장을 하나의 블록으로 묶습니다. 아래처럼 분기나 반복이 없는 예제에서는 본문 안의 문장을 차례로 따라갑니다. 나중에 조건문과 반복문을 배우면 실행 경로가 달라질 수 있으므로, 모든 C++ 코드를 파일의 첫 줄부터 끝까지 무조건 실행한다고 외우지는 않습니다.</p>
+<p>이 수업의 예제는 <code>#include &lt;iostream&gt;</code>, <code>int main()</code>, 중괄호로 묶인 본문을 공통으로 사용합니다. <code>#include</code>는 표준 입출력 기능을 사용하는 데 필요한 헤더를 포함하는 전처리 지시문입니다. 실행 중 화면에 무언가를 출력하는 문장은 아닙니다.</p>
+<p><code>main</code>은 이 콘솔 프로그램에서 살펴볼 실행의 시작점입니다. 정확히는 <code>main</code>에 들어오기 전에 실행 환경의 준비와 일부 초기화가 있을 수 있습니다. 지금 예제에는 그런 초기화를 직접 작성하지 않았으므로 <code>main</code>의 본문부터 따라가면 됩니다.</p>
+<p>본문의 <code>{</code>와 <code>}</code>는 여러 문장을 하나의 블록으로 묶습니다. 아래처럼 분기나 반복이 없는 예제에서는 본문 안의 문장을 차례로 따라갑니다. 나중에 조건문과 반복문을 배우면 실행 경로가 달라질 수 있으므로, 모든 C++ 코드를 파일의 첫 줄부터 끝까지 무조건 실행한다고 외우지는 않습니다.</p>
 <h2 id="section-3">2 출력 결과를 먼저 적어 보기</h2>
 <p>다음 코드를 실행하기 전에 화면에 나올 문장을 순서대로 적어 보세요.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
@@ -22,8 +22,8 @@
     <span class="hljs-control">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>std::cout은 표준 출력 스트림 객체입니다. 이 예제의 &lt;&lt;는 오른쪽의 내용을 그 스트림에 출력하는 데 사용합니다. 큰따옴표로 묶은 &quot;Ready&quot;는 출력할 문자열입니다. 큰따옴표 자체는 화면에 나타나지 않습니다.</p>
-<p>std::endl은 줄바꿈 문자를 넣고 스트림을 flush하는 스트림 조작 함수입니다. flush는 버퍼에 남은 출력을 연결된 출력 대상으로 전달하도록 요청하는 동작입니다. 함수 템플릿이라는 정확한 분류는 후속 수업에서 살펴봅니다. 이 위치에서는 함수 이름을 &lt;&lt;에 전달하면 해당 연산자가 함수를 호출하므로, 코드에 endl()이라고 쓰지 않습니다. 여기서는 앞 수업의 출력 형태를 유지합니다. 단순한 줄바꿈만 필요한 다른 상황에서는 &#39;\n&#39;도 사용합니다.</p>
+<p><code>std::cout</code>은 표준 출력 스트림 객체입니다. 이 예제의 <code>&lt;&lt;</code>는 오른쪽의 내용을 그 스트림에 출력하는 데 사용합니다. 큰따옴표로 묶은 <code>&quot;Ready&quot;</code>는 출력할 문자열입니다. 큰따옴표 자체는 화면에 나타나지 않습니다.</p>
+<p><code>std::endl</code>은 줄바꿈 문자를 넣고 스트림을 flush하는 스트림 조작 함수입니다. flush는 버퍼에 남은 출력을 연결된 출력 대상으로 전달하도록 요청하는 동작입니다. 함수 템플릿이라는 정확한 분류는 후속 수업에서 살펴봅니다. 이 위치에서는 함수 이름을 <code>&lt;&lt;</code>에 전달하면 해당 연산자가 함수를 호출하므로, 코드에 <code>endl()</code>이라고 쓰지 않습니다. 여기서는 앞 수업의 출력 형태를 유지합니다. 단순한 줄바꿈만 필요한 다른 상황에서는 <code>&#39;\n&#39;</code>도 사용합니다.</p>
 <figure class="concept-figure">
   <a href="/cpp-jeongseok/assets/illustrations/00-3-read-follow-output.webp" aria-label="문장 실행과 출력 비교 개념도 크게 보기">
     <img src="/cpp-jeongseok/assets/illustrations/00-3-read-follow-output.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="왼쪽 노트에 세 줄의 추상적인 문장이 있고 가운데 줄에 커서가 놓여 있습니다. 오른쪽 모니터에는 두 출력 막대가 쌓여 있으며 하나의 화살표가 노트에서 모니터로 향합니다.">
@@ -31,7 +31,7 @@
   <figcaption>AI로 생성한 개념 일러스트입니다. 문장을 하나씩 살펴보고 지금까지의 출력과 비교하는 학습 과정을 비유합니다. CPU의 실제 내부 동작이나 디버거 화면을 재현한 그림은 아닙니다.</figcaption>
 </figure>
 
-<p>한 문장을 처리할 때마다 ‘이번에 추가되는 출력’과 ‘이미 출력한 내용’을 구분하면 실행을 놓치기 어렵습니다. 다음 표의 마지막 줄은 화면 출력이 아니라 main에서 돌아가는 동작입니다.</p>
+<p>한 문장을 처리할 때마다 ‘이번에 추가되는 출력’과 ‘이미 출력한 내용’을 구분하면 실행을 놓치기 어렵습니다. 다음 표의 마지막 줄은 화면 출력이 아니라 <code>main</code>에서 돌아가는 동작입니다.</p>
 <table>
 <thead>
 <tr>
@@ -42,22 +42,22 @@
 </thead>
 <tbody><tr>
 <td>첫 출력문</td>
-<td>Ready와 줄바꿈</td>
-<td>Ready 한 줄</td>
+<td><code>Ready</code>와 줄바꿈</td>
+<td><code>Ready</code> 한 줄</td>
 </tr>
 <tr>
 <td>둘째 출력문</td>
-<td>Open과 줄바꿈</td>
-<td>Ready 다음 줄에 Open</td>
+<td><code>Open</code>과 줄바꿈</td>
+<td><code>Ready</code> 다음 줄에 <code>Open</code></td>
 </tr>
 <tr>
 <td>셋째 출력문</td>
-<td>Close와 줄바꿈</td>
-<td>Ready, Open, Close 각 한 줄</td>
+<td><code>Close</code>와 줄바꿈</td>
+<td><code>Ready</code>, <code>Open</code>, <code>Close</code> 각 한 줄</td>
 </tr>
 <tr>
-<td>return문</td>
-<td>main에서 0 반환</td>
+<td><code>return</code>문</td>
+<td><code>main</code>에서 <code>0</code> 반환</td>
 <td>추가 출력 없음</td>
 </tr>
 </tbody></table>
@@ -80,13 +80,13 @@ Close
     <span class="hljs-control">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>main의 본문에는 출력문 세 개와 return문 하나가 있습니다. 첫 줄의 세미콜론 두 개는 서로 다른 출력문을 끝냅니다. 이어지는 std::cout부터 std::endl;까지는 여러 줄에 걸친 하나의 출력문입니다. 이 출력문들은 세미콜론으로 끝나지만, C++의 모든 구문이 세미콜론으로 끝나는 것은 아닙니다.</p>
-<p>첫 출력문은 red만 출력합니다. 두 번째 출력문은 공백, +, 공백을 덧붙입니다. 세 번째 출력문이 blue와 줄바꿈을 출력하므로 결과는 한 줄입니다.</p>
+<p><code>main</code>의 본문에는 출력문 세 개와 <code>return</code>문 하나가 있습니다. 첫 줄의 세미콜론 두 개는 서로 다른 출력문을 끝냅니다. 이어지는 <code>std::cout</code>부터 <code>std::endl;</code>까지는 여러 줄에 걸친 하나의 출력문입니다. 이 출력문들은 세미콜론으로 끝나지만, C++의 모든 구문이 세미콜론으로 끝나는 것은 아닙니다.</p>
+<p>첫 출력문은 <code>red</code>만 출력합니다. 두 번째 출력문은 공백, <code>+</code>, 공백을 덧붙입니다. 세 번째 출력문이 <code>blue</code>와 줄바꿈을 출력하므로 결과는 한 줄입니다.</p>
 <pre><code class="language-plaintext">red + blue
 </code></pre>
-<p>여기서 알아둘 것은 세 가지입니다. 소스 파일의 줄은 사람이 읽기 위한 배치이고, 문장은 프로그램의 동작을 읽는 단위이며, 출력의 줄바꿈은 출력한 내용으로 결정됩니다. 이 예제의 문장 사이 공백과 줄 배치는 바꿀 수 있지만 문자열 내부 공백은 출력되는 데이터입니다. #include 같은 전처리 지시문의 줄이나 // 주석의 줄까지 마음대로 합쳐도 된다는 뜻은 아닙니다.</p>
-<h2 id="section-5">4 주석을 건너뛰고 return에서 멈추기</h2>
-<p>주석은 사람에게 설명을 남기는 부분입니다. // 뒤에서 그 줄이 끝날 때까지, 또는 /*와 */ 사이에 적은 내용은 코드로 실행되지 않습니다. 아래 주석 안에 출력문처럼 보이는 글이 있어도 실행할 문장으로 세지 않습니다.</p>
+<p>여기서 알아둘 것은 세 가지입니다. 소스 파일의 줄은 사람이 읽기 위한 배치이고, 문장은 프로그램의 동작을 읽는 단위이며, 출력의 줄바꿈은 출력한 내용으로 결정됩니다. 이 예제의 문장 사이 공백과 줄 배치는 바꿀 수 있지만 문자열 내부 공백은 출력되는 데이터입니다. <code>#include</code> 같은 전처리 지시문의 줄이나 <code>//</code> 주석의 줄까지 마음대로 합쳐도 된다는 뜻은 아닙니다.</p>
+<h2 id="section-5">4 주석을 건너뛰고 <code>return</code>에서 멈추기</h2>
+<p>주석은 사람에게 설명을 남기는 부분입니다. <code>//</code> 뒤에서 그 줄이 끝날 때까지, 또는 <code>/*</code>와 <code>*/</code> 사이에 적은 내용은 코드로 실행되지 않습니다. 아래 주석 안에 출력문처럼 보이는 글이 있어도 실행할 문장으로 세지 않습니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
@@ -99,11 +99,11 @@ Close
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Finish&quot;</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">endl</span>;
 }
 </code></pre>
-<p>실제로 출력되는 내용은 Start 한 줄입니다. Hidden은 주석 안에 있고, Finish 출력문에는 실행이 도달하지 않습니다. 그 전에 만나는 return 0;이 현재 main의 실행을 끝내기 때문입니다. 여기서 0은 성공 종료를 나타내는 반환값이며 화면에 숫자 0을 출력하라는 뜻이 아닙니다.</p>
-<p>return 뒤의 도달할 수 없는 문장도 소스 코드입니다. 실행되지 않는다는 이유로 잘못된 문법을 적어도 되는 영역은 아닙니다. 컴파일러와 경고 설정에 따라 도달 불가능한 코드에 관한 경고가 나올 수 있습니다. 실제 프로그램에서는 이런 문장을 남기지 않는 것이 좋으며, 이 예제는 실행 경계를 확인하기 위한 비교입니다.</p>
-<p>한편 문자열 안의 &quot;//&quot;는 주석의 시작이 아닙니다. 큰따옴표 안의 글자를 먼저 구분하고 주석을 찾아야 합니다.</p>
+<p>실제로 출력되는 내용은 <code>Start</code> 한 줄입니다. <code>Hidden</code>은 주석 안에 있고, <code>Finish</code> 출력문에는 실행이 도달하지 않습니다. 그 전에 만나는 <code>return 0;</code>이 현재 <code>main</code>의 실행을 끝내기 때문입니다. 여기서 <code>0</code>은 성공 종료를 나타내는 반환값이며 화면에 숫자 <code>0</code>을 출력하라는 뜻이 아닙니다.</p>
+<p><code>return</code> 뒤의 도달할 수 없는 문장도 소스 코드입니다. 실행되지 않는다는 이유로 잘못된 문법을 적어도 되는 영역은 아닙니다. 컴파일러와 경고 설정에 따라 도달 불가능한 코드에 관한 경고가 나올 수 있습니다. 실제 프로그램에서는 이런 문장을 남기지 않는 것이 좋으며, 이 예제는 실행 경계를 확인하기 위한 비교입니다.</p>
+<p>한편 문자열 안의 <code>&quot;//&quot;</code>는 주석의 시작이 아닙니다. 큰따옴표 안의 글자를 먼저 구분하고 주석을 찾아야 합니다.</p>
 <h2 id="section-6">5 빌드 성공과 예상 적중을 구분하기</h2>
-<p>다음 코드는 두 줄 모두 5를 출력할까요? 먼저 답을 적은 뒤 실행해 보세요.</p>
+<p>다음 코드는 두 줄 모두 <code>5</code>를 출력할까요? 먼저 답을 적은 뒤 실행해 보세요.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
@@ -117,14 +117,14 @@ Close
 <pre><code class="language-plaintext">2+3
 5
 </code></pre>
-<p>첫 번째 출력문에서는 &quot;2+3&quot; 전체가 문자열입니다. 두 번째 출력문에서는 따옴표가 없는 2 + 3을 계산한 결과가 출력됩니다. 자세한 연산 규칙은 다음 장에서 다루지만, 지금은 글자 자체와 계산할 식을 구분하면 됩니다.</p>
-<p>두 줄 모두 5라고 예상했어도 이 프로그램은 정상적으로 빌드됩니다. 컴파일러는 우리가 종이에 적은 예상 결과까지 검사하지 않습니다. 프로그램을 실행한 뒤 기대한 동작과 맞는지 확인하는 과정이 따로 필요합니다.</p>
+<p>첫 번째 출력문에서는 <code>&quot;2+3&quot;</code> 전체가 문자열입니다. 두 번째 출력문에서는 따옴표가 없는 <code>2 + 3</code>을 계산한 결과가 출력됩니다. 자세한 연산 규칙은 다음 장에서 다루지만, 지금은 글자 자체와 계산할 식을 구분하면 됩니다.</p>
+<p>두 줄 모두 <code>5</code>라고 예상했어도 이 프로그램은 정상적으로 빌드됩니다. 컴파일러는 우리가 종이에 적은 예상 결과까지 검사하지 않습니다. 프로그램을 실행한 뒤 기대한 동작과 맞는지 확인하는 과정이 따로 필요합니다.</p>
 <p>이 경우 처음 어긋난 곳은 첫 출력문입니다. 두 번째 줄이나 개발 환경을 먼저 바꾸기보다 첫 줄의 큰따옴표가 어떤 의미인지 확인하면 원인을 좁힐 수 있습니다. 출력 순서가 틀렸다면 문장 순서, 줄 수가 틀렸다면 줄바꿈을 넣는 부분, 값이 틀렸다면 출력하는 글자나 식을 확인해 보세요.</p>
 <h2 id="section-7">6 작은 단위로 확인하는 순서</h2>
 <ul>
 <li>코드를 실행하기 전에 예상 출력을 적습니다. 공백과 줄바꿈도 표시합니다.</li>
-<li>main 안에서 지금 볼 문장 하나를 고릅니다. 주석은 실행 대상으로 세지 않습니다.</li>
-<li>그 문장이 추가하는 출력만 예상 결과에 덧붙입니다. return을 만나면 그 경로의 추적을 끝냅니다.</li>
+<li><code>main</code> 안에서 지금 볼 문장 하나를 고릅니다. 주석은 실행 대상으로 세지 않습니다.</li>
+<li>그 문장이 추가하는 출력만 예상 결과에 덧붙입니다. <code>return</code>을 만나면 그 경로의 추적을 끝냅니다.</li>
 <li>저장한 뒤 다시 빌드하고 실행합니다. 예상과 실제가 처음 달라지는 문장을 찾습니다.</li>
 <li>한 번에 한 부분만 바꾸고 다시 확인합니다. 수정한 이유도 한 문장으로 적습니다.</li>
 </ul>
@@ -154,7 +154,7 @@ Close
     <span class="hljs-control">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>출력문은 몇 개인가요? return문까지 포함한 main 본문의 문장 수와 실제 출력도 적어 보세요.</p>
+<p>출력문은 몇 개인가요? <code>return</code>문까지 포함한 <code>main</code> 본문의 문장 수와 실제 출력도 적어 보세요.</p>
 <h3 id="section-11">연습 3 도달하는 문장 찾기</h3>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
@@ -166,7 +166,7 @@ Close
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Stop&quot;</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">endl</span>;
 }
 </code></pre>
-<p>Go, Wait, Stop 중 실제 출력되는 것을 고르세요. 나머지 두 항목이 출력되지 않는 이유를 각각 설명해 보세요.</p>
+<p><code>Go</code>, <code>Wait</code>, <code>Stop</code> 중 실제 출력되는 것을 고르세요. 나머지 두 항목이 출력되지 않는 이유를 각각 설명해 보세요.</p>
 <h3 id="section-12">연습 4 예상 바로잡기</h3>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
@@ -177,19 +177,19 @@ Close
     <span class="hljs-control">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
-<p>2+3=2+3이 출력될 것이라고 예상했습니다. 코드를 바꾸지 않고 이 예상부터 바로잡아 보세요. 이어서 첫 출력문 끝에 std::endl을 추가하면 출력이 어떻게 달라질지도 적어 보세요.</p>
+<p><code>2+3=2+3</code>이 출력될 것이라고 예상했습니다. 코드를 바꾸지 않고 이 예상부터 바로잡아 보세요. 이어서 첫 출력문 끝에 <code>std::endl</code>을 추가하면 출력이 어떻게 달라질지도 적어 보세요.</p>
 <h2 id="section-13">해설</h2>
 <h3 id="section-14">연습 1</h3>
-<p>두 줄이며 첫 줄은 12, 둘째 줄은 3입니다. 첫 번째 출력은 줄바꿈을 넣지 않습니다. 두 번째 출력이 2를 이어 붙인 뒤 줄을 바꿉니다.</p>
+<p>두 줄이며 첫 줄은 <code>12</code>, 둘째 줄은 <code>3</code>입니다. 첫 번째 출력은 줄바꿈을 넣지 않습니다. 두 번째 출력이 <code>2</code>를 이어 붙인 뒤 줄을 바꿉니다.</p>
 <pre><code class="language-plaintext">12
 3
 </code></pre>
 <h3 id="section-15">연습 2</h3>
-<p>출력문은 두 개, return문을 포함하면 문장은 세 개입니다. 둘째 출력문은 두 소스 줄에 걸쳐 있지만 하나의 문장입니다. 화면에는 AB가 한 줄로 출력됩니다.</p>
+<p>출력문은 두 개, <code>return</code>문을 포함하면 문장은 세 개입니다. 둘째 출력문은 두 소스 줄에 걸쳐 있지만 하나의 문장입니다. 화면에는 <code>AB</code>가 한 줄로 출력됩니다.</p>
 <h3 id="section-16">연습 3</h3>
-<p>Go만 출력됩니다. Wait 출력문은 // 주석 안에 있습니다. Stop 출력문은 return 이후에 있어 이 실행 경로에서는 도달하지 않습니다.</p>
+<p><code>Go</code>만 출력됩니다. <code>Wait</code> 출력문은 <code>//</code> 주석 안에 있습니다. <code>Stop</code> 출력문은 <code>return</code> 이후에 있어 이 실행 경로에서는 도달하지 않습니다.</p>
 <h3 id="section-17">연습 4</h3>
-<p>첫 출력문은 2+3=라는 글자를 그대로 출력하고, 두 번째 출력문은 2+3의 계산 결과인 5를 출력합니다. 따라서 한 줄에 2+3=5가 나옵니다. 첫 출력문에도 std::endl을 넣으면 2+3=와 5가 서로 다른 줄에 나옵니다. 다음 두 출력문으로 바꾸어 확인할 수 있습니다.</p>
+<p>첫 출력문은 <code>2+3=</code>라는 글자를 그대로 출력하고, 두 번째 출력문은 <code>2+3</code>의 계산 결과인 <code>5</code>를 출력합니다. 따라서 한 줄에 <code>2+3=5</code>가 나옵니다. 첫 출력문에도 <code>std::endl</code>을 넣으면 <code>2+3=</code>와 <code>5</code>가 서로 다른 줄에 나옵니다. 다음 두 출력문으로 바꾸어 확인할 수 있습니다.</p>
 <pre><code class="language-cpp hljs">    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;2+3=&quot;</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">endl</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-number">2</span> + <span class="hljs-number">3</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">endl</span>;
 </code></pre>
@@ -210,4 +210,4 @@ Close
 <p class="comments-status" role="status">댓글을 불러오는 중입니다…</p>
 <noscript><p>댓글을 보려면 JavaScript를 켜 주세요.</p></noscript>
 <p class="comments-help">댓글이 보이지 않나요? <a href="https://github.com/29thnight/cpp-jeongseok/discussions">GitHub Discussions에서 확인하기 ↗</a></p>
-</section></article><aside class="article-sidebar"><div class="sticky"><p class="eyebrow">IN THIS CHAPTER</p><nav aria-label="이 글의 목차"><h2>이 글의 목차</h2><a href="#section-1">이 수업을 마치면</a><a href="#section-2">1 실행할 문장과 준비하는 부분</a><a href="#section-3">2 출력 결과를 먼저 적어 보기</a><a href="#section-4">3 코드의 줄과 화면의 줄은 다릅니다</a><a href="#section-5">4 주석을 건너뛰고 return에서 멈추기</a><a href="#section-6">5 빌드 성공과 예상 적중을 구분하기</a><a href="#section-7">6 작은 단위로 확인하는 순서</a><a href="#section-8">연습</a><a href="#section-13">해설</a><a href="#section-18">정리</a><a href="#section-19">참고 자료와 확인 범위</a></nav><div class="sidebar-note"><span>제1판 · C++20</span><p>예상한 결과와 확인한 사실을<br>구분하며 읽어 보세요.</p></div><a class="source-link" href="https://github.com/29thnight/cpp-jeongseok/blob/main/content/reading-execution.md">이 글의 원문 보기 ↗</a></div></aside></main><footer><div class="wrap footer-inner"><a class="footer-brand" href="/cpp-jeongseok/">C++의 정석<span>기초부터 설계까지, 오래 남는 이해.</span></a><div><a href="https://github.com/29thnight/cpp-jeongseok">소스 저장소 ↗</a><p>© 2026 29thnight · 제1판 초안</p><a class="font-credit" href="/cpp-jeongseok/assets/fonts/OFL.txt">서체: NAVER D2Coding · OFL</a></div></div></footer></body></html>
+</section></article><aside class="article-sidebar"><div class="sticky"><p class="eyebrow">IN THIS CHAPTER</p><nav aria-label="이 글의 목차"><h2>이 글의 목차</h2><a href="#section-1">이 수업을 마치면</a><a href="#section-2">1 실행할 문장과 준비하는 부분</a><a href="#section-3">2 출력 결과를 먼저 적어 보기</a><a href="#section-4">3 코드의 줄과 화면의 줄은 다릅니다</a><a href="#section-5">4 주석을 건너뛰고 <code>return</code>에서 멈추기</a><a href="#section-6">5 빌드 성공과 예상 적중을 구분하기</a><a href="#section-7">6 작은 단위로 확인하는 순서</a><a href="#section-8">연습</a><a href="#section-13">해설</a><a href="#section-18">정리</a><a href="#section-19">참고 자료와 확인 범위</a></nav><div class="sidebar-note"><span>제1판 · C++20</span><p>예상한 결과와 확인한 사실을<br>구분하며 읽어 보세요.</p></div><a class="source-link" href="https://github.com/29thnight/cpp-jeongseok/blob/main/content/reading-execution.md">이 글의 원문 보기 ↗</a></div></aside></main><footer><div class="wrap footer-inner"><a class="footer-brand" href="/cpp-jeongseok/">C++의 정석<span>기초부터 설계까지, 오래 남는 이해.</span></a><div><a href="https://github.com/29thnight/cpp-jeongseok">소스 저장소 ↗</a><p>© 2026 29thnight · 제1판 초안</p><a class="font-credit" href="/cpp-jeongseok/assets/fonts/OFL.txt">서체: NAVER D2Coding · OFL</a></div></div></footer></body></html>

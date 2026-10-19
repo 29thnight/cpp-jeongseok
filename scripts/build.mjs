@@ -1,5 +1,7 @@
 import {readFileSync,writeFileSync,mkdirSync,cpSync,rmSync} from 'node:fs';
 import {marked} from 'marked';
+// Numeric ranges such as 1~9 and 100~900 are prose, never strikethrough.
+marked.use({tokenizer:{del(){return undefined;}}});
 import {createHash} from 'node:crypto';
 import {renderCode} from './highlight.mjs';
 import {renderComments} from './comments.mjs';

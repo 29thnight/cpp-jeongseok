@@ -6,7 +6,7 @@ hljs.registerLanguage('cpp', cpp);
 const escapeHtml = value => value.replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 }[char]));
-const standardTypes = new Set(['vector', 'string', 'string_view', 'array', 'span', 'optional', 'variant', 'unique_ptr', 'shared_ptr', 'weak_ptr', 'map', 'set', 'unordered_map', 'unordered_set', 'pair', 'tuple', 'size_t']);
+const standardTypes = new Set(['vector', 'string', 'string_view', 'array', 'span', 'optional', 'variant', 'unique_ptr', 'shared_ptr', 'weak_ptr', 'map', 'set', 'unordered_map', 'unordered_set', 'pair', 'tuple', 'size_t', 'numeric_limits', 'streamsize']);
 
 // Qualified standard streams are namespace-scope objects, not local variables.
 const standardStreams = new Set(['cin', 'cout', 'cerr', 'clog', 'wcin', 'wcout', 'wcerr', 'wclog']);
@@ -51,6 +51,13 @@ export function highlightCpp(source) {
           && qualifiedStandard(precedingText)) {
         const category = standardTokenClass(parts[index + 1]);
         if (category) part = `<span class="${category}">`;
+      }
+      // A built-in token followed by '(' is a call, including stream members
+      // and numeric_limits<T>::max(). Keep protected strings/comments intact.
+      if (!stack.length && part === '<span class="hljs-built_in">'
+          && /^[A-Za-z_]\w*$/.test(parts[index + 1] || '')
+          && parts[index + 2] === '</span>' && /^\s*\(/.test(parts[index + 3] || '')) {
+        part = '<span class="hljs-title function_">';
       }
       stack.push(part);
       return part;

@@ -219,7 +219,7 @@ assert(calculationHtml.includes('GCC 14.2.0'));
 assert(calculationHtml.includes('MSVC와 Visual Studio의 실행 화면은 확인하지 않았습니다.'));
 assert(calculationHtml.includes('static_cast&lt;double&gt;(total)'));
 assert(calculationHtml.includes('static_cast&lt;int&gt;(4.8)'));
-assert(calculationHtml.includes('&lt;limits&gt;의 std::numeric_limits'));
+assert(calculationHtml.includes('<code>&lt;limits&gt;</code>의 <code>std::numeric_limits</code>'));
 assert(!/<(?:double|int|limits)>/.test(calculationHtml), 'C++ template arguments and headers must not become HTML tags');
 const calculationFigures=[...calculationHtml.matchAll(/<figure class="concept-figure">([\s\S]*?)<\/figure>/g)];
 assert.equal(calculationFigures.length,1);
@@ -299,3 +299,27 @@ assert(consoleHtml.includes('hljs-local">quantity</span>'));
 assert(consoleHtml.includes('GCC 14.2.0'));
 assert(consoleHtml.includes('MSVC 및 Visual Studio'));
 console.log('PASS: 01-4 exact code/downloads, escaped prose, original illustration, privacy, navigation, comments, syntax colors and test limits');
+
+// Course policy: no strikethrough; range tildes must survive Markdown parsing.
+for (const file of html) {
+ const page = readFileSync(file, 'utf8');
+ assert(!/<(?:del|s|strike)\b/i.test(page), `${file}: forbidden strikethrough`);
+}
+for (const word of ['if', 'continue', 'while', 'break']) {
+ assert(consoleHtml.includes(`<code>${word}</code>`), `01-4: missing inline ${word}`);
+}
+assert(consoleHtml.includes('<code>quantity</code>는 1부터 9까지이고'));
+assert(consoleHtml.includes('<code>amount</code>는 100부터 900까지입니다'));
+assert(consoleHtml.includes('<code>!(std::cin &gt;&gt; quantity)</code>'));
+assert(consoleHtml.includes('<code>std::cin.clear()</code>'));
+console.log('PASS: course-wide no strikethrough, preserved numeric ranges and complete inline C++ expressions');
+const numericStreamExample=renderCode({lang:'cpp',text:'std::cin.bad(); std::cin.eof(); std::cin.clear(); std::cin.ignore(std::numeric_limits<std::streamsize>::max(), 10); std::numeric_limits<int>::lowest();'});
+for(const name of ['numeric_limits','streamsize'])assert(numericStreamExample.includes(`class="hljs-stl-type">${name}</span>`));
+for(const name of ['bad','eof','clear','ignore','max','lowest'])assert(numericStreamExample.includes(`class="hljs-title function_">${name}</span>`));
+console.log('PASS: numeric_limits/streamsize types and stream/numeric-limit function colors');
+for(const file of readdirSync('content').filter(f=>f.endsWith('.md'))) {
+ const source=readFileSync(path.join('content',file),'utf8');
+ const prose=source.replace(/```[\s\S]*?```|`[^`]*`|https?:\/\/\S+/g,'');
+ assert(!/(?<![A-Za-z_])(if|continue|break|while|std::|int|double|bool)(?![A-Za-z_])/.test(prose),`${file}: unformatted C++ prose token`);
+}
+console.log('PASS: all published sources format core C++ prose tokens as inline code');
