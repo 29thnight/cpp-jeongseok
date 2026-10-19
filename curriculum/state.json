@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 71,
+  "revision": 72,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -393,11 +393,11 @@
         "01-3",
         "01-4"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/functions-basics/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -416,23 +416,28 @@
         },
         "links": {
           "result": "passed",
-          "checked_at": "2026-10-19T15:22:43+00:00",
-          "summary": "비공개 검토본과 자산을 다시 읽고 참고 링크를 확인했다. 게시 검증은 승인 후 수행한다."
+          "checked_at": "2026-10-19T22:31:00.222812+00:00",
+          "summary": "정적 사이트 전체 검사와 실제 공개 본문·탐색·그림·예제 파일의 일치를 확인했다."
         },
         "privacy": {
           "result": "passed",
-          "checked_at": "2026-10-19T15:22:43+00:00",
-          "summary": "원본 문장·예제·그림·위치가 포함되지 않도록 검토했다."
+          "checked_at": "2026-10-19T22:31:00.222812+00:00",
+          "summary": "게시 diff에서 승인된 재작성 본문과 새 예제·그림만 공개되었음을 확인했다."
         },
         "approval": {
           "result": "passed",
           "checked_at": "2026-10-19T22:22:47+00:00",
           "summary": "사용자가 MSVC 실습 안내로 수정된 본문·예제·그림의 게시를 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-19T22:31:00.222812+00:00",
+          "summary": "사용자 승인 수정본의 Pages 배포 성공과 실제 공개 페이지 및 자산을 확인했다."
         }
       },
-      "next_action": "승인된 수정본을 정적 빌드하고 게시 및 배포를 확인한다.",
+      "next_action": "게시 완료. 수정 의견이 있으면 별도 승인 범위에서 반영한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-19T22:22:47+00:00"
+      "updated_at": "2026-10-19T22:31:00+00:00"
     },
     {
       "id": "02-2",
@@ -1909,6 +1914,13 @@
       "patch_hash": "6db85041bb368a73ac031115db3ace73f264f97c4951e84a46ef14b687807988",
       "revision": 71,
       "recorded_at": "2026-10-19T22:22:47+00:00"
+    },
+    {
+      "run_id": "02-1_20261019T2230_published",
+      "lesson_id": "02-1",
+      "patch_hash": "7bcfb5bfcacf10c1e3c28b013a602d04e363eb6655c8588d469acd07b36a6263",
+      "revision": 72,
+      "recorded_at": "2026-10-19T22:31:00+00:00"
     }
   ]
 }

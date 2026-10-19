@@ -311,6 +311,7 @@ assert(!consoleHtml.includes('다음 수업은 준비 중입니다.'));
 assert(functionsHtml.includes('/cpp-jeongseok/lessons/console-program/'));
 const functionsBlocks=[...functionsSource.matchAll(/^```(cpp|text)\n([\s\S]*?)^```/gm)];
 const functionsRendered=[...functionsHtml.matchAll(/<pre><code class="[^"]*language-(cpp|plaintext)[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
+assert.equal(functionsBlocks.length,20);
 assert.equal(functionsBlocks.filter(b=>b[1]==='cpp').length,17);
 assert.equal(functionsBlocks.length,functionsRendered.length);
 for(let i=0;i<functionsBlocks.length;i++){
