@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 54,
+  "revision": 61,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -332,19 +332,45 @@
       "id": "01-4",
       "track": "core",
       "title": "작은 콘솔 프로그램: 입력 검증, 경계값, 반복되는 작업 정리",
-      "goal": "작은 콘솔 프로그램: 입력 검증, 경계값, 반복되는 작업 정리의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "정수 입력 실패와 허용 범위를 구분하고, 경계값을 검사하며 반복 입력을 처리하는 작은 콘솔 프로그램을 완성한다.",
       "prerequisites": [
         "01-3"
       ],
-      "status": "not_started",
-      "stage": "A",
-      "review": "not_requested",
-      "draft": "absent",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
+      "evidence": {
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-19T03:14:06+00:00",
+          "summary": "GCC 14.2.0 C++20 경고 오류화·UBSan으로 기본 30개와 가격 변경 3개 실행 시험 통과. MSVC 검증은 미실시."
+        },
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-19T03:14:06+00:00",
+          "summary": "정수 접두사·EOF·오류 복구·경계 계산을 표준 근거와 실제 실행으로 검토했다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-19T03:14:06+00:00",
+          "summary": "독립 검토 수정 반영, 연습문제·해설 6개, AI 개념 일러스트 1장과 캡션·대체 텍스트, 문서 렌더 검토 완료."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-19T03:14:06+00:00",
+          "summary": "비공개 저장물과 검토본을 다시 읽고 공개 표준 참고 링크를 확인했다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-19T03:14:06+00:00",
+          "summary": "원본 문장·코드·이미지·파일 정보를 옮기지 않았고 비공개 저장·소유자 권한을 확인했다."
+        }
+      },
+      "next_action": "비공개 검토본 사용자 검수 및 별도 공개 승인 대기",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "updated_at": "2026-10-19T03:14:06+00:00"
     },
     {
       "id": "02-1",
@@ -1723,6 +1749,55 @@
       "patch_hash": "dda8dea98beffa07f8681cd71982d274609736dde7089ccf4b82ddae667f46ba",
       "revision": 54,
       "recorded_at": "2026-10-18T18:36:27+00:00"
+    },
+    {
+      "run_id": "01-4_20261019T0300_A",
+      "lesson_id": "01-4",
+      "patch_hash": "bca85e2b50aabf46d1dfb1e1cd86f75808a9942fdff79dc545f5161f083976d4",
+      "revision": 55,
+      "recorded_at": "2026-10-19T03:14:06+00:00"
+    },
+    {
+      "run_id": "01-4_20261019T0300_B",
+      "lesson_id": "01-4",
+      "patch_hash": "36c01e677594acce1717c276dc35370d3dd787a61ef71adbca60bcd16952fa0d",
+      "revision": 56,
+      "recorded_at": "2026-10-19T03:14:06+00:00"
+    },
+    {
+      "run_id": "01-4_20261019T0300_C",
+      "lesson_id": "01-4",
+      "patch_hash": "0a7cf23e0987e0c587fec55192a22210bc96f97d619fdfb08a1b628bd177edd4",
+      "revision": 57,
+      "recorded_at": "2026-10-19T03:14:06+00:00"
+    },
+    {
+      "run_id": "01-4_20261019T0300_D",
+      "lesson_id": "01-4",
+      "patch_hash": "d1debbdad90fc39a77a1b53365b64cccc4b4a460f5bcb5d8d339b8e354c0628b",
+      "revision": 58,
+      "recorded_at": "2026-10-19T03:14:06+00:00"
+    },
+    {
+      "run_id": "01-4_20261019T0300_E",
+      "lesson_id": "01-4",
+      "patch_hash": "1ecfd50e1862073947e4747ac2a21dfe48fa2df13b42a55d8134cfaf0900b9d8",
+      "revision": 59,
+      "recorded_at": "2026-10-19T03:14:06+00:00"
+    },
+    {
+      "run_id": "01-4_20261019T0300_F",
+      "lesson_id": "01-4",
+      "patch_hash": "86b6622ba612791f02661443d2ccf92e1fb30ee5235a58da258b907a0800f554",
+      "revision": 60,
+      "recorded_at": "2026-10-19T03:14:06+00:00"
+    },
+    {
+      "run_id": "01-4_20261019T0300_G",
+      "lesson_id": "01-4",
+      "patch_hash": "b0edfeb455c3731b3941d54316ea2cf12f9f5cc6d962b1c1c80886a66d382375",
+      "revision": 61,
+      "recorded_at": "2026-10-19T03:14:06+00:00"
     }
   ]
 }
