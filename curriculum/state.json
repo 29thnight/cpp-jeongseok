@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 72,
+  "revision": 79,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -443,19 +443,45 @@
       "id": "02-2",
       "track": "core",
       "title": "string으로 문자열 다루기: 길이, 연결, 검색, 입력; char와 문자 인코딩의 최소 구분",
-      "goal": "string으로 문자열 다루기: 길이, 연결, 검색, 입력; char와 문자 인코딩의 최소 구분의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "문자열의 길이·연결·검색을 예측하고 한 줄 입력을 처리하며 char 요소 수와 사람이 보는 글자 수를 구분한다.",
       "prerequisites": [
         "02-1"
       ],
-      "status": "not_started",
-      "stage": "A",
-      "review": "not_requested",
-      "draft": "absent",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
+      "evidence": {
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-20T03:19:00+00:00",
+          "summary": "C++20 문자열·입력·문자 단위의 경계와 해설을 독립 검토했다. MSVC 실제 실행은 미검증이다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-20T03:19:00+00:00",
+          "summary": "새 본문과 문제 6개, AI 개념 그림 및 캡션을 검토하고 문서 16쪽의 서식을 확인했다."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-20T03:19:00+00:00",
+          "summary": "공식 참조와 비공개 본문 코드 서식 및 기존 사이트 빌드·검사를 확인했다. 새 수업은 배포하지 않았다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-20T03:19:00+00:00",
+          "summary": "새로 작성한 본문·예제·그림과 최소 공개 진척을 검토해 원본 자료와 비공개 위치가 공개되지 않도록 확인했다."
+        },
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-20T03:06:00+00:00",
+          "summary": "GCC C++20 보조검증에서 정상 컴파일 8개와 실행 18건, 예상 컴파일 오류 4건을 확인했다. MSVC는 미실행이다."
+        }
+      },
+      "next_action": "02-2 검토본에 대한 사용자 검수와 별도 공개 승인을 기다린다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "updated_at": "2026-10-20T03:21:03+00:00"
     },
     {
       "id": "02-3",
@@ -1921,6 +1947,55 @@
       "patch_hash": "7bcfb5bfcacf10c1e3c28b013a602d04e363eb6655c8588d469acd07b36a6263",
       "revision": 72,
       "recorded_at": "2026-10-19T22:31:00+00:00"
+    },
+    {
+      "run_id": "02-2_20261020T0300_A",
+      "lesson_id": "02-2",
+      "patch_hash": "98e5faf1a47f8cf33f9d564d089d1ec5cfec1d482980a154d44d65192e3b5154",
+      "revision": 73,
+      "recorded_at": "2026-10-20T03:06:26+00:00"
+    },
+    {
+      "run_id": "02-2_20261020T0300_B",
+      "lesson_id": "02-2",
+      "patch_hash": "36dbf14a97d4759a35c18b856b7740b0164b60c40c29b6c5af04dc44076a6dc3",
+      "revision": 74,
+      "recorded_at": "2026-10-20T03:08:48+00:00"
+    },
+    {
+      "run_id": "02-2_20261020T0300_C",
+      "lesson_id": "02-2",
+      "patch_hash": "d422e78ea94635347bcb9c463c95c53edc6369bed1787b68f5bd84f3eff4a623",
+      "revision": 75,
+      "recorded_at": "2026-10-20T03:08:48+00:00"
+    },
+    {
+      "run_id": "02-2_20261020T0300_D",
+      "lesson_id": "02-2",
+      "patch_hash": "87b5b5a9702b212d90c4e8933f8911373ee0f309d26657df152305be6a788de8",
+      "revision": 76,
+      "recorded_at": "2026-10-20T03:14:21+00:00"
+    },
+    {
+      "run_id": "02-2_20261020T0300_E",
+      "lesson_id": "02-2",
+      "patch_hash": "c1b3d3a299a62ebc3f3fb5fce3f4bdc2a5838e04a764ae048a5e23446cf37cbb",
+      "revision": 77,
+      "recorded_at": "2026-10-20T03:14:21+00:00"
+    },
+    {
+      "run_id": "02-2_20261020T0300_F",
+      "lesson_id": "02-2",
+      "patch_hash": "0b62569c6883074134622a1ae37bfa41fe977e077dc295de5cb3c6616e4b9a62",
+      "revision": 78,
+      "recorded_at": "2026-10-20T03:20:10+00:00"
+    },
+    {
+      "run_id": "02-2_20261020T0300_G",
+      "lesson_id": "02-2",
+      "patch_hash": "92f4a97dfb88b5262c7eb724ccc4426779ce53218bf7b429343d166506fe9265",
+      "revision": 79,
+      "recorded_at": "2026-10-20T03:21:03+00:00"
     }
   ]
 }
