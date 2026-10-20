@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 81,
+  "revision": 88,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -497,19 +497,45 @@
       "id": "02-3",
       "track": "core",
       "title": "vector와 array 사용하기: 여러 값, 크기, 인덱스, 범위 기반 for, auto의 기본",
-      "goal": "vector와 array 사용하기: 여러 값, 크기, 인덱스, 범위 기반 for, auto의 기본의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "요소 수 변화에 따라 vector와 array를 선택하고 안전한 인덱스 검사를 적용하며 범위 기반 for와 auto 값 복사의 동작을 설명한다.",
       "prerequisites": [
         "02-2"
       ],
-      "status": "not_started",
-      "stage": "A",
-      "review": "not_requested",
-      "draft": "absent",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
+      "evidence": {
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-20T16:25:30Z",
+          "summary": "C++20 표준 근거와 목표·선행·경계 조건·연습 해설 및 본문 코드 14블록을 검토했다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-20T16:25:30Z",
+          "summary": "새 본문·개념 일러스트·6문제 해설 및 검토 문서 전체를 육안 검토했다."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-20T16:25:30Z",
+          "summary": "참고 링크와 비공개 묶음 내부 경로를 확인했다. 사이트 변경은 없으며 사이트 빌드·배포 검증은 게시 승인 이후 별도 수행한다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-20T16:25:30Z",
+          "summary": "공개 변경을 최소 상태와 진척표로 한정하고 원본·비공개 본문·그림·저장 위치가 포함되지 않음을 검토했다."
+        },
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-20T16:12:00Z",
+          "summary": "GCC14.2 C++20 엄격 경고 및 UBSan 각각 8빌드와 17실행 및 별도 의도된 컴파일 실패를 확인했다. MSVC는 미실행이다."
+        }
+      },
+      "next_action": "비공개 검토본에 대한 사람 검수를 기다린다. 본문·예제·그림 게시에는 별도 승인이 필요하다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "updated_at": "2026-10-20T16:27:17+00:00"
     },
     {
       "id": "02-4",
@@ -2020,6 +2046,55 @@
       "patch_hash": "4ae660d7c2fc8ea6b61f22bd69b067d008244ed47f9d682b17e45093addc2189",
       "revision": 81,
       "recorded_at": "2026-10-20T05:29:49+00:00"
+    },
+    {
+      "run_id": "02-3_20261020T1500_A",
+      "lesson_id": "02-3",
+      "patch_hash": "81c5cc0017a86cfe3921ed07d937c6da4c74b11e7181efb9922e97435bcb870e",
+      "revision": 82,
+      "recorded_at": "2026-10-20T16:07:12+00:00"
+    },
+    {
+      "run_id": "02-3_20261020T1500_B",
+      "lesson_id": "02-3",
+      "patch_hash": "6986ab82780a044f8859ea25c00c8941349f2bacffd7edeea6e132bb60c81805",
+      "revision": 83,
+      "recorded_at": "2026-10-20T16:07:57+00:00"
+    },
+    {
+      "run_id": "02-3_20261020T1500_C",
+      "lesson_id": "02-3",
+      "patch_hash": "2648a6fb7d2ac90180de8859d261f4c68f58046e52412caed15cab33bd3f6175",
+      "revision": 84,
+      "recorded_at": "2026-10-20T16:12:24+00:00"
+    },
+    {
+      "run_id": "02-3_20261020T1500_D",
+      "lesson_id": "02-3",
+      "patch_hash": "e8aea1eff525d58d74f5cb156b238c629c39e8a6acfd69a0ca36f6e80bcab69c",
+      "revision": 85,
+      "recorded_at": "2026-10-20T16:14:50+00:00"
+    },
+    {
+      "run_id": "02-3_20261020T1500_E",
+      "lesson_id": "02-3",
+      "patch_hash": "1d878acd9eb3d87ddec31b68bb3981f39179167ddbebe0d2b70b0fd3d3d86b48",
+      "revision": 86,
+      "recorded_at": "2026-10-20T16:16:38+00:00"
+    },
+    {
+      "run_id": "02-3_20261020T1500_F",
+      "lesson_id": "02-3",
+      "patch_hash": "e33c6a0264867cb957c65bd687d4f55e2a66c5f367f8e4b89eb6865c38276f87",
+      "revision": 87,
+      "recorded_at": "2026-10-20T16:26:15+00:00"
+    },
+    {
+      "run_id": "02-3_20261020T1500_G",
+      "lesson_id": "02-3",
+      "patch_hash": "7bec357410966b882634c8fc963a99c8ace51325d345f435ec6516bf08a71065",
+      "revision": 88,
+      "recorded_at": "2026-10-20T16:27:17+00:00"
     }
   ]
 }
