@@ -148,7 +148,7 @@ assert(readingHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(firstHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(readingHtml.includes('/cpp-jeongseok/lessons/first-execution/'));
-assert(homeHtml.includes('본편 8수업'));
+assert(homeHtml.includes('본편 9수업'));
 assert.equal([...readingHtml.matchAll(/<h1[ >]/g)].length,1);
 const readingBlocks=[...readingSource.matchAll(/```cpp\n([\s\S]*?)```/g)];
 const readingRendered=[...readingHtml.matchAll(/<pre><code class="[^"]*language-cpp[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
@@ -191,7 +191,7 @@ console.log('PASS: 01-1 approved code preservation, five exercise answers, navig
 const calculationHtml=readFileSync('docs/lessons/calculation-conversion/index.html','utf8');
 const calculationSource=readFileSync('content/calculation-conversion.md','utf8');
 const publishedChapters=JSON.parse(readFileSync('content/chapters.json','utf8')).filter(c=>c.status==='published');
-assert.equal(publishedChapters.length,9, 'Introduction plus eight published lessons');
+assert.equal(publishedChapters.length,10, 'Introduction plus nine published lessons');
 assert(publishedChapters.some(c=>c.number==='01-2'&&c.slug==='calculation-conversion'&&c.title==='계산과 변환'));
 assert.equal([...calculationHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(calculationHtml.includes(commentsHtml));
@@ -391,3 +391,68 @@ for(const file of readdirSync('content').filter(f=>f.endsWith('.md'))) {
  assert(!/(?<![A-Za-z_])(if|continue|break|while|std::|int|double|bool)(?![A-Za-z_])/.test(prose),`${file}: unformatted C++ prose token`);
 }
 console.log('PASS: all published sources format core C++ prose tokens as inline code');
+
+// 02-2 publication: preserve every reviewed word and code/output block.
+const stringsSource=readFileSync('content/string-values.md','utf8');
+const stringsHtml=readFileSync('docs/lessons/string-values/index.html','utf8');
+assert(publishedChapters.some(c=>c.number==='02-2'&&c.slug==='string-values'&&c.title==='문자열을 값으로 다루기'));
+assert.equal([...stringsHtml.matchAll(/<h1[ >]/g)].length,1);
+assert(stringsHtml.includes(commentsHtml));
+assert(homeHtml.includes('/cpp-jeongseok/lessons/string-values/'));
+assert(functionsHtml.includes('/cpp-jeongseok/lessons/string-values/'));
+assert(stringsHtml.includes('/cpp-jeongseok/lessons/functions-basics/'));
+const stringsBlocks=[...stringsSource.matchAll(/^```(cpp|text)\n([\s\S]*?)^```/gm)];
+const stringsRendered=[...stringsHtml.matchAll(/<pre><code class="[^"]*language-(cpp|plaintext)[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
+assert.equal(stringsBlocks.length,stringsRendered.length);
+for(let i=0;i<stringsBlocks.length;i++) {
+ assert.equal(stringsRendered[i][1],stringsBlocks[i][1]==='cpp'?'cpp':'plaintext');
+ assert.equal(decode(stringsRendered[i][2].replace(/<[^>]*>/g,'')).trimEnd(),stringsBlocks[i][2].trimEnd(),`02-2 block ${i+1} exact text`);
+}
+const {marked}=await import('marked');
+const inlineTokens=[];
+marked.walkTokens(marked.lexer(stringsSource),token=>{if(token.type==='codespan')inlineTokens.push(token.text)});
+for(const token of inlineTokens) {
+ const escaped=token.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+ assert(stringsHtml.includes(`<code>${escaped}</code>`),`02-2 inline code: ${token}`);
+}
+const stringsFiles=['01_length_empty.cpp','02_concatenation.cpp','03_find_npos.cpp','04_find_boundaries.cpp','05_char_and_string.cpp','06_getline.cpp','07_number_then_line.cpp','08_bytes_and_text.cpp'];
+const stringsPrograms=stringsBlocks.filter(b=>b[1]==='cpp'&&b[2].includes('int main()'));
+assert.equal(stringsPrograms.length,8);
+for(const dir of ['assets/examples/02-2','docs/assets/examples/02-2']) {
+ assert.deepEqual(readdirSync(dir).sort(),[...stringsFiles,'README.md','02-2-string-examples.zip'].sort());
+ for(const name of stringsFiles) {
+  assert(stringsPrograms.some(b=>b[2]===readFileSync(`${dir}/${name}`,'utf8')),`02-2 exact downloadable ${name}`);
+  assert(stringsHtml.includes(`/cpp-jeongseok/assets/examples/02-2/${name}`));
+ }
+ const guide=readFileSync(`${dir}/README.md`,'utf8');
+ for(const term of ['Visual Studio','MSVC','/std:c++20','/utf-8','하나씩'])assert(guide.includes(term));
+ assert(!guide.includes('../tests/'));
+}
+const stringsFigure=[...stringsHtml.matchAll(/<figure class="concept-figure">([\s\S]*?)<\/figure>/g)];
+assert.equal(stringsFigure.length,1);
+const stringsImage='/cpp-jeongseok/assets/illustrations/02-2-string-workbench.webp';
+const stringsAlt='두 짧은 파란 띠와 하나의 긴 띠, 긴 띠의 일부를 살펴보는 청록색 돋보기';
+const stringsCaption='AI로 생성한 개념 일러스트입니다. 두 문자열을 잇고 문자열 안에서 일부를 찾는 작업을 비유합니다. 실제 메모리 배치나 문자 개수를 나타내는 도표는 아닙니다.';
+for(const part of [`href="${stringsImage}"`,`src="${stringsImage}"`,`alt="${stringsAlt}"`,'width="1200" height="800"','loading="lazy"','decoding="async"',`<figcaption>${stringsCaption}</figcaption>`])assert(stringsFigure[0][1].includes(part));
+assert(readFileSync('assets/illustrations/02-2-string-workbench.webp').equals(readFileSync('docs/assets/illustrations/02-2-string-workbench.webp')));
+for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','/workspace/','CHECKPOINT','MANIFEST','GCC_REPORT','lesson-02-2-private']) {
+ for(const text of [stringsSource,stringsHtml,readFileSync('assets/examples/02-2/README.md','utf8')])assert(!text.includes(marker),`02-2 private marker ${marker}`);
+}
+for(const part of ['hljs-stl-type">string</span>','hljs-global">cout</span>','hljs-global">cin</span>','hljs-title function_">find</span>','hljs-title function_">getline</span>'])assert(stringsHtml.includes(part));
+assert(!/<(?:iostream|string|limits)>/.test(stringsHtml));
+// Normalize only the presentation additions, then lock the complete reviewed body.
+const restoredStrings='# 02-2 문자열을 값으로 다루기\n\n'+stringsSource
+ .replace(/<figure class="concept-figure">[\s\S]*?<\/figure>/,`![${stringsAlt}](assets/string-workbench.webp)\n\n*${stringsCaption}*`)
+ .replace(/## 예제 파일 받기\n[\s\S]*?(?=## 참고 자료)/,'');
+const {createHash}=await import('node:crypto');
+assert.equal(createHash('sha256').update(restoredStrings).digest('hex'),'c2df65f8de163f05899e5ce75acf644d1eb27d89230200d4f22bab72c108763c','02-2 full reviewed body preservation');
+const {execFileSync}=await import('node:child_process');
+execFileSync('python3',['-c',`import zipfile, pathlib
+p=pathlib.Path('assets/examples/02-2')
+with zipfile.ZipFile(p/'02-2-string-examples.zip') as z:
+ expected=sorted('02-2-string-examples/'+f.name for f in p.iterdir() if f.suffix in ['.cpp','.md'])
+ assert sorted(z.namelist()) == expected
+ for name in z.namelist(): assert z.read(name) == (p/pathlib.Path(name).name).read_bytes()
+assert (p/'02-2-string-examples.zip').read_bytes() == pathlib.Path('docs/assets/examples/02-2/02-2-string-examples.zip').read_bytes()
+`]);
+console.log(`PASS: 02-2 full reviewed body, ${stringsBlocks.length} exact blocks, ${inlineTokens.length} inline code spans, eight exact sources, source-only ZIP, MSVC guide, caption/alt, privacy, navigation, comments and existing colors`);

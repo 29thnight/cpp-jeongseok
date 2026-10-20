@@ -72,6 +72,14 @@
     "tags": "함수 매개변수 인수 반환값 return void 지역 변수 값 전달 선언 정의 MSVC C++20"
   },
   {
+    "number": "02-2",
+    "title": "문자열을 값으로 다루기",
+    "description": "문자열 길이·연결·검색 · 한 줄 입력 · char와 문자열 · 연습 6개와 해설",
+    "status": "published",
+    "slug": "string-values",
+    "tags": "문자열 string length size empty find npos getline char UTF-8 MSVC C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",

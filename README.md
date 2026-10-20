@@ -1,6 +1,6 @@
 # C++의 정석
 
-C++20을 기준으로 만드는 한국어 현대 C++ 교재. 현재 **제1판 초안**이며 소개 글 1편과 본편 8수업이 공개되었습니다. 본 강좌 목차는 집필 계획입니다.
+C++20을 기준으로 만드는 한국어 현대 C++ 교재. 현재 **제1판 초안**이며 소개 글 1편과 본편 9수업이 공개되었습니다. 본 강좌 목차는 집필 계획입니다.
 
 ## 사이트
 
@@ -11,6 +11,8 @@ GitHub Pages: https://29thnight.github.io/cpp-jeongseok/
 - `assets/examples/01-2/`: 본문의 완전한 C++ 실행 예제 4개
 - `content/functions-basics.md`: 02-1 함수를 나누는 기준 원문
 - `assets/examples/02-1/`: 본문의 독립 예제 10개 (의도적인 컴파일·링크 오류 예제 2개 포함)
+- `content/string-values.md`: 02-2 문자열을 값으로 다루기 원문
+- `assets/examples/02-2/`: 독립 예제 8개와 Visual Studio/MSVC C++20 실행 안내, 소스 ZIP
 - `content/chapters.json`: 공개/준비 중 상태와 목차
 - `scripts/build.mjs`: 정적 HTML 생성기 (Node.js 20 이상)
 - `assets/`: 공통 스타일, 검색 및 목차 기능, 자체 호스팅 폰트

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 79,
+  "revision": 80,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -447,9 +447,9 @@
       "prerequisites": [
         "02-1"
       ],
-      "status": "awaiting_review",
+      "status": "ready_to_publish",
       "stage": "G",
-      "review": "pending",
+      "review": "approved",
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
@@ -477,11 +477,16 @@
           "result": "passed",
           "checked_at": "2026-10-20T03:06:00+00:00",
           "summary": "GCC C++20 보조검증에서 정상 컴파일 8개와 실행 18건, 예상 컴파일 오류 4건을 확인했다. MSVC는 미실행이다."
+        },
+        "approval": {
+          "result": "passed",
+          "checked_at": "2026-10-20T05:22:00+00:00",
+          "summary": "사용자가 검토한 본문과 새 예제 및 그림의 기존 강좌 사이트 게시를 승인했다."
         }
       },
-      "next_action": "02-2 검토본에 대한 사용자 검수와 별도 공개 승인을 기다린다.",
+      "next_action": "승인된 검토본을 게시하고 실서비스 반영을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20T03:21:03+00:00"
+      "updated_at": "2026-10-20T05:23:07+00:00"
     },
     {
       "id": "02-3",
@@ -1996,6 +2001,13 @@
       "patch_hash": "92f4a97dfb88b5262c7eb724ccc4426779ce53218bf7b429343d166506fe9265",
       "revision": 79,
       "recorded_at": "2026-10-20T03:21:03+00:00"
+    },
+    {
+      "run_id": "02-2_20261020T0522_READY",
+      "lesson_id": "02-2",
+      "patch_hash": "b3fab675be40c9e6983c17b856852ea3b42341c8d8326cf1f2339c3777362e2c",
+      "revision": 80,
+      "recorded_at": "2026-10-20T05:23:07+00:00"
     }
   ]
 }
