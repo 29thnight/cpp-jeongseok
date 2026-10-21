@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 94,
+  "revision": 95,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -501,9 +501,9 @@
       "prerequisites": [
         "02-2"
       ],
-      "status": "awaiting_review",
+      "status": "ready_to_publish",
       "stage": "G",
-      "review": "pending",
+      "review": "approved",
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
@@ -531,11 +531,16 @@
           "result": "passed",
           "checked_at": "2026-10-21T03:21:24.671397+00:00",
           "summary": "본문과 예제 및 그림은 비공개로 유지하며 공개 변경은 진척 상태 두 파일로 한정한다."
+        },
+        "approval": {
+          "result": "passed",
+          "checked_at": "2026-10-21T03:29:14.121229+00:00",
+          "summary": "사용자가 개정 검토본의 본문과 예제 및 그림 게시를 승인했다."
         }
       },
-      "next_action": "auto 기본 규칙을 보완한 비공개 검토본의 사람 검수를 기다린다. 게시에는 별도 승인이 필요하다.",
+      "next_action": "승인된 개정본을 게시하고 실제 배포 및 탐색 경로를 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-21T03:21:25+00:00"
+      "updated_at": "2026-10-21T03:29:14+00:00"
     },
     {
       "id": "02-4",
@@ -2137,6 +2142,13 @@
       "patch_hash": "7e0029e342c5c6c5a40f1c6259351e713aa797e8f20be3f129e892dd9f0ec410",
       "revision": 94,
       "recorded_at": "2026-10-21T03:21:25+00:00"
+    },
+    {
+      "run_id": "02-3_20261021_publish_ready",
+      "lesson_id": "02-3",
+      "patch_hash": "a0bd55c31a0457e320ac7d9663e3fdc7ce0cf42d465b3c9f202982511fc70a96",
+      "revision": 95,
+      "recorded_at": "2026-10-21T03:29:14+00:00"
     }
   ]
 }

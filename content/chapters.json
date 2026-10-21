@@ -80,6 +80,14 @@
     "tags": "문자열 string length size empty find npos getline char UTF-8 MSVC C++20"
   },
   {
+    "number": "02-3",
+    "title": "vector와 array로 여러 값 다루기",
+    "description": "원소 개수와 인덱스 · 안전한 접근 · 범위 for · auto 기본 규칙 · 연습과 해설",
+    "status": "published",
+    "slug": "vector-array",
+    "tags": "vector array 컨테이너 원소 크기 인덱스 범위 for auto const C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",

@@ -148,7 +148,7 @@ assert(readingHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(firstHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(readingHtml.includes('/cpp-jeongseok/lessons/first-execution/'));
-assert(homeHtml.includes('본편 9수업'));
+assert(homeHtml.includes('본편 10수업'));
 assert.equal([...readingHtml.matchAll(/<h1[ >]/g)].length,1);
 const readingBlocks=[...readingSource.matchAll(/```cpp\n([\s\S]*?)```/g)];
 const readingRendered=[...readingHtml.matchAll(/<pre><code class="[^"]*language-cpp[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
@@ -191,7 +191,7 @@ console.log('PASS: 01-1 approved code preservation, five exercise answers, navig
 const calculationHtml=readFileSync('docs/lessons/calculation-conversion/index.html','utf8');
 const calculationSource=readFileSync('content/calculation-conversion.md','utf8');
 const publishedChapters=JSON.parse(readFileSync('content/chapters.json','utf8')).filter(c=>c.status==='published');
-assert.equal(publishedChapters.length,10, 'Introduction plus nine published lessons');
+assert.equal(publishedChapters.length,11, 'Introduction plus ten published lessons');
 assert(publishedChapters.some(c=>c.number==='01-2'&&c.slug==='calculation-conversion'&&c.title==='계산과 변환'));
 assert.equal([...calculationHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(calculationHtml.includes(commentsHtml));
@@ -456,3 +456,12 @@ with zipfile.ZipFile(p/'02-2-string-examples.zip') as z:
 assert (p/'02-2-string-examples.zip').read_bytes() == pathlib.Path('docs/assets/examples/02-2/02-2-string-examples.zip').read_bytes()
 `]);
 console.log(`PASS: 02-2 full reviewed body, ${stringsBlocks.length} exact blocks, ${inlineTokens.length} inline code spans, eight exact sources, source-only ZIP, MSVC guide, caption/alt, privacy, navigation, comments and existing colors`);
+
+const containersHtml=readFileSync('docs/lessons/vector-array/index.html','utf8');
+assert(publishedChapters.some(c=>c.number==='02-3'&&c.slug==='vector-array'));
+assert(homeHtml.includes('/cpp-jeongseok/lessons/vector-array/'));
+assert(stringsHtml.includes('/cpp-jeongseok/lessons/vector-array/'));
+assert(containersHtml.includes('<code>auto</code>를 쓰기 전에 알아둘 기본 규칙'));
+assert(containersHtml.includes('initializer_list&lt;int&gt;'));
+assert(containersHtml.includes('02-3-array-vector.webp'));
+assert(containersHtml.includes('08_auto_rules.cpp'));
