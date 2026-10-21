@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 96,
+  "revision": 103,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -551,19 +551,45 @@
       "id": "02-4",
       "track": "core",
       "title": "함수로 자료 처리하기: const 참조 매개변수, 값 반환, 간단한 통계 프로그램",
-      "goal": "함수로 자료 처리하기: const 참조 매개변수, 값 반환, 간단한 통계 프로그램의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "값과 const 참조 매개변수의 차이를 설명하고 자료를 읽는 함수의 값 반환을 활용하여 빈 입력과 경계를 처리하는 통계 프로그램을 작성한다.",
       "prerequisites": [
         "02-3"
       ],
-      "status": "not_started",
-      "stage": "A",
-      "review": "not_requested",
-      "draft": "absent",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
+      "evidence": {
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-21T15:28:53.206390+00:00",
+          "summary": "GCC14.2 strict·UBSan 및 MSVC19.51 Od·O2에서 정상 예제 5개와 입력 16사례를 검증하고 의도된 컴파일 오류 2개를 확인했다."
+        },
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-21T15:28:53.206390+00:00",
+          "summary": "C++20 참조·const 접근·값 반환·빈 입력 계약과 연습 해설을 독립 검토했다. 안전한 구간 조합 5151개를 검사했다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-21T15:28:53.206390+00:00",
+          "summary": "새 문장·예제·AI 개념 그림 및 연습 6개를 검토했다. 정본 PDF 17쪽을 검수했으며 편집용 변환본의 글꼴 치환은 별도 기록했다."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-21T15:28:53.206390+00:00",
+          "summary": "참조 자료와 검토 산출물의 접근 및 저장 후 재읽기를 확인했다. 기존 사이트 빌드·테스트와 상태 검사 32개를 통과했으며 새 본문 게시 검증은 승인 후 수행한다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-21T15:28:53.206390+00:00",
+          "summary": "공개 변경을 상태와 진척표로 제한했다. 초안·그림·코드·상세 근거는 사용자 소유 비공개 보관소에서 재읽어 확인했다."
+        }
+      },
+      "next_action": "정본 검토본에 대한 사용자 검수를 기다린다. 본문·예제·그림의 공개는 별도 승인 후 진행한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "updated_at": "2026-10-21T15:28:53+00:00"
     },
     {
       "id": "03-1",
@@ -2161,6 +2187,55 @@
       "patch_hash": "278cdc11e3d50db6579a937d2dc2e8db5193848c6a9ccafe38096baa86e3772d",
       "revision": 96,
       "recorded_at": "2026-10-21T03:33:48+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T1500_A",
+      "lesson_id": "02-4",
+      "patch_hash": "ff5780024e9dda0f944ec661e8a4d10ba29bbf0eddf4dbe4f69fa5a0acfdafd3",
+      "revision": 97,
+      "recorded_at": "2026-10-21T15:04:25+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T1500_B",
+      "lesson_id": "02-4",
+      "patch_hash": "926f386b018855bfd6bfc001272bef909786f589379c041b380f10bf1ad3941b",
+      "revision": 98,
+      "recorded_at": "2026-10-21T15:06:45+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T1500_C",
+      "lesson_id": "02-4",
+      "patch_hash": "040afb3a5f8738a15aa660125b05b03b93f50f5a64f1578e35018ead66129e5f",
+      "revision": 99,
+      "recorded_at": "2026-10-21T15:07:51+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T1500_D",
+      "lesson_id": "02-4",
+      "patch_hash": "3bc2cb3c48449299044aa566c4c5afe56d6a0b76f87fa8cdbcc72ddcd49279ed",
+      "revision": 100,
+      "recorded_at": "2026-10-21T15:09:40+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T1500_E",
+      "lesson_id": "02-4",
+      "patch_hash": "9d0f589d1d777ee998a2457d0d9d6bb7a1f67aed43aa4f67b8b4200cd9793a51",
+      "revision": 101,
+      "recorded_at": "2026-10-21T15:12:34+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T1500_F",
+      "lesson_id": "02-4",
+      "patch_hash": "60a70f06cf9e2288cea992c965c5685146e23f38735fe5d1bd55e79a902fb171",
+      "revision": 102,
+      "recorded_at": "2026-10-21T15:26:31+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T1500_G",
+      "lesson_id": "02-4",
+      "patch_hash": "92e78604c592b3b21f9d357cf8526627bd3888807bd386ba06a28f4a93b5f9ae",
+      "revision": 103,
+      "recorded_at": "2026-10-21T15:28:53+00:00"
     }
   ]
 }
