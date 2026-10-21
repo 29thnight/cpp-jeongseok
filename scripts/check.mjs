@@ -465,3 +465,42 @@ assert(containersHtml.includes('<code>auto</code>를 쓰기 전에 알아둘 기
 assert(containersHtml.includes('initializer_list&lt;int&gt;'));
 assert(containersHtml.includes('02-3-array-vector.webp'));
 assert(containersHtml.includes('08_auto_rules.cpp'));
+
+// Regression: highlight.js uses built_in for casts, type for size_t and a
+// function/params container for parenthesized vector initialization.
+const castWords=['static_cast','dynamic_cast','const_cast','reinterpret_cast'];
+const colorSamples=[
+ ...castWords.map(word=>`${word}<int>(value);`),
+ 'std::size_t index = 0;',
+ 'std :: size_t index = 0;',
+ 'std::vector<int> b(4);\nstd::vector<int> c(2, 9);',
+ 'std::vector<int> a{4};\nstd::vector<std::vector<int>> rows(2);',
+ 'void inspect(std::size_t count, std::vector<int> values);',
+ 'void inspect(int count = static_cast<int>(4));',
+ 'std::cout << std::endl; std::endl(std::cout);',
+ '// static_cast std::size_t std::vector<int>\n/* dynamic_cast std::vector */',
+ '"static_cast std::size_t std::vector<int>"; R"note(const_cast std::vector<int>)note";',
+ '#include <vector>\n#define CAST_TEXT "static_cast std::size_t"'
+];
+const colorHtml=colorSamples.map(text=>renderCode({lang:'cpp',text}));
+for(let i=0;i<colorSamples.length;i++) {
+ const body=colorHtml[i].match(/<pre><code[^>]*>([\s\S]*?)<\/code><\/pre>/)[1];
+ assert.equal(decode(body.replace(/<[^>]*>/g,'')).trimEnd(),colorSamples[i].trimEnd(),'Color normalization must preserve source');
+}
+for(let i=0;i<castWords.length;i++)assert(colorHtml[i].includes(`<span class="hljs-keyword">${castWords[i]}</span>`));
+for(const i of [4,5,8])assert(colorHtml[i].includes('<span class="hljs-stl-type">size_t</span>'));
+for(const i of [6,7])assert.equal((colorHtml[i].match(/class="hljs-stl-type">vector<\/span>/g)||[]).length,i===6?2:3);
+assert(colorHtml[8].includes('<span class="hljs-stl-type">vector</span>'));
+assert(colorHtml[9].includes('<span class="hljs-keyword">static_cast</span>'));
+assert(colorHtml[6].includes('<span class="hljs-namespace">std</span>::'));
+assert(colorHtml[6].includes('<span class="hljs-type">int</span>'));
+assert(colorHtml[10].includes('<span class="hljs-global">cout</span>'));
+assert.equal((colorHtml[10].match(/class="hljs-title function_">endl<\/span>/g)||[]).length,2);
+for(const i of [11,12,13])assert(!/hljs-(?:stl-type|namespace|local)/.test(colorHtml[i]),'Never decorate literals, comments or preprocessor text');
+for(const page of [calculationHtml,containersHtml])assert(page.includes('<span class="hljs-keyword">static_cast</span>'));
+assert(containersHtml.includes('<span class="hljs-stl-type">size_t</span>'));
+for(const code of ['std::vector<int> b(4);','std::vector<int> c(2, 9);'])assert(containersHtml.includes(renderCode({lang:'cpp',text:code}).match(/<code[^>]*>([\s\S]*?)<\/code>/)[1].trimEnd()));
+const syntaxCss=readFileSync('docs/assets/style.css','utf8');
+assert(syntaxCss.includes('.prose pre .hljs-keyword,.prose pre .hljs-type{color:#569cd6}'));
+assert(syntaxCss.includes('.prose pre .hljs-stl-type,.prose pre .hljs-built_in,.prose pre .hljs-title.class_{color:#4ec9b0}'));
+console.log('PASS: four cast keywords blue, qualified size_t/vector green across nested code containers, primitive/namespace/stream colors and protected literals preserved');

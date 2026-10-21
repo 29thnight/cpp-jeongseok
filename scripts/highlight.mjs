@@ -6,6 +6,9 @@ hljs.registerLanguage('cpp', cpp);
 const escapeHtml = value => value.replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
 }[char]));
+const castKeywords = new Set(['static_cast', 'dynamic_cast', 'const_cast', 'reinterpret_cast']);
+// Function/parameter spans are structural containers, not protected tokens.
+const codeContainers = new Set(['<span class="hljs-function">', '<span class="hljs-params">']);
 const standardTypes = new Set(['vector', 'string', 'string_view', 'array', 'span', 'optional', 'variant', 'unique_ptr', 'shared_ptr', 'weak_ptr', 'map', 'set', 'unordered_map', 'unordered_set', 'pair', 'tuple', 'size_t', 'numeric_limits', 'streamsize']);
 
 // Qualified standard streams are namespace-scope objects, not local variables.
@@ -36,25 +39,38 @@ export function highlightCpp(source) {
   const variables = declaredNames(source);
   const html = hljs.highlight(source, { language: 'cpp', ignoreIllegals: true }).value
     .replace(/<span class="hljs-keyword">(if|else|for|while|do|switch|case|default|break|continue|return|throw|try|catch|co_return|co_yield|co_await)<\/span>/g, '<span class="hljs-control">$1</span>');
-  // Only decorate plain text nodes. Never rewrite an HTML attribute, a string,
-  // or a comment, and never change the source text or whitespace.
+  // Decorate plain text in code containers and normalize known token categories.
+  // Strings, comments, preprocessor text and their nested spans remain untouched.
+  // Never change the source text or whitespace.
   const stack = [];
   let precedingText = '';
   const parts = html.split(/(<[^>]+>)/g);
   return parts.map((part, index) => {
     if (part.startsWith('</')) { stack.pop(); return part; }
+    const inCode = stack.every(open => codeContainers.has(open));
     if (part.startsWith('<')) {
+      const word = parts[index + 1];
+      // highlight.js calls named casts built-ins and size_t a primitive type.
+      // Both need a narrower category to match the MSVC-style palette.
+      if (inCode && parts[index + 2] === '</span>') {
+        if (part === '<span class="hljs-built_in">' && castKeywords.has(word)) {
+          part = '<span class="hljs-keyword">';
+        } else if ((part === '<span class="hljs-type">' || part === '<span class="hljs-built_in">')
+            && qualifiedStandard(precedingText) && standardTypes.has(word)) {
+          part = '<span class="hljs-stl-type">';
+        }
+      }
       // highlight.js marks explicit endl(...) calls as built-ins. Apply the
       // same function category as endl passed without parentheses, but never
       // touch nested string/comment spans or unrelated built-ins.
-      if (!stack.length && part === '<span class="hljs-built_in">'
+      if (inCode && part === '<span class="hljs-built_in">'
           && qualifiedStandard(precedingText)) {
         const category = standardTokenClass(parts[index + 1]);
         if (category) part = `<span class="${category}">`;
       }
       // A built-in token followed by '(' is a call, including stream members
       // and numeric_limits<T>::max(). Keep protected strings/comments intact.
-      if (!stack.length && part === '<span class="hljs-built_in">'
+      if (inCode && part === '<span class="hljs-built_in">'
           && /^[A-Za-z_]\w*$/.test(parts[index + 1] || '')
           && parts[index + 2] === '</span>' && /^\s*\(/.test(parts[index + 3] || '')) {
         part = '<span class="hljs-title function_">';
@@ -64,7 +80,7 @@ export function highlightCpp(source) {
     }
     const prefix = precedingText;
     precedingText += part;
-    if (stack.length) return part;
+    if (!inCode) return part;
     return part.replace(/\b[A-Za-z_]\w*\b/g, (word, offset, text) => {
       if (word === 'std' && /^\s*::/.test(text.slice(offset + word.length))) return `<span class="hljs-namespace">${word}</span>`;
       if (qualifiedStandard(prefix + text.slice(0, offset))) {

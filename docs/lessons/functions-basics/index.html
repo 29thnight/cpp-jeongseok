@@ -34,7 +34,7 @@
 <p>다음은 그대로 실행할 수 있는 완성 프로그램입니다. 파일 이름은 <code>01_card_area.cpp</code>입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">sideLength</span>, <span class="hljs-type">int</span> <span class="hljs-local">cardCount</span>)</span>
 </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">oneCardArea</span> = <span class="hljs-local">sideLength</span> * <span class="hljs-local">sideLength</span>;
     <span class="hljs-type">int</span> <span class="hljs-local">totalArea</span> = <span class="hljs-local">oneCardArea</span> * <span class="hljs-local">cardCount</span>;
@@ -58,7 +58,7 @@ Large cards: 192
 Combined area: 336
 </code></pre>
 <p>처음 보는 부분을 함수의 첫 줄부터 읽어 봅시다.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span></span>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">sideLength</span>, <span class="hljs-type">int</span> cardCount)</span></span>
 </code></pre>
 <p>맨 앞의 <code>int</code>는 <strong>반환형</strong>입니다. 이 함수가 계산을 마치면 정수 값을 돌려준다는 뜻입니다. <code>calculateCardArea</code>는 함수 이름입니다. 괄호 안의 <code>int sideLength</code>와 <code>int cardCount</code>는 <strong>매개변수</strong>입니다. 함수가 전달받을 값의 자료형과, 함수 안에서 그 값을 부를 이름을 적습니다. 매개변수가 여러 개이면 쉼표로 구분합니다.</p>
 <p>그 뒤의 중괄호 안이 <strong>함수 본문</strong>입니다. 앞에서 사용한 변수 선언과 계산식이 그대로 들어 있습니다. 마지막의 <code>return totalArea;</code>는 계산한 정수 값을 호출한 곳으로 돌려주면서 이번 함수 실행을 끝냅니다.</p>
@@ -95,7 +95,7 @@ Combined area: 336
 <p>계산은 수행하지만, 호출한 쪽이 결과를 변수에 저장하거나 다른 식에 사용하지 않습니다. 이 함수는 출력도 하지 않으므로 눈에 보이는 결과가 없습니다. 함수가 호출되지 않은 것과는 다른 상황입니다.</p>
 <p><code>return</code>은 현재 실행 중인 함수를 끝낸다는 점도 중요합니다. 일반 계산 함수에서 <code>return</code>을 만나면 <code>main</code> 전체가 끝나는 것이 아니라 그 함수를 부른 곳으로 돌아갑니다. 반면 이 프로그램의 <code>main</code>에서 <code>return 1;</code>을 만나면 <code>main</code>을 끝내며 실패를 나타내는 종료 코드를 전달합니다.</p>
 <p>정수를 반환하는 함수는 정상적으로 끝나는 모든 경로에서 정수 결과를 준비해야 합니다. 다음은 함수 정의만 보여 주는 코드 조각입니다.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">atLeastOne</span><span class="hljs-params">(<span class="hljs-type">int</span> count)</span>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">atLeastOne</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">count</span>)</span>
 </span>{
     <span class="hljs-control">if</span> (<span class="hljs-local">count</span> &lt; <span class="hljs-number">1</span>)
     {
@@ -124,7 +124,7 @@ Combined area: 336
 <p>이를 직접 확인하는 완성 프로그램입니다. 파일 이름은 <code>02_local_copy.cpp</code>입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">addOne</span><span class="hljs-params">(<span class="hljs-type">int</span> number)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">addOne</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">number</span>)</span>
 </span>{
     <span class="hljs-local">number</span> = <span class="hljs-local">number</span> + <span class="hljs-number">1</span>;
     <span class="hljs-control">return</span> <span class="hljs-local">number</span>;
@@ -150,15 +150,15 @@ Returned: 8
 <h2 id="section-8">8. 선언은 사용 방법을 알리고, 정의는 본문을 제공합니다</h2>
 <p>첫 프로그램에서는 계산 함수 전체를 <code>main</code> 위에 작성했습니다. 그래서 <code>main</code>에서 호출을 만났을 때 컴파일러가 함수의 이름과 자료형 정보를 이미 알 수 있었습니다.</p>
 <p>반대로 <code>main</code>을 먼저 보여 주고 자세한 함수 본문을 아래에 배치하고 싶을 수도 있습니다. 이때는 호출보다 앞에 <strong>함수 선언</strong>을 적습니다.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span></span>;
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">sideLength</span>, <span class="hljs-type">int</span> cardCount)</span></span>;
 </code></pre>
 <p>함수의 첫 줄과 비슷하지만 본문이 없고 세미콜론으로 끝납니다. “정수 두 개를 받아 정수를 돌려주는 함수가 있다”는 정보를 알립니다. 실제 계산 방법은 들어 있지 않습니다.</p>
 <p>중괄호와 본문까지 작성하면 <strong>함수 정의</strong>입니다. 정의도 함수에 대한 정보를 알리므로 선언의 역할을 함께 합니다. 따라서 함수 정의를 호출보다 앞에 썼다면, 같은 함수의 별도 선언을 반드시 추가할 필요는 없습니다. <a href="https://learn.microsoft.com/en-us/cpp/cpp/declarations-and-definitions-cpp?view=msvc-170">Microsoft의 선언과 정의 설명</a>에서 두 역할을 더 살펴볼 수 있습니다.</p>
 <p>다음 완성 프로그램은 선언을 먼저 쓰는 배치입니다. 파일 이름은 <code>03_declaration_definition.cpp</code>입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span></span>;
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTotalArea</span><span class="hljs-params">(<span class="hljs-type">int</span> totalArea)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">sideLength</span>, <span class="hljs-type">int</span> <span class="hljs-local">cardCount</span>)</span></span>;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTotalArea</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">totalArea</span>)</span></span>;
 
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
@@ -166,12 +166,12 @@ Returned: 8
     <span class="hljs-title function_">printTotalArea</span>(<span class="hljs-local">totalArea</span>);
 }
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">sideLength</span>, <span class="hljs-type">int</span> <span class="hljs-local">cardCount</span>)</span>
 </span>{
     <span class="hljs-control">return</span> <span class="hljs-local">sideLength</span> * <span class="hljs-local">sideLength</span> * <span class="hljs-local">cardCount</span>;
 }
 
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTotalArea</span><span class="hljs-params">(<span class="hljs-type">int</span> totalArea)</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTotalArea</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">totalArea</span>)</span>
 </span>{
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Total area: &quot;</span> &lt;&lt; <span class="hljs-local">totalArea</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
 }
@@ -193,12 +193,12 @@ Returned: 8
 <p>다음은 완성 프로그램 <code>04_checked_layout.cpp</code>입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateCardArea</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">sideLength</span>, <span class="hljs-type">int</span> <span class="hljs-local">cardCount</span>)</span>
 </span>{
     <span class="hljs-control">return</span> <span class="hljs-local">sideLength</span> * <span class="hljs-local">sideLength</span> * <span class="hljs-local">cardCount</span>;
 }
 
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printLayout</span><span class="hljs-params">(<span class="hljs-type">int</span> sideLength, <span class="hljs-type">int</span> cardCount, <span class="hljs-type">int</span> totalArea)</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printLayout</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">sideLength</span>, <span class="hljs-type">int</span> <span class="hljs-local">cardCount</span>, <span class="hljs-type">int</span> <span class="hljs-local">totalArea</span>)</span>
 </span>{
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Side length: &quot;</span> &lt;&lt; <span class="hljs-local">sideLength</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Card count: &quot;</span> &lt;&lt; <span class="hljs-local">cardCount</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
@@ -282,7 +282,7 @@ Total area: 144
 <p>다음 완성 프로그램 <code>ex06_missing_definition.cpp</code>에는 함수 선언과 호출이 있습니다. 하지만 의도적으로 정의를 빠뜨렸습니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> boxWidth, <span class="hljs-type">int</span> boxCount)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">boxWidth</span>, <span class="hljs-type">int</span> boxCount)</span></span>;
 
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
@@ -298,7 +298,7 @@ Total area: 144
 <p>완성 프로그램 <code>ex02_practice_minutes.cpp</code>입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculatePracticeMinutes</span><span class="hljs-params">(<span class="hljs-type">int</span> roundCount, <span class="hljs-type">int</span> minutesPerRound)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculatePracticeMinutes</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">roundCount</span>, <span class="hljs-type">int</span> <span class="hljs-local">minutesPerRound</span>)</span>
 </span>{
     <span class="hljs-control">return</span> <span class="hljs-local">roundCount</span> * <span class="hljs-local">minutesPerRound</span>;
 }
@@ -358,14 +358,14 @@ Total area: 144
 <p>완성 프로그램 <code>ex06_definition_added.cpp</code>입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> boxWidth, <span class="hljs-type">int</span> boxCount)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">boxWidth</span>, <span class="hljs-type">int</span> <span class="hljs-local">boxCount</span>)</span></span>;
 
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-title function_">calculateShelfLength</span>(<span class="hljs-number">12</span>, <span class="hljs-number">4</span>) &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
 }
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> boxWidth, <span class="hljs-type">int</span> boxCount)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calculateShelfLength</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">boxWidth</span>, <span class="hljs-type">int</span> <span class="hljs-local">boxCount</span>)</span>
 </span>{
     <span class="hljs-control">return</span> <span class="hljs-local">boxWidth</span> * <span class="hljs-local">boxCount</span>;
 }

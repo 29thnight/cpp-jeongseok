@@ -58,8 +58,8 @@
     <span class="hljs-type">int</span> <span class="hljs-local">total</span>{<span class="hljs-number">7</span>};
     <span class="hljs-type">int</span> <span class="hljs-local">count</span>{<span class="hljs-number">2</span>};
     <span class="hljs-type">double</span> <span class="hljs-local">storedAfter</span> = <span class="hljs-local">total</span> / <span class="hljs-local">count</span>;
-    <span class="hljs-type">double</span> <span class="hljs-local">convertedAfter</span> = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">double</span>&gt;(<span class="hljs-local">total</span> / <span class="hljs-local">count</span>);
-    <span class="hljs-type">double</span> <span class="hljs-local">convertedBefore</span> = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">double</span>&gt;(<span class="hljs-local">total</span>) / <span class="hljs-local">count</span>;
+    <span class="hljs-type">double</span> <span class="hljs-local">convertedAfter</span> = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">double</span>&gt;(<span class="hljs-local">total</span> / <span class="hljs-local">count</span>);
+    <span class="hljs-type">double</span> <span class="hljs-local">convertedBefore</span> = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">double</span>&gt;(<span class="hljs-local">total</span>) / <span class="hljs-local">count</span>;
 
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">storedAfter</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">endl</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">convertedAfter</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">endl</span>;
@@ -89,8 +89,8 @@
 </code></pre>
 <p>두 줄 모두 중괄호 초기화에서 허용되지 않는 좁히기 변환입니다. 3.0처럼 눈으로 보기에 소수 부분이 0이어도, 부동소수점 타입에서 정수 타입으로 바꾸는 경우는 이 규칙에 해당합니다. 컴파일러는 진단해야 하며, 수업의 엄격한 빌드 설정에서는 빌드가 실패합니다. [참고 3]</p>
 <p>정수 부분만 사용하려는 의도가 분명하고 변환 결과가 표현 범위 안이라면 명시적으로 변환할 수 있습니다.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-type">int</span> <span class="hljs-local">whole</span>{<span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(<span class="hljs-number">3.9</span>)};
-<span class="hljs-type">int</span> <span class="hljs-local">negativeWhole</span>{<span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(<span class="hljs-number">-3.9</span>)};
+<pre><code class="language-cpp hljs"><span class="hljs-type">int</span> <span class="hljs-local">whole</span>{<span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(<span class="hljs-number">3.9</span>)};
+<span class="hljs-type">int</span> <span class="hljs-local">negativeWhole</span>{<span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(<span class="hljs-number">-3.9</span>)};
 </code></pre>
 <p>각 값은 3과 -3입니다. 여기서도 반올림하거나 아래쪽 정수로 내리는 것이 아니라 0 방향으로 소수 부분을 버립니다. 중괄호가 받아들이는 것은 이미 <code>int</code>로 변환된 값입니다. 앞의 <code>static_cast</code>가 없던 일이 되는 것은 아닙니다.</p>
 <p><code>static_cast</code>는 “이 변환을 의도했다”는 표기이지, 값의 범위를 검사하는 장치가 아닙니다. 소수 부분을 버린 결과를 대상 정수 타입에 담을 수 없으면 부동소수점에서 정수로 바꾸는 동작 자체가 미정의 동작입니다. NaN이나 무한대를 <code>int</code>로 바꾸는 것 역시 안전한 우회로가 아닙니다. 이번에는 3.9처럼 작은 유한 값만 변환합니다. [참고 4]</p>

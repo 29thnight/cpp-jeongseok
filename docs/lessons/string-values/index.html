@@ -56,7 +56,7 @@ space empty=false
     <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-local">empty</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;empty + name=&quot;</span> &lt;&lt; <span class="hljs-local">empty</span> + <span class="hljs-local">name</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
     <span class="hljs-comment">// Two string literals cannot be added with +. Start with std::string.</span>
-    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">string</span>(<span class="hljs-string">&quot;C&quot;</span>) + <span class="hljs-string">&quot;++&quot;</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span>(<span class="hljs-string">&quot;C&quot;</span>) + <span class="hljs-string">&quot;++&quot;</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
 }
 </code></pre>
 <p>예상 출력:</p>
@@ -164,7 +164,7 @@ a in empty missing=true
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-type">char</span> <span class="hljs-local">letter</span> = <span class="hljs-string">&#x27;A&#x27;</span>; <span class="hljs-comment">// Single quotes: one char.</span>
     <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-local">word</span> = <span class="hljs-string">&quot;A&quot;</span>; <span class="hljs-comment">// Double quotes: a string literal initializes string.</span>
-    <span class="hljs-function">std::string <span class="hljs-title">repeated</span><span class="hljs-params">(<span class="hljs-number">3</span>, letter)</span></span>;
+    <span class="hljs-function"><span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-title">repeated</span><span class="hljs-params">(<span class="hljs-number">3</span>, <span class="hljs-local">letter</span>)</span></span>;
     <span class="hljs-local">word</span> += <span class="hljs-string">&#x27;!&#x27;</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;letter=&quot;</span> &lt;&lt; <span class="hljs-local">letter</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;word=&quot;</span> &lt;&lt; <span class="hljs-local">word</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
