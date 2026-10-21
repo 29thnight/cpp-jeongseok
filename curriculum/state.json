@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 108,
+  "revision": 113,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -563,33 +563,33 @@
       "evidence": {
         "examples": {
           "result": "passed",
-          "checked_at": "2026-10-21T15:28:53.206390+00:00",
-          "summary": "기존 GCC14.2 및 MSVC19.51 실제 실행 증거와 예제 7파일 해시를 대조했다. 코드 변경 없이 반복 안내만 제거했으며 이번 편집에서 재컴파일하지 않았다."
+          "checked_at": "2026-10-21T23:40:15+00:00",
+          "summary": "빈 줄만 추가한 예제를 GCC14.2 C++20 strict 및 UBSan으로 각각 빌드하고 16사례씩 실행했다. 의도된 컴파일 실패 2개를 확인했다. MSVC는 이번 서식 수정에서 재실행하지 않았다."
         },
         "technical": {
           "result": "passed",
-          "checked_at": "2026-10-21T20:56:15.174865+00:00",
-          "summary": "코드와 수업 고유 오류 안내 및 연습 해설의 보존을 확인했다. 기술적 계약 변경은 없다."
+          "checked_at": "2026-10-21T23:40:15+00:00",
+          "summary": "예제 7파일과 본문 37개 코드블록의 공백 외 내용이 이전 검토본과 동일함을 확인했다. 기술적 계약과 연습 해설은 변경하지 않았다."
         },
         "editorial": {
           "result": "passed",
-          "checked_at": "2026-10-21T20:56:15.174865+00:00",
-          "summary": "공통 실습 준비 4문단을 제거하고 정본17쪽과 편집용 변환본19쪽을 육안 검토했다. 변환본 글꼴 치환은 별도 기록했다."
+          "checked_at": "2026-10-21T23:40:15+00:00",
+          "summary": "닫는 중괄호 뒤 독립 문장 앞에 빈 줄을 추가하고 정본17쪽을 육안 검토했다. 편집용 변환본19쪽의 기존 글꼴과 쪽나눔 차이를 기록했다."
         },
         "links": {
           "result": "passed",
-          "checked_at": "2026-10-21T20:56:15.174865+00:00",
-          "summary": "개정 검토본을 저장 후 재다운로드하여 바이트 일치를 확인했다. 공개 사이트 파일은 변경하지 않았고 상태 검사32개를 통과했다."
+          "checked_at": "2026-10-21T23:40:15+00:00",
+          "summary": "개정 문서와 검토 묶음을 영속 저장 후 재다운로드하여 바이트와 파일 해시를 확인했다. 공개 본문은 변경하지 않았으며 상태 검사32개를 통과했다."
         },
         "privacy": {
           "result": "passed",
-          "checked_at": "2026-10-21T20:56:15.174865+00:00",
-          "summary": "비공개 판본과 이전 판본을 별도 보존했다. 공개 변경은 상태 및 진척표만 대상으로 검토했다."
+          "checked_at": "2026-10-21T23:40:15+00:00",
+          "summary": "이전 판본을 보존하고 개정 자료의 비공개 권한을 확인했다. 공개 변경을 상태와 진척표 두 파일로 제한했다."
         }
       },
-      "next_action": "반복 안내를 정리한 개정 검토본의 사용자 검수를 기다린다. 본문·예제·그림 공개는 별도 승인 후 진행한다.",
+      "next_action": "빈 줄 서식을 정리한 개정 검토본의 사용자 검수를 기다린다. 본문·예제·그림 공개는 별도 승인 후 진행한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-21T20:57:53+00:00"
+      "updated_at": "2026-10-21T23:40:50+00:00"
     },
     {
       "id": "03-1",
@@ -2271,6 +2271,41 @@
       "patch_hash": "b92598e948dd958ec43e06ae16e5ef3c6342161302ba22a57e0ea5abae6d00ab",
       "revision": 108,
       "recorded_at": "2026-10-21T20:57:53+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2333_braces_C",
+      "lesson_id": "02-4",
+      "patch_hash": "15ac70d63b717ec62e0b4bc3cbd64fad3032c8db6fe23eb9d44554bef294f078",
+      "revision": 109,
+      "recorded_at": "2026-10-21T23:40:49+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2333_braces_D",
+      "lesson_id": "02-4",
+      "patch_hash": "fe569c3f0422b124efc2fd973ca1accde0678e22ab80b6f671e576178e8a317d",
+      "revision": 110,
+      "recorded_at": "2026-10-21T23:40:49+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2333_braces_E",
+      "lesson_id": "02-4",
+      "patch_hash": "c0eabc6d3ebb3bbcc44c71e973f156df91a64b4ecf7d1bb19ba2fabc546ecb22",
+      "revision": 111,
+      "recorded_at": "2026-10-21T23:40:50+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2333_braces_F",
+      "lesson_id": "02-4",
+      "patch_hash": "3fbbdd4480ba817452e8f55c0f4dc6bf0ec8169d084d8e63ccff6979a3ac54d8",
+      "revision": 112,
+      "recorded_at": "2026-10-21T23:40:50+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2333_braces_G",
+      "lesson_id": "02-4",
+      "patch_hash": "f0490d5dc2100cc275bd0e118a925a3c10fec5aa50ec433653e036205f6fb14e",
+      "revision": 113,
+      "recorded_at": "2026-10-21T23:40:50+00:00"
     }
   ]
 }
