@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 95,
+  "revision": 96,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -501,11 +501,11 @@
       "prerequisites": [
         "02-2"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/vector-array/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -536,11 +536,16 @@
           "result": "passed",
           "checked_at": "2026-10-21T03:29:14.121229+00:00",
           "summary": "사용자가 개정 검토본의 본문과 예제 및 그림 게시를 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-21T03:33:48.584749+00:00",
+          "summary": "승인된 개정본의 Pages 배포 성공과 본문·그림·예제 등 14개 HTTP 응답의 원본 일치 및 데스크톱 표시를 확인했다. 모바일 별도 검사는 미실행이다."
         }
       },
-      "next_action": "승인된 개정본을 게시하고 실제 배포 및 탐색 경로를 확인한다.",
+      "next_action": "게시된 수업에 대한 사용자 피드백을 기다린다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-21T03:29:14+00:00"
+      "updated_at": "2026-10-21T03:33:48+00:00"
     },
     {
       "id": "02-4",
@@ -2149,6 +2154,13 @@
       "patch_hash": "a0bd55c31a0457e320ac7d9663e3fdc7ce0cf42d465b3c9f202982511fc70a96",
       "revision": 95,
       "recorded_at": "2026-10-21T03:29:14+00:00"
+    },
+    {
+      "run_id": "02-3_20261021_published",
+      "lesson_id": "02-3",
+      "patch_hash": "278cdc11e3d50db6579a937d2dc2e8db5193848c6a9ccafe38096baa86e3772d",
+      "revision": 96,
+      "recorded_at": "2026-10-21T03:33:48+00:00"
     }
   ]
 }
