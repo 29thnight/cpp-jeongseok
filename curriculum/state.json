@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 88,
+  "revision": 94,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -507,35 +507,35 @@
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-21T03:21:24.671397+00:00",
+          "summary": "GCC14.2 C++20 strict 및 UBSan 기존 17경우와 추가 auto 예제를 실행하고 타입검사 및 의도된 컴파일 실패를 확인했다. MSVC는 미실행이다."
+        },
         "technical": {
           "result": "passed",
-          "checked_at": "2026-10-20T16:25:30Z",
-          "summary": "C++20 표준 근거와 목표·선행·경계 조건·연습 해설 및 본문 코드 14블록을 검토했다."
+          "checked_at": "2026-10-21T03:21:24.671397+00:00",
+          "summary": "C++20 추론·초기화·값 복사·목록 규칙을 표준 근거와 독립 검토로 확인했다."
         },
         "editorial": {
           "result": "passed",
-          "checked_at": "2026-10-20T16:25:30Z",
-          "summary": "새 본문·개념 일러스트·6문제 해설 및 검토 문서 전체를 육안 검토했다."
+          "checked_at": "2026-10-21T03:21:24.671397+00:00",
+          "summary": "첫 사용 전 규칙과 확인 문제를 추가하고 개정 검토본 전체의 PDF 및 DOCX 렌더를 육안 검토했다."
         },
         "links": {
           "result": "passed",
-          "checked_at": "2026-10-20T16:25:30Z",
-          "summary": "참고 링크와 비공개 묶음 내부 경로를 확인했다. 사이트 변경은 없으며 사이트 빌드·배포 검증은 게시 승인 이후 별도 수행한다."
+          "checked_at": "2026-10-21T03:21:24.671397+00:00",
+          "summary": "참고 근거와 비공개 예제 경로를 확인했다. 사이트 빌드·배포는 공개 승인 이후 수행한다."
         },
         "privacy": {
           "result": "passed",
-          "checked_at": "2026-10-20T16:25:30Z",
-          "summary": "공개 변경을 최소 상태와 진척표로 한정하고 원본·비공개 본문·그림·저장 위치가 포함되지 않음을 검토했다."
-        },
-        "examples": {
-          "result": "passed",
-          "checked_at": "2026-10-20T16:12:00Z",
-          "summary": "GCC14.2 C++20 엄격 경고 및 UBSan 각각 8빌드와 17실행 및 별도 의도된 컴파일 실패를 확인했다. MSVC는 미실행이다."
+          "checked_at": "2026-10-21T03:21:24.671397+00:00",
+          "summary": "본문과 예제 및 그림은 비공개로 유지하며 공개 변경은 진척 상태 두 파일로 한정한다."
         }
       },
-      "next_action": "비공개 검토본에 대한 사람 검수를 기다린다. 본문·예제·그림 게시에는 별도 승인이 필요하다.",
+      "next_action": "auto 기본 규칙을 보완한 비공개 검토본의 사람 검수를 기다린다. 게시에는 별도 승인이 필요하다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20T16:27:17+00:00"
+      "updated_at": "2026-10-21T03:21:25+00:00"
     },
     {
       "id": "02-4",
@@ -2095,6 +2095,48 @@
       "patch_hash": "7bec357410966b882634c8fc963a99c8ace51325d345f435ec6516bf08a71065",
       "revision": 88,
       "recorded_at": "2026-10-20T16:27:17+00:00"
+    },
+    {
+      "run_id": "02-3_20261021_auto_B",
+      "lesson_id": "02-3",
+      "patch_hash": "bddb7dc1065532c17f1a4c27fe25cd0956583ad048ba2cdbcc39eae09094da1b",
+      "revision": 89,
+      "recorded_at": "2026-10-21T03:21:24+00:00"
+    },
+    {
+      "run_id": "02-3_20261021_auto_C",
+      "lesson_id": "02-3",
+      "patch_hash": "a073bccb5f9cb6180824926b4864e32014b55601fdafe44e5466df56c29d23d2",
+      "revision": 90,
+      "recorded_at": "2026-10-21T03:21:24+00:00"
+    },
+    {
+      "run_id": "02-3_20261021_auto_D",
+      "lesson_id": "02-3",
+      "patch_hash": "785eb45becf6f242af520767dea75fc0dcec9c27efe8cc6c977e159dd04b348b",
+      "revision": 91,
+      "recorded_at": "2026-10-21T03:21:24+00:00"
+    },
+    {
+      "run_id": "02-3_20261021_auto_E",
+      "lesson_id": "02-3",
+      "patch_hash": "65f626a3d172786e0fd2836bbdb15954bada733e76643119d3c819ec8015a803",
+      "revision": 92,
+      "recorded_at": "2026-10-21T03:21:24+00:00"
+    },
+    {
+      "run_id": "02-3_20261021_auto_F",
+      "lesson_id": "02-3",
+      "patch_hash": "e0dd97ce3ea3512908ba8b7e814a343055f4cbb76297d174b9f3a1be90c7f9e1",
+      "revision": 93,
+      "recorded_at": "2026-10-21T03:21:24+00:00"
+    },
+    {
+      "run_id": "02-3_20261021_auto_G",
+      "lesson_id": "02-3",
+      "patch_hash": "7e0029e342c5c6c5a40f1c6259351e713aa797e8f20be3f129e892dd9f0ec410",
+      "revision": 94,
+      "recorded_at": "2026-10-21T03:21:25+00:00"
     }
   ]
 }
