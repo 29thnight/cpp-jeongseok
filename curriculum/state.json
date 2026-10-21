@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 113,
+  "revision": 118,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -563,33 +563,33 @@
       "evidence": {
         "examples": {
           "result": "passed",
-          "checked_at": "2026-10-21T23:40:15+00:00",
-          "summary": "빈 줄만 추가한 예제를 GCC14.2 C++20 strict 및 UBSan으로 각각 빌드하고 16사례씩 실행했다. 의도된 컴파일 실패 2개를 확인했다. MSVC는 이번 서식 수정에서 재실행하지 않았다."
+          "checked_at": "2026-10-21T23:50:33+00:00",
+          "summary": "의미 단위 사이에 빈 줄을 추가한 예제를 GCC14.2 C++20 strict 및 UBSan으로 각각 빌드하고 16사례씩 실행했다. 의도된 컴파일 실패 2개를 확인했다. MSVC는 이번 서식 수정에서 재실행하지 않았다."
         },
         "technical": {
           "result": "passed",
-          "checked_at": "2026-10-21T23:40:15+00:00",
-          "summary": "예제 7파일과 본문 37개 코드블록의 공백 외 내용이 이전 검토본과 동일함을 확인했다. 기술적 계약과 연습 해설은 변경하지 않았다."
+          "checked_at": "2026-10-21T23:50:33+00:00",
+          "summary": "예제 7파일과 본문의 C++ 29개 및 출력 8개 블록의 공백 외 내용이 이전 검토본과 동일함을 확인했다. 기술적 계약과 연습 해설은 변경하지 않았다."
         },
         "editorial": {
           "result": "passed",
-          "checked_at": "2026-10-21T23:40:15+00:00",
-          "summary": "닫는 중괄호 뒤 독립 문장 앞에 빈 줄을 추가하고 정본17쪽을 육안 검토했다. 편집용 변환본19쪽의 기존 글꼴과 쪽나눔 차이를 기록했다."
+          "checked_at": "2026-10-21T23:50:33+00:00",
+          "summary": "변수 선언·계산·출력 등 의미 단위를 빈 줄로 구분하고 정본 18쪽 전체를 육안 검토했다. 작은 함수는 쪽 사이에서 나뉘지 않게 유지했다. 편집용 변환본 20쪽의 글꼴 차이를 기록했다."
         },
         "links": {
           "result": "passed",
-          "checked_at": "2026-10-21T23:40:15+00:00",
+          "checked_at": "2026-10-21T23:50:33+00:00",
           "summary": "개정 문서와 검토 묶음을 영속 저장 후 재다운로드하여 바이트와 파일 해시를 확인했다. 공개 본문은 변경하지 않았으며 상태 검사32개를 통과했다."
         },
         "privacy": {
           "result": "passed",
-          "checked_at": "2026-10-21T23:40:15+00:00",
+          "checked_at": "2026-10-21T23:50:33+00:00",
           "summary": "이전 판본을 보존하고 개정 자료의 비공개 권한을 확인했다. 공개 변경을 상태와 진척표 두 파일로 제한했다."
         }
       },
-      "next_action": "빈 줄 서식을 정리한 개정 검토본의 사용자 검수를 기다린다. 본문·예제·그림 공개는 별도 승인 후 진행한다.",
+      "next_action": "의미 단위별 빈 줄로 가독성을 개선한 개정 검토본의 사용자 검수를 기다린다. 본문·예제·그림 공개는 별도 승인 후 진행한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-21T23:40:50+00:00"
+      "updated_at": "2026-10-21T23:50:46+00:00"
     },
     {
       "id": "03-1",
@@ -2306,6 +2306,41 @@
       "patch_hash": "f0490d5dc2100cc275bd0e118a925a3c10fec5aa50ec433653e036205f6fb14e",
       "revision": 113,
       "recorded_at": "2026-10-21T23:40:50+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2341_semantic_C",
+      "lesson_id": "02-4",
+      "patch_hash": "15ac70d63b717ec62e0b4bc3cbd64fad3032c8db6fe23eb9d44554bef294f078",
+      "revision": 114,
+      "recorded_at": "2026-10-21T23:50:44+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2341_semantic_D",
+      "lesson_id": "02-4",
+      "patch_hash": "b698ea9be007b062f705b7d1c0d24fac67c0d0ae974fe15202ac1fff9f0ca3ef",
+      "revision": 115,
+      "recorded_at": "2026-10-21T23:50:45+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2341_semantic_E",
+      "lesson_id": "02-4",
+      "patch_hash": "c0eabc6d3ebb3bbcc44c71e973f156df91a64b4ecf7d1bb19ba2fabc546ecb22",
+      "revision": 116,
+      "recorded_at": "2026-10-21T23:50:45+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2341_semantic_F",
+      "lesson_id": "02-4",
+      "patch_hash": "c3e3c780603ad3ef58d7d343de0d808457932a8f12c4afea6f4763ae649e1a50",
+      "revision": 117,
+      "recorded_at": "2026-10-21T23:50:45+00:00"
+    },
+    {
+      "run_id": "02-4_20261021T2341_semantic_G",
+      "lesson_id": "02-4",
+      "patch_hash": "623048a2b4aa64361c2cb9d5484bb5e5228b0efd3789067ead99e0f92be896c2",
+      "revision": 118,
+      "recorded_at": "2026-10-21T23:50:46+00:00"
     }
   ]
 }
