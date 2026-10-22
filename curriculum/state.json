@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 118,
+  "revision": 119,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -555,9 +555,9 @@
       "prerequisites": [
         "02-3"
       ],
-      "status": "awaiting_review",
+      "status": "ready_to_publish",
       "stage": "G",
-      "review": "pending",
+      "review": "approved",
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
@@ -578,18 +578,23 @@
         },
         "links": {
           "result": "passed",
-          "checked_at": "2026-10-21T23:50:33+00:00",
-          "summary": "개정 문서와 검토 묶음을 영속 저장 후 재다운로드하여 바이트와 파일 해시를 확인했다. 공개 본문은 변경하지 않았으며 상태 검사32개를 통과했다."
+          "checked_at": "2026-10-22T00:09:51+00:00",
+          "summary": "Node v24.22.1로 사이트 빌드와 14페이지 링크·앵커 검사를 통과했다. 본문 37블록의 공백과 예제 7파일 보존, 소스 전용 ZIP, 이전 수업·목차 연결을 확인했다."
         },
         "privacy": {
           "result": "passed",
-          "checked_at": "2026-10-21T23:50:33+00:00",
-          "summary": "이전 판본을 보존하고 개정 자료의 비공개 권한을 확인했다. 공개 변경을 상태와 진척표 두 파일로 제한했다."
+          "checked_at": "2026-10-22T00:09:51+00:00",
+          "summary": "공개 예정 본문·그림·예제·생성 HTML과 변경 diff를 검토했다. 승인된 공개 입력만 포함하며 비공개 원본·검증 로그·색인·내부 경로를 포함하지 않는다."
+        },
+        "approval": {
+          "result": "passed",
+          "checked_at": "2026-10-22T00:09:51+00:00",
+          "summary": "사용자가 의미 단위 빈 줄을 정리한 최신 02-4 검토본의 본문·독창적 그림·예제를 공개 저장소와 사이트에 게시하도록 명시 승인했다."
         }
       },
-      "next_action": "의미 단위별 빈 줄로 가독성을 개선한 개정 검토본의 사용자 검수를 기다린다. 본문·예제·그림 공개는 별도 승인 후 진행한다.",
+      "next_action": "승인된 공개 파일을 게시하고 실제 배포 결과와 서비스 링크를 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-21T23:50:46+00:00"
+      "updated_at": "2026-10-22T00:09:51+00:00"
     },
     {
       "id": "03-1",
@@ -2341,6 +2346,13 @@
       "patch_hash": "623048a2b4aa64361c2cb9d5484bb5e5228b0efd3789067ead99e0f92be896c2",
       "revision": 118,
       "recorded_at": "2026-10-21T23:50:46+00:00"
+    },
+    {
+      "run_id": "publish_20261022_02-4_ready",
+      "lesson_id": "02-4",
+      "patch_hash": "24bf5a07945ecb4379b9a4477ce59bb0eb3c1d0248717ffe1134bda7b4e68223",
+      "revision": 119,
+      "recorded_at": "2026-10-22T00:09:51+00:00"
     }
   ]
 }

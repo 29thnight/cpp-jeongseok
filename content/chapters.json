@@ -88,6 +88,14 @@
     "tags": "vector array 컨테이너 원소 크기 인덱스 범위 for auto const C++20"
   },
   {
+    "number": "02-4",
+    "title": "함수로 자료 처리하기",
+    "description": "const 참조 매개변수 · 값 반환 · 빈 자료와 경계 검사 · 간단한 통계 프로그램",
+    "status": "published",
+    "slug": "functions-data",
+    "tags": "함수 참조 const 값 반환 통계 평균 vector auto C++20"
+  },
+  {
     "number": "01",
     "title": "첫 번째 프로그램",
     "description": "개발 환경 · 컴파일과 링크 · 빌드의 흐름",
