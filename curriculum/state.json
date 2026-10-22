@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 119,
+  "revision": 120,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -555,11 +555,11 @@
       "prerequisites": [
         "02-3"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/functions-data/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -590,11 +590,16 @@
           "result": "passed",
           "checked_at": "2026-10-22T00:09:51+00:00",
           "summary": "사용자가 의미 단위 빈 줄을 정리한 최신 02-4 검토본의 본문·독창적 그림·예제를 공개 저장소와 사이트에 게시하도록 명시 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-22T03:04:56+00:00",
+          "summary": "게시 커밋 b9027244cb5385203752798f619290b88732b841의 Pages 배포 성공을 확인했다. 실서비스 본문 37블록 공백, 그림, 소스 7개와 ZIP, 이전 수업·목차 링크 및 브라우저 색상·화면을 확인했다."
         }
       },
-      "next_action": "승인된 공개 파일을 게시하고 실제 배포 결과와 서비스 링크를 확인한다.",
+      "next_action": "게시된 수업에 대한 사용자 피드백을 기다린다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-22T00:09:51+00:00"
+      "updated_at": "2026-10-22T03:04:56+00:00"
     },
     {
       "id": "03-1",
@@ -2353,6 +2358,13 @@
       "patch_hash": "24bf5a07945ecb4379b9a4477ce59bb0eb3c1d0248717ffe1134bda7b4e68223",
       "revision": 119,
       "recorded_at": "2026-10-22T00:09:51+00:00"
+    },
+    {
+      "run_id": "publish_20261022_02-4_live",
+      "lesson_id": "02-4",
+      "patch_hash": "1c993ef9d06648d1248b90b3400ea7a3c890f66ccc27be78631756aec5625f74",
+      "revision": 120,
+      "recorded_at": "2026-10-22T03:04:56+00:00"
     }
   ]
 }
