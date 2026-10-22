@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 120,
+  "revision": 127,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -605,22 +605,48 @@
       "id": "03-1",
       "track": "core",
       "title": "struct와 enum class: 관련된 값을 묶고 상태를 표현하기",
-      "goal": "struct와 enum class: 관련된 값을 묶고 상태를 표현하기의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "관련된 값을 struct로 묶어 초기화·접근하고 enum class로 상태를 구분하며 사용자 정의 타입을 함수와 vector 집계에 사용한다.",
       "prerequisites": [
         "02-1",
         "02-2",
         "02-3",
         "02-4"
       ],
-      "status": "not_started",
-      "stage": "A",
-      "review": "not_requested",
-      "draft": "absent",
+      "status": "awaiting_review",
+      "stage": "G",
+      "review": "pending",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
+      "evidence": {
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-22T03:30:21.787344+00:00",
+          "summary": "구조체 초기화·복사·const 참조와 범위 있는 열거형의 타입 규칙을 C++20 초안과 대조했다. 연습 6개와 해설 및 단편 실행을 확인했다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-22T03:30:21.787344+00:00",
+          "summary": "독창적 설명과 개념 일러스트를 작성하고 의미 단위 빈 줄 및 공통 준비 중복 제거를 적용했다. 정본 14쪽과 편집참고본 16쪽을 육안 검토하고 글꼴 차이를 기록했다."
+        },
+        "links": {
+          "result": "passed",
+          "checked_at": "2026-10-22T03:30:21.787344+00:00",
+          "summary": "비공개 원고의 예제·이미지 참조와 표준 참고 링크를 확인하고 상태 관리 테스트 32개를 통과했다. 공개 본문 미생성으로 신규 사이트 통합 빌드·배포 검증은 게시 승인 후 수행한다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-22T03:30:21.787344+00:00",
+          "summary": "공개 변경을 상태와 재생성 진척표로 제한했다. 새 설명·예제·그림·메타데이터를 검토했으며 비공개 원본의 문장·이미지·식별자·경로를 공개 상태에 포함하지 않았다."
+        },
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-22T03:30:21.787344+00:00",
+          "summary": "MSVC x64 C++20 엄격 경고 옵션의 비최적화·최적화 구성에서 정상 빌드 28회, 의도된 실패 진단 4회, 실행 66회가 예상과 일치했다. 본문 코드와 검증 소스 일치를 확인했다. sanitizer는 미실행이다."
+        }
+      },
+      "next_action": "사용자의 검토와 공개 여부 지시를 기다린다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "updated_at": "2026-10-22T03:32:19+00:00"
     },
     {
       "id": "03-2",
@@ -2365,6 +2391,55 @@
       "patch_hash": "1c993ef9d06648d1248b90b3400ea7a3c890f66ccc27be78631756aec5625f74",
       "revision": 120,
       "recorded_at": "2026-10-22T03:04:56+00:00"
+    },
+    {
+      "run_id": "write_20261022_03-1_A",
+      "lesson_id": "03-1",
+      "patch_hash": "63f646d0f7665ef23ec05b854422b3a7ff8079b8d759baf2be4d059ce71ca383",
+      "revision": 121,
+      "recorded_at": "2026-10-22T03:17:52+00:00"
+    },
+    {
+      "run_id": "write_20261022_03-1_B",
+      "lesson_id": "03-1",
+      "patch_hash": "6623008442746771c700679e5490be9129b08113086f7109bb092c5b6eed522c",
+      "revision": 122,
+      "recorded_at": "2026-10-22T03:17:52+00:00"
+    },
+    {
+      "run_id": "write_20261022_03-1_C",
+      "lesson_id": "03-1",
+      "patch_hash": "3b1f561c9856b6c72264b1e5bad5c2eae2e176e0e8a6767b371c2ecfd44104af",
+      "revision": 123,
+      "recorded_at": "2026-10-22T03:31:25+00:00"
+    },
+    {
+      "run_id": "write_20261022_03-1_D",
+      "lesson_id": "03-1",
+      "patch_hash": "ee9fad3355248c92f6e109975c51ec9ca3f58aee9d1ada6ceda23d2b7263c9fc",
+      "revision": 124,
+      "recorded_at": "2026-10-22T03:31:25+00:00"
+    },
+    {
+      "run_id": "write_20261022_03-1_E",
+      "lesson_id": "03-1",
+      "patch_hash": "966842877e9f27652c86aa2afbe5ceca373a2f2a8fc1be6054eb4559017661ed",
+      "revision": 125,
+      "recorded_at": "2026-10-22T03:31:25+00:00"
+    },
+    {
+      "run_id": "write_20261022_03-1_F_v2",
+      "lesson_id": "03-1",
+      "patch_hash": "f274cd21e184919669a44d9ba5ac35078db6c781e60973fefa273d6087544a40",
+      "revision": 126,
+      "recorded_at": "2026-10-22T03:32:19+00:00"
+    },
+    {
+      "run_id": "write_20261022_03-1_G",
+      "lesson_id": "03-1",
+      "patch_hash": "203569e621185252910ae477384ff0f1a5ca7f1f3e12bde65256f71477bc1945",
+      "revision": 127,
+      "recorded_at": "2026-10-22T03:32:19+00:00"
     }
   ]
 }
