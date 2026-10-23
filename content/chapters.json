@@ -103,6 +103,14 @@
     "tags": "컴파일러 환경 빌드"
   },
   {
+    "number": "03-1",
+    "title": "struct와 enum class: 관련된 값을 묶고 상태를 표현하기",
+    "description": "구조체 초기화와 복사 · 이름 있는 상태 · const 참조와 값 반환 · 작업 집계",
+    "status": "published",
+    "slug": "struct-enum",
+    "tags": "struct enum class 사용자 정의 타입 초기화 복사 상태 const 참조 vector C++20"
+  },
+  {
     "number": "02",
     "title": "값과 타입",
     "description": "초기화 · 표현식 · 제어 흐름 · 함수",

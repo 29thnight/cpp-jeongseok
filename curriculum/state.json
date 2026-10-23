@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 127,
+  "revision": 128,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -612,9 +612,9 @@
         "02-3",
         "02-4"
       ],
-      "status": "awaiting_review",
+      "status": "ready_to_publish",
       "stage": "G",
-      "review": "pending",
+      "review": "approved",
       "draft": "private_durable",
       "publication_path": null,
       "evidence": {
@@ -642,11 +642,16 @@
           "result": "passed",
           "checked_at": "2026-10-22T03:30:21.787344+00:00",
           "summary": "MSVC x64 C++20 엄격 경고 옵션의 비최적화·최적화 구성에서 정상 빌드 28회, 의도된 실패 진단 4회, 실행 66회가 예상과 일치했다. 본문 코드와 검증 소스 일치를 확인했다. sanitizer는 미실행이다."
+        },
+        "approval": {
+          "result": "passed",
+          "checked_at": "2026-10-23T07:07:00+00:00",
+          "summary": "사용자가 검토 완료 판본의 본문, 예제와 최종 그림을 기존 공개 저장소와 사이트에 게시하도록 승인했다."
         }
       },
-      "next_action": "사용자의 검토와 공개 여부 지시를 기다린다.",
+      "next_action": "승인된 판본을 게시하고 실제 배포와 공개 링크를 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-22T03:32:19+00:00"
+      "updated_at": "2026-10-23T07:04:35+00:00"
     },
     {
       "id": "03-2",
@@ -2440,6 +2445,13 @@
       "patch_hash": "203569e621185252910ae477384ff0f1a5ca7f1f3e12bde65256f71477bc1945",
       "revision": 127,
       "recorded_at": "2026-10-22T03:32:19+00:00"
+    },
+    {
+      "run_id": "publish_20261023_03-1_ready",
+      "lesson_id": "03-1",
+      "patch_hash": "a54e27b825bed28b34fe22470285448be799957d90e8c51a7517ebafc897e3e7",
+      "revision": 128,
+      "recorded_at": "2026-10-23T07:04:35+00:00"
     }
   ]
 }
