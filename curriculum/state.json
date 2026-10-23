@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 137,
+  "revision": 138,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -666,11 +666,11 @@
       "prerequisites": [
         "03-1"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/class-constructors/index.html",
       "evidence": {
         "examples": {
           "result": "passed",
@@ -701,11 +701,16 @@
           "result": "passed",
           "checked_at": "2026-10-23T23:37:26+00:00",
           "summary": "사용자가 해당 검토본의 공개 게시와 진척 기록 및 클라우드 환경에서의 계속 진행을 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-23T23:44:03+00:00",
+          "summary": "승인된 게시 커밋의 Pages 배포 성공과 공개 수업 및 예제와 그림의 HTTP 200 및 원본 바이트 일치를 확인했다."
         }
       },
-      "next_action": "승인 검토본을 게시하고 실제 배포와 공개 링크를 확인한다.",
+      "next_action": "게시된 수업의 사용자 의견을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-23T23:37:26+00:00"
+      "updated_at": "2026-10-23T23:44:03+00:00"
     },
     {
       "id": "03-3",
@@ -2551,6 +2556,13 @@
       "patch_hash": "96686634db34a1050cd6589ad1cafd01920b594e0476650080cac0ec4e81db72",
       "revision": 137,
       "recorded_at": "2026-10-23T23:37:26+00:00"
+    },
+    {
+      "run_id": "publish_20261023_03-2_live",
+      "lesson_id": "03-2",
+      "patch_hash": "229b2c8109a6d0e8461a4971d67c4bafd2a3250bd82a1102b5623aaa5d4736bd",
+      "revision": 138,
+      "recorded_at": "2026-10-23T23:44:03+00:00"
     }
   ]
 }
