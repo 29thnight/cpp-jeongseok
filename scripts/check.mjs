@@ -190,9 +190,10 @@ console.log('PASS: 01-1 approved code preservation, five exercise answers, navig
 
 const calculationHtml=readFileSync('docs/lessons/calculation-conversion/index.html','utf8');
 const calculationSource=readFileSync('content/calculation-conversion.md','utf8');
-const publishedChapters=JSON.parse(readFileSync('content/chapters.json','utf8')).filter(c=>c.status==='published');
+const curriculumState=JSON.parse(readFileSync('curriculum/state.json','utf8'));
+const publishedChapters=[...JSON.parse(readFileSync('content/chapters.json','utf8')), ...curriculumState.lessons.filter(c=>c.status==='published').map(c=>({number:c.id,title:c.title,slug:c.publication_path.split('/')[2]}))];
 assert.equal(publishedChapters.length,13, 'Introduction plus twelve published lessons');
-assert(publishedChapters.some(c=>c.number==='01-2'&&c.slug==='calculation-conversion'&&c.title==='계산과 변환'));
+assert(publishedChapters.some(c=>c.number==='01-2'&&c.slug==='calculation-conversion'&&c.title.startsWith('계산과 변환')));
 assert.equal([...calculationHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(calculationHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/calculation-conversion/'));
@@ -302,7 +303,7 @@ console.log('PASS: 01-4 exact code/downloads, escaped prose, original illustrati
 
 const functionsSource=readFileSync('content/functions-basics.md','utf8');
 const functionsHtml=readFileSync('docs/lessons/functions-basics/index.html','utf8');
-assert(publishedChapters.some(c=>c.number==='02-1'&&c.slug==='functions-basics'&&c.title==='함수를 나누는 기준'));
+assert(publishedChapters.some(c=>c.number==='02-1'&&c.slug==='functions-basics'&&c.title.startsWith('함수를 나누는 기준')));
 assert.equal([...functionsHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(functionsHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/functions-basics/'));
@@ -395,7 +396,7 @@ console.log('PASS: all published sources format core C++ prose tokens as inline 
 // 02-2 publication: preserve every reviewed word and code/output block.
 const stringsSource=readFileSync('content/string-values.md','utf8');
 const stringsHtml=readFileSync('docs/lessons/string-values/index.html','utf8');
-assert(publishedChapters.some(c=>c.number==='02-2'&&c.slug==='string-values'&&c.title==='문자열을 값으로 다루기'));
+assert(publishedChapters.some(c=>c.number==='02-2'&&c.slug==='string-values'&&c.title.startsWith('string으로 문자열 다루기')));
 assert.equal([...stringsHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(stringsHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/string-values/'));
@@ -541,3 +542,27 @@ for(const [kind,color] of [['user-type','4ec9b0'],['member','dadada'],['enumerat
  assert((luminance(color)+.05)/(luminance('1e1e1e')+.05)>=4.5);
 }
 console.log('PASS: generic declared types, field/local distinction, dot/arrow access, enum declarations/qualification, isolated lesson context, protected text and exact whitespace');
+
+// The course list follows the canonical curriculum, with the introduction apart.
+const courseRows=[...homeHtml.matchAll(/<li class="chapter" data-lesson-id="([^"]+)" data-status="([^"]+)"[^>]*>([\s\S]*?)<\/li>/g)];
+assert.equal(courseRows.length,57);
+assert.equal(new Set(courseRows.map(m=>m[1])).size,57);
+assert.deepEqual(courseRows.map(m=>m[1]),curriculumState.lessons.map(c=>c.id));
+assert.equal(curriculumState.lessons.filter(c=>c.track==='core').length,53);
+assert.equal(curriculumState.lessons.filter(c=>c.track==='optional').length,4);
+for(const [i,row] of courseRows.entries()) {
+ const lesson=curriculumState.lessons[i];
+ assert.equal(row[2],lesson.status);
+ const heading=row[3].match(/<(?:a class="chapter-title"[^>]*|h4)>([\s\S]*?)<\/(?:a|h4)>/)[1];
+ assert.equal(decode(heading.replace(/<span[^>]*>[\s\S]*?<\/span>/g,'')),lesson.title);
+ const links=[...row[3].matchAll(/href="([^"]+)"/g)].map(m=>m[1]);
+ assert.deepEqual(links,lesson.status==='published'?['/cpp-jeongseok/'+lesson.publication_path.slice(5).replace(/index\.html$/,'')]:[]);
+}
+assert.equal(JSON.parse(readFileSync('content/chapters.json','utf8')).length,1);
+for(const id of ['intro-heading','core-heading','optional-heading'])assert(homeHtml.includes(`id="${id}"`));
+assert(homeHtml.includes('소개 · 수업 수에 포함하지 않는 안내'));
+for(const oldTitle of ['첫 번째 프로그램','표준 라이브러리로 생각하기','큰 프로그램을 읽는 힘'])assert(!courseRows.some(r=>r[3].includes(`<h4>${oldTitle}</h4>`)));
+assert(syntaxCss.includes('.chapter-number{white-space:nowrap;'));
+assert(syntaxCss.includes('grid-template-columns:36px minmax(0,1fr);gap:9px'));
+assert(app.includes("document.querySelectorAll('.curriculum-group')"));
+console.log('PASS: 57 canonical course IDs/titles/order/statuses, 53+4 groups, separate introduction, published-only exact links, no legacy placeholders, no-wrap mobile IDs and grouped search');

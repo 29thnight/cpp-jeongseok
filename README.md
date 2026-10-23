@@ -13,7 +13,8 @@ GitHub Pages: https://29thnight.github.io/cpp-jeongseok/
 - `assets/examples/02-1/`: 본문의 독립 예제 10개 (의도적인 컴파일·링크 오류 예제 2개 포함)
 - `content/string-values.md`: 02-2 문자열을 값으로 다루기 원문
 - `assets/examples/02-2/`: 독립 예제 8개와 Visual Studio/MSVC C++20 실행 안내, 소스 ZIP
-- `content/chapters.json`: 공개/준비 중 상태와 목차
+- `content/chapters.json`: 57수업과 별도로 보존하는 소개 글 메타데이터
+- `curriculum/state.json`: 목차에 사용하는 정본 수업 ID·제목·상태와 게시 경로
 - `scripts/build.mjs`: 정적 HTML 생성기 (Node.js 20 이상)
 - `assets/`: 공통 스타일, 검색 및 목차 기능, 자체 호스팅 폰트
 - `docs/`: 빌드 결과물. GitHub Pages는 `main` 브랜치의 `/docs`에서 배포합니다
@@ -30,7 +31,7 @@ npm test
 
 검색은 브라우저에서 목차를 필터링하며, 준비 중인 강좌는 링크를 제공하지 않습니다.
 
-새 강좌를 추가할 때는 Markdown 원문과 `chapters.json`의 항목을 함께 추가하고 `build.mjs`의 페이지 생성 로직을 확장합니다. 현재 빌더는 소개와 공개된 수업 페이지를 생성합니다.
+새 수업의 목차는 `curriculum/state.json`에서 생성합니다. 본문 게시가 별도로 승인되면 Markdown 원문과 `build.mjs`의 페이지 생성 로직을 추가하고, 실제 배포 확인 후 정본 상태에 게시 경로를 기록합니다. `content/chapters.json`에는 수업 수에 포함하지 않는 소개 글만 둡니다.
 
 ## 편집 원칙
 
