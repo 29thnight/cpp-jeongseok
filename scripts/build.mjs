@@ -112,5 +112,13 @@ const structArticle=`<main id="main" class="wrap lesson-layout"><article><header
 mkdirSync('docs/lessons/struct-enum',{recursive:true});
 writeFileSync('docs/lessons/struct-enum/index.html',shell('struct와 enum class',structArticle,true));
 
+
+headings=[];count=0;
+const classLesson=parseLesson(readFileSync('content/class-constructors.md','utf8'),{renderer}).replace(/<p><img src="([^"]+)" alt="([^"]+)"><\/p>\n<p><em>(그림 1\.[^<]+)<\/em><\/p>/, '<figure class="concept-figure"><img src="$1" alt="$2" width="1536" height="1024" loading="lazy"><figcaption>$3</figcaption></figure>');
+const classFiles=["boundary_exercise.cpp", "explicit_conversion_fail.cpp", "initialization_order.cpp", "no_default_fail.cpp", "private_access_fail.cpp", "volume.cpp", "volume_boundaries.cpp"];
+const classArticle=`<main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="${base}#curriculum">← 전체 강좌</a><p class="eyebrow">03-2 / CLASS AND CONSTRUCTORS</p><h1>class와 생성자</h1><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-23">2026년 10월 23일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose">${classLesson}</div><section class="lesson-end"><span>03-2 학습을 마쳤습니다</span><h2>예제 파일 받기</h2><p>정상 예제 4개와 의도된 컴파일 실패 예제 3개입니다. _fail.cpp로 끝나는 파일은 각각 따로 컴파일하여 오류를 확인하세요.</p><a href="${link('assets/examples/03-2/03-2-examples.zip')}" download>03-2 예제 소스 ZIP 다운로드</a><ul>${classFiles.map(f=>`<li><a href="${link('assets/examples/03-2/'+f)}" download>${f}</a></li>`).join('')}</ul><a href="${link('lessons/struct-enum/')}">← 03-1 struct와 enum class</a><br><a href="${base}#curriculum">전체 학습 목차로 돌아가기 →</a></section>${renderComments(commentsConfig)}</article><aside class="article-sidebar"><div class="sticky"><p class="eyebrow">IN THIS CHAPTER</p><nav aria-label="이 글의 목차"><h2>이 글의 목차</h2>${headings.filter(h=>h.depth===2).map(h=>`<a href="#${h.id}">${h.text}</a>`).join('')}</nav><a class="source-link" href="https://github.com/29thnight/cpp-jeongseok/blob/main/content/class-constructors.md">이 글의 원문 보기 ↗</a></div></aside></main>`;
+mkdirSync('docs/lessons/class-constructors',{recursive:true});
+writeFileSync('docs/lessons/class-constructors/index.html',shell('class와 생성자',classArticle,true));
+
 writeFileSync('docs/404.html',shell('페이지를 찾을 수 없습니다',`<main id="main" class="wrap not-found"><p class="eyebrow">404 / NOT FOUND</p><h1>아직 없는 페이지입니다</h1><p>주소를 확인하거나 공개된 강좌 목차로 돌아가세요.</p><a class="primary" href="${base}">강좌 홈으로 →</a></main>`));
 console.log('Built home, introduction, 00-1, 00-2, 00-3, 01-1, 01-2, 01-3, 01-4, 02-1, 02-2, 02-3, 02-4, and 404 in docs/');
