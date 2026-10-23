@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 128,
+  "revision": 129,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -612,11 +612,11 @@
         "02-3",
         "02-4"
       ],
-      "status": "ready_to_publish",
+      "status": "published",
       "stage": "G",
       "review": "approved",
       "draft": "private_durable",
-      "publication_path": null,
+      "publication_path": "docs/lessons/struct-enum/index.html",
       "evidence": {
         "technical": {
           "result": "passed",
@@ -630,8 +630,8 @@
         },
         "links": {
           "result": "passed",
-          "checked_at": "2026-10-22T03:30:21.787344+00:00",
-          "summary": "비공개 원고의 예제·이미지 참조와 표준 참고 링크를 확인하고 상태 관리 테스트 32개를 통과했다. 공개 본문 미생성으로 신규 사이트 통합 빌드·배포 검증은 게시 승인 후 수행한다."
+          "checked_at": "2026-10-23T07:15:46+00:00",
+          "summary": "사이트 빌드, 15개 페이지 내부 링크와 앵커, 예제 7개와 ZIP 및 그림의 공개 응답을 확인했다."
         },
         "privacy": {
           "result": "passed",
@@ -645,13 +645,18 @@
         },
         "approval": {
           "result": "passed",
-          "checked_at": "2026-10-23T07:07:00+00:00",
+          "checked_at": "2026-10-23T07:15:46+00:00",
           "summary": "사용자가 검토 완료 판본의 본문, 예제와 최종 그림을 기존 공개 저장소와 사이트에 게시하도록 승인했다."
+        },
+        "publication": {
+          "result": "passed",
+          "checked_at": "2026-10-23T07:15:46+00:00",
+          "summary": "승인 판본 게시와 그림 표시 보정 커밋의 Pages 배포 성공, 실서비스 본문과 자산의 바이트 일치 및 화면을 확인했다."
         }
       },
-      "next_action": "승인된 판본을 게시하고 실제 배포와 공개 링크를 확인한다.",
+      "next_action": "공개된 수업의 독자 의견과 정오 사항을 확인한다.",
       "blocked_reason": null,
-      "updated_at": "2026-10-23T07:04:35+00:00"
+      "updated_at": "2026-10-23T07:16:18+00:00"
     },
     {
       "id": "03-2",
@@ -2452,6 +2457,13 @@
       "patch_hash": "a54e27b825bed28b34fe22470285448be799957d90e8c51a7517ebafc897e3e7",
       "revision": 128,
       "recorded_at": "2026-10-23T07:04:35+00:00"
+    },
+    {
+      "run_id": "publish_20261023_03-1_live",
+      "lesson_id": "03-1",
+      "patch_hash": "c9bda20927d72a04c056e13d1ce6a090a3823cc8ab93f4fbf45d97fc63f485f5",
+      "revision": 129,
+      "recorded_at": "2026-10-23T07:16:18+00:00"
     }
   ]
 }
