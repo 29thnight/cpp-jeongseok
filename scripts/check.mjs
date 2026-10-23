@@ -504,3 +504,40 @@ const syntaxCss=readFileSync('docs/assets/style.css','utf8');
 assert(syntaxCss.includes('.prose pre .hljs-keyword,.prose pre .hljs-type{color:#569cd6}'));
 assert(syntaxCss.includes('.prose pre .hljs-stl-type,.prose pre .hljs-built_in,.prose pre .hljs-title.class_{color:#4ec9b0}'));
 console.log('PASS: four cast keywords blue, qualified size_t/vector green across nested code containers, primitive/namespace/stream colors and protected literals preserved');
+
+// User-defined roles use declarations, never lesson-specific identifier lists.
+const roleContext=`enum class phase { queued = 0, active, done };
+struct packet { std::string label; phase state = phase::queued; int total = 0; };
+int main() { packet item{}; int total = 2; item.total = total;
+auto pointer = &item; pointer->state = phase::active; }`;
+const roleRendered=renderCode({text:roleContext,lang:'cpp'},roleContext);
+for(const name of ['phase','packet'])assert(roleRendered.includes(`class="hljs-user-type">${name}</span>`));
+for(const name of ['queued','active','done'])assert(roleRendered.includes(`class="hljs-enumerator">${name}</span>`));
+for(const name of ['label','state','total'])assert(roleRendered.includes(`class="hljs-member">${name}</span>`));
+assert(roleRendered.includes('class="hljs-local">total</span>'));
+assert(roleRendered.includes('class="hljs-local">item</span>'));
+assert(roleRendered.includes('class="hljs-local">pointer</span>'));
+assert(roleRendered.includes('class="hljs-user-type">phase</span><span class="hljs-scope">::</span><span class="hljs-enumerator">active</span>'));
+const roleFragment='packet copy = item;\ncopy.state = phase::done;';
+const fragmentRendered=renderCode({text:roleFragment,lang:'cpp'},roleContext);
+assert(fragmentRendered.includes('class="hljs-user-type">packet</span>'));
+assert(fragmentRendered.includes('class="hljs-member">state</span>'));
+assert(fragmentRendered.includes('class="hljs-enumerator">done</span>'));
+const roleProtected='// struct invented {}; enum class fake { broken };\n"packet phase::done"; R"tag(struct bogus {}; phase::active)tag";';
+assert(!/hljs-(?:user-type|member|enumerator)/.test(renderCode({text:roleProtected,lang:'cpp'},roleContext)));
+for(const text of [roleContext,roleFragment,roleProtected]) {
+ const output=renderCode({text,lang:'cpp'},roleContext).match(/<pre><code[^>]*>([\s\S]*?)<\/code><\/pre>/)[1];
+ assert.equal(decode(output.replace(/<[^>]*>/g,'')).trimEnd(),text.trimEnd());
+}
+const structsHtml=readFileSync('docs/lessons/struct-enum/index.html','utf8');
+assert(structsHtml.includes('class="hljs-user-type">Task</span>'));
+assert(structsHtml.includes('class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Todo</span>'));
+assert(structsHtml.includes('class="hljs-member">plannedMinutes</span>'));
+assert(!structsHtml.includes('class="hljs-local">Task</span>'));
+assert(!structsHtml.includes('class="hljs-local">TaskState</span>'));
+assert(!/&<span/.test(structsHtml),'Never insert token markup inside an HTML entity');
+for(const [kind,color] of [['user-type','4ec9b0'],['member','dadada'],['enumerator','b5cea8'],['scope','b4b4b4']]) {
+ assert(syntaxCss.includes(`.prose pre .hljs-${kind}{color:#${color}}`));
+ assert((luminance(color)+.05)/(luminance('1e1e1e')+.05)>=4.5);
+}
+console.log('PASS: generic declared types, field/local distinction, dot/arrow access, enum declarations/qualification, isolated lesson context, protected text and exact whitespace');

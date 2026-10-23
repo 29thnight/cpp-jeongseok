@@ -44,6 +44,10 @@
 
 /* Namespace-scope standard stream objects use the default editor foreground. */
 .prose pre .hljs-global{color:#d4d4d4}
+.prose pre .hljs-user-type{color:#4ec9b0}
+.prose pre .hljs-member{color:#dadada}
+.prose pre .hljs-enumerator{color:#b5cea8}
+.prose pre .hljs-scope{color:#b4b4b4}
 
 /* Sequential execution trace tables remain readable on narrow screens. */
 .prose table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:28px 0;font-size:.92em}
