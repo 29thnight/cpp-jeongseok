@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "revision": 138,
+  "revision": 144,
   "standard": "C++20",
   "storage_policy": "private_durable_required",
   "lessons": [
@@ -716,19 +716,45 @@
       "id": "03-3",
       "track": "core",
       "title": "const 멤버 함수와 인터페이스: 바꿀 수 있는 것과 읽기만 하는 것 구분",
-      "goal": "const 멤버 함수와 인터페이스: 바꿀 수 있는 것과 읽기만 하는 것 구분의 핵심 동작을 작은 예제로 확인하고 선택 이유를 설명한다.",
+      "goal": "const 멤버 함수의 위치와 의미를 설명하고 객체 및 참조의 const 여부에 따른 호출 가능성을 판단하며 조회와 변경 인터페이스를 구분한다.",
       "prerequisites": [
         "03-2"
       ],
-      "status": "not_started",
-      "stage": "A",
+      "status": "blocked",
+      "stage": "F",
       "review": "not_requested",
-      "draft": "absent",
+      "draft": "private_durable",
       "publication_path": null,
-      "evidence": {},
-      "next_action": "학습자가 확인할 수 있는 목표 1~3개를 확정한다.",
-      "blocked_reason": null,
-      "updated_at": "2026-10-16T00:00:00Z"
+      "evidence": {
+        "examples": {
+          "result": "passed",
+          "checked_at": "2026-10-24T03:03:26+00:00",
+          "summary": "GCC C++20 정상 경계 실행과 의도된 컴파일 오류를 검증했다. 다른 컴파일러는 미실행이다."
+        },
+        "technical": {
+          "result": "passed",
+          "checked_at": "2026-10-24T03:12:57+00:00",
+          "summary": "C++20 고정판의 호출 규칙과 참조 및 값 반환을 독립 검토하고 원고 코드 추출 검사를 통과했다."
+        },
+        "privacy": {
+          "result": "passed",
+          "checked_at": "2026-10-24T03:12:57+00:00",
+          "summary": "새 원고와 그림 및 검증 자료는 비공개 보관하고 공개 변경을 두 진척 파일로 제한했다."
+        },
+        "links": {
+          "result": "failed",
+          "checked_at": "2026-10-24T03:12:57+00:00",
+          "summary": "비공개 링크와 빌드는 확인했으나 기존 그림 및 검색 검사의 과거 진척 고정으로 변경 후 전체 검사가 실패했다."
+        },
+        "editorial": {
+          "result": "passed",
+          "checked_at": "2026-10-24T03:15:22+00:00",
+          "summary": "독창적 원고와 예제 기반 그림 및 여섯 연습 해설을 독립 검토하고 문서 열두 쪽 전체 조판을 확인했다."
+        }
+      },
+      "next_action": "진척 변경을 막는 기존 검사 수정 승인을 받아 전체 검사를 다시 실행한 뒤 검토 묶음 단계를 확정한다.",
+      "blocked_reason": "기존 그림 검사의 과거 상태 해시와 검색 검사의 고정 준비 상태가 정상적인 집필 진척 변경을 실패로 처리한다.",
+      "updated_at": "2026-10-24T03:15:49+00:00"
     },
     {
       "id": "03-4",
@@ -2563,6 +2589,48 @@
       "patch_hash": "229b2c8109a6d0e8461a4971d67c4bafd2a3250bd82a1102b5623aaa5d4736bd",
       "revision": 138,
       "recorded_at": "2026-10-23T23:44:03+00:00"
+    },
+    {
+      "run_id": "03-3_20261024T0300_A",
+      "lesson_id": "03-3",
+      "patch_hash": "93742c34a2a56fb02f6777710a630ef0863c2e50dd9801935933ca93d35bf4e3",
+      "revision": 139,
+      "recorded_at": "2026-10-24T03:06:26+00:00"
+    },
+    {
+      "run_id": "03-3_20261024T0300_B",
+      "lesson_id": "03-3",
+      "patch_hash": "a731f5d70344b1db8225354d272e998ce243baa70a53202b5ce7c39ad82a64cd",
+      "revision": 140,
+      "recorded_at": "2026-10-24T03:06:27+00:00"
+    },
+    {
+      "run_id": "03-3_20261024T0300_C",
+      "lesson_id": "03-3",
+      "patch_hash": "20accd98086d55595d9548f7d5b0f8120ee55686b38efecc1d86ed5b11f31083",
+      "revision": 141,
+      "recorded_at": "2026-10-24T03:08:30+00:00"
+    },
+    {
+      "run_id": "03-3_20261024T0300_D",
+      "lesson_id": "03-3",
+      "patch_hash": "49d73b280171bcb9b7d45bbc9f369638fe250ec5ab5933c9344ca4969d954a36",
+      "revision": 142,
+      "recorded_at": "2026-10-24T03:08:30+00:00"
+    },
+    {
+      "run_id": "03-3_20261024T0300_E",
+      "lesson_id": "03-3",
+      "patch_hash": "762d402ad12b69842c057a26ad9dcc81db7e2653b0426454adefdaa9604cdc3f",
+      "revision": 143,
+      "recorded_at": "2026-10-24T03:08:30+00:00"
+    },
+    {
+      "run_id": "03-3_20261024T0300_F",
+      "lesson_id": "03-3",
+      "patch_hash": "06ada3c7fe8dc6fbb4e2c03c753acf02632681ee2c50f8b43db836527e6dc1c7",
+      "revision": 144,
+      "recorded_at": "2026-10-24T03:15:49+00:00"
     }
   ]
 }
