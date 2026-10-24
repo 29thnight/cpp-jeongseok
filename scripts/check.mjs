@@ -1,3 +1,4 @@
+import './check-course-search.mjs';
 import './check-variable-roles.mjs';
 import './check-keywords.mjs';
 import assert from 'node:assert/strict';
@@ -555,8 +556,8 @@ assert.equal(curriculumState.lessons.filter(c=>c.track==='optional').length,4);
 for(const [i,row] of courseRows.entries()) {
  const lesson=curriculumState.lessons[i];
  assert.equal(row[2],lesson.status);
- const heading=row[3].match(/<(?:a class="chapter-title"[^>]*|h4)>([\s\S]*?)<\/(?:a|h4)>/)[1];
- assert.equal(decode(heading.replace(/<span[^>]*>[\s\S]*?<\/span>/g,'')),lesson.title);
+ const heading=row[3].match(/<(?:a class="chapter-title"[^>]*|h5)>([\s\S]*?)<\/(?:a|h5)>/)[1];
+ assert.equal(decode(heading.replace(/<a[^>]*>|<\/a>/g,'').replace(/<span[^>]*>[\s\S]*?<\/span>/g,'')),lesson.title);
  const links=[...row[3].matchAll(/href="([^"]+)"/g)].map(m=>m[1]);
  assert.deepEqual(links,lesson.status==='published'?['/cpp-jeongseok/'+lesson.publication_path.slice(5).replace(/index\.html$/,'')]:[]);
 }
@@ -568,3 +569,19 @@ assert(syntaxCss.includes('.chapter-number{white-space:nowrap;'));
 assert(syntaxCss.includes('grid-template-columns:36px minmax(0,1fr);gap:9px'));
 assert(app.includes("document.querySelectorAll('.curriculum-group')"));
 console.log('PASS: 57 canonical course IDs/titles/order/statuses, 53+4 groups, separate introduction, published-only exact links, no legacy placeholders, no-wrap mobile IDs and grouped search');
+
+const courseGroups=JSON.parse(readFileSync('content/course-groups.json','utf8'));
+const moduleSections=[...homeHtml.matchAll(/<section class="course-module" aria-labelledby="module-([^"]+)-heading">([\s\S]*?)<\/section>/g)];
+assert.equal(moduleSections.length,14);
+assert.deepEqual(moduleSections.map(m=>m[1]),courseGroups.map(g=>g.id));
+for(const [i,section] of moduleSections.entries()) {
+ const group=courseGroups[i];
+ assert(section[2].includes(`<h4 id="module-${group.id}-heading">`));
+ assert(section[2].includes(group.title));
+ assert(section[2].includes(`<p>${group.description}</p>`));
+ const ids=[...section[2].matchAll(/data-lesson-id="([^"]+)"/g)].map(m=>m[1]);
+ assert.deepEqual(ids,curriculumState.lessons.filter(c=>group.id==='S'?c.track==='optional':c.id.startsWith(group.id+'-')).map(c=>c.id));
+ assert.equal([...section[2].matchAll(/<h5>/g)].length,ids.length);
+}
+assert(app.includes("document.querySelectorAll('.course-module')"));
+console.log('PASS: 14 named/described major units, nested lesson headings, exact group membership and grouped search');

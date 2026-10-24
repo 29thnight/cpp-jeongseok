@@ -14,6 +14,7 @@ GitHub Pages: https://29thnight.github.io/cpp-jeongseok/
 - `content/string-values.md`: 02-2 문자열을 값으로 다루기 원문
 - `assets/examples/02-2/`: 독립 예제 8개와 Visual Studio/MSVC C++20 실행 안내, 소스 ZIP
 - `content/chapters.json`: 57수업과 별도로 보존하는 소개 글 메타데이터
+- `content/course-groups.json`: 대단원 제목·학습 설명 (00–12 및 선택 심화 S). 수업 ID로 묶되 정본 순서를 검증하며, 검색은 대단원 제목·설명과 소단원 제목·상태를 함께 찾습니다.
 - `curriculum/state.json`: 목차에 사용하는 정본 수업 ID·제목·상태와 게시 경로
 - `scripts/build.mjs`: 정적 HTML 생성기 (Node.js 20 이상)
 - `assets/`: 공통 스타일, 검색 및 목차 기능, 자체 호스팅 폰트

@@ -8,6 +8,7 @@ if (form) {
     const words = input.value.trim().toLocaleLowerCase('ko').split(/\s+/).filter(Boolean);
     let visible = 0;
     rows.forEach(row => { row.hidden = !words.every(word => row.dataset.search.toLocaleLowerCase('ko').includes(word)); if (!row.hidden) visible++; });
+    document.querySelectorAll('.course-module').forEach(group => { group.hidden = ![...group.querySelectorAll('.chapter')].some(row => !row.hidden); });
     document.querySelectorAll('.curriculum-group').forEach(group => { group.hidden = ![...group.querySelectorAll('.chapter')].some(row => !row.hidden); });
     result.hidden = !words.length;
     result.textContent = `${visible}개의 강좌가 검색되었습니다`;
