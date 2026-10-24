@@ -1,7 +1,33 @@
 import hljs from 'highlight.js/lib/core';
 import cpp from 'highlight.js/lib/languages/cpp';
+import {cpp20Keywords, contextualIdentifiers} from './cpp-keywords.mjs';
 
-hljs.registerLanguage('cpp', cpp);
+const keywordClasses = new Map();
+const controlKeywords = new Set('if else for while do switch case default break continue return throw try catch co_return co_yield co_await'.split(' '));
+// The upstream grammar treats contextual identifiers as unconditional keywords.
+// Remove only those entries, including shared nested grammar modes. Recognize
+// their supported syntactic contexts below; ordinary identifiers remain legal.
+hljs.registerLanguage('cpp', api => {
+  const grammar = cpp(api), seen = new Set();
+  // Derive display categories from the pinned grammar instead of duplicating
+  // its type/literal lists. Control-flow coloring is the site's only override.
+  for (const category of ['keyword','type','literal']) {
+    for (const entry of grammar.keywords[category]) {
+      const word=entry.split('|')[0];
+      if(cpp20Keywords.has(word)) keywordClasses.set(word,`hljs-${controlKeywords.has(word)?'control':category}`);
+    }
+  }
+  function visit(value) {
+    if (!value || typeof value !== 'object' || seen.has(value)) return;
+    seen.add(value);
+    if (Array.isArray(value.keywords?.keyword)) {
+      value.keywords.keyword = value.keywords.keyword.filter(word => !contextualIdentifiers.has(word.split('|')[0]));
+    }
+    for (const child of Object.values(value)) visit(child);
+  }
+  visit(grammar);
+  return grammar;
+});
 
 const escapeHtml = value => value.replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -42,7 +68,28 @@ function declarationRoles(source) {
     text => text.replace(/[^\n]/g, ' '));
   const tokens = [...clean.matchAll(/[A-Za-z_]\w*|::|->|[^\s]/g)].map(m => ({word:m[0],start:m.index}));
   const roles = new Map(), types = new Set(), enums = new Set(), bodyKinds = new Map();
-  const reserved = new Set(['struct','class','enum','return','if','else','for','while','switch','case','const','auto','void','int','float','double','bool','char','long','short','unsigned','signed','static','using','namespace','typename','template','throw','new','delete']);
+  const reserved = cpp20Keywords;
+  // These are bounded lexical patterns, not a C++ semantic parser. In
+  // particular, do not reserve these four spellings globally.
+  const contextualRoles = new Map();
+  const mark = (pattern, group, topLevel = false) => {
+    for (const m of clean.matchAll(pattern)) {
+      const start=m.index+m[0].lastIndexOf(m[group]);
+      if(topLevel && [...clean.slice(0,start)].reduce((depth,char)=>depth+(char==='{'?1:char==='}'?-1:0),0)!==0)continue;
+      contextualRoles.set(start,'hljs-keyword');
+    }
+  };
+  mark(/\b(?:class|struct)\s+[A-Za-z_]\w*\s+(final)(?=\s*[:{])/g,1);
+  // Import/module preprocessing keywords begin a logical source line.
+  mark(/^\s*(?:export\s+)?(module|import)(?=\s*(?:[A-Za-z_"<:]|;))/gm,1,true);
+  // Function virt-specifiers, including cv/ref/noexcept suffixes. Match each
+  // specifier independently so both orders of `override final` are supported.
+  const suffix=/\)\s*(?:(?:const|volatile|noexcept(?:\s*\([^()]*\))?|override|final|&&|&)\s*)*(?:override|final)(?=\s*(?:[;{=]|override\b|final\b))/g;
+  for(const m of clean.matchAll(suffix)) {
+    // An identifier used inside noexcept(final) is not a virt-specifier.
+    const specifiers=m[0].replace(/\([^()]*\)/g,text=>' '.repeat(text.length));
+    for(const word of specifiers.matchAll(/\b(?:override|final)\b/g)) contextualRoles.set(m.index+word.index,'hljs-keyword');
+  }
   for (let i=0;i<tokens.length;i++) {
     const t=tokens[i];
     if (['struct','class','enum'].includes(t.word)) {
@@ -64,7 +111,7 @@ function declarationRoles(source) {
   for(const m of clean.matchAll(/\b([A-Za-z_]\w*)(?:\s*<[^;{}=]+>)?(?:\s*[*&])?\s+([A-Za-z_]\w*)\s*(?=[{=;,:)(])/g)) {
     if(reserved.has(m[1]) && !['auto','int','float','double','bool','char','long','short','unsigned','signed'].includes(m[1]))continue;
     if(reserved.has(m[2]))continue;
-    if(!reserved.has(m[1]) && m[1]!=='std' && !standardTypes.has(m[1]) && !valueNames.has(m[1]))types.add(m[1]);
+    if(!reserved.has(m[1]) && !contextualRoles.has(m.index) && m[1]!=='std' && !standardTypes.has(m[1]) && !valueNames.has(m[1]))types.add(m[1]);
     declarations.push({start:m.index+m[0].lastIndexOf(m[2]),name:m[2]});
   }
   const declarationAt=new Map(declarations.map(d=>[d.start,d]));
@@ -78,6 +125,7 @@ function declarationRoles(source) {
       if(t.word===','){enumNext=true;continue;}
       if(enumNext && /^[A-Za-z_]\w*$/.test(t.word)){roles.set(t.start,'hljs-enumerator');enumNext=false;continue;}
     }
+    if(contextualRoles.has(t.start)){roles.set(t.start,'hljs-keyword');continue;}
     if(!/^[A-Za-z_]\w*$/.test(t.word)||reserved.has(t.word))continue;
     if(['.','->'].includes(prev)){if(next!=='(')roles.set(t.start,'hljs-member');continue;}
     if(prev==='::' && enums.has(tokens[i-2]?.word)) {
@@ -95,7 +143,7 @@ export function highlightCpp(source, context = '') {
   const variables = declaredNames(source);
   const {roles} = declarationRoles(source+'\n'+context);
   const html = hljs.highlight(source, { language: 'cpp', ignoreIllegals: true }).value
-    .replace(/<span class="hljs-keyword">(if|else|for|while|do|switch|case|default|break|continue|return|throw|try|catch|co_return|co_yield|co_await)<\/span>/g, '<span class="hljs-control">$1</span>');
+    .replace(new RegExp(`<span class="hljs-keyword">(${[...controlKeywords].join('|')})</span>`, 'g'), '<span class="hljs-control">$1</span>');
   // Decorate plain text in code containers and normalize known token categories.
   // Strings, comments, preprocessor text and their nested spans remain untouched.
   // Never change the source text or whitespace.
@@ -111,7 +159,9 @@ export function highlightCpp(source, context = '') {
       // highlight.js calls named casts built-ins and size_t a primitive type.
       // Both need a narrower category to match the MSVC-style palette.
       if (inCode && parts[index + 2] === '</span>') {
-        if (roles.has(sourceOffset) && /^[A-Za-z_]\w*$/.test(word)) {
+        if (cpp20Keywords.has(word)) {
+          part = `<span class="${keywordClasses.get(word) || 'hljs-keyword'}">`;
+        } else if (!/^<span class="hljs-(?:keyword|type|literal|control)">$/.test(part) && roles.has(sourceOffset) && /^[A-Za-z_]\w*$/.test(word)) {
           part = `<span class="${roles.get(sourceOffset)}">`;
         } else if (part === '<span class="hljs-built_in">' && castKeywords.has(word)) {
           part = '<span class="hljs-keyword">';
@@ -145,6 +195,7 @@ export function highlightCpp(source, context = '') {
     if (!inCode) return part;
     return part.replace(/&(?:amp|lt|gt|quot|#x27|#39);|::|\b[A-Za-z_]\w*\b/g, (word, offset, text) => {
       if(word.startsWith('&'))return word;
+      if (cpp20Keywords.has(word)) return `<span class="${keywordClasses.get(word) || 'hljs-keyword'}">${word}</span>`;
       const role=roles.get(partOffset+unescapeHtml(text.slice(0,offset)).length);
       if(role)return `<span class="${role}">${word}</span>`;
       if (word === 'std' && /^\s*::/.test(text.slice(offset + word.length))) return `<span class="hljs-namespace">${word}</span>`;

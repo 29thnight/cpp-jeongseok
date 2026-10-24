@@ -1,3 +1,4 @@
+import './check-keywords.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync,readdirSync} from 'node:fs';
 import path from 'node:path';
@@ -148,7 +149,7 @@ assert(readingHtml.includes(commentsHtml));
 assert(homeHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(firstHtml.includes('/cpp-jeongseok/lessons/reading-execution/'));
 assert(readingHtml.includes('/cpp-jeongseok/lessons/first-execution/'));
-assert(homeHtml.includes('본편 12수업'));
+assert(homeHtml.includes(`본편 ${JSON.parse(readFileSync('curriculum/state.json','utf8')).lessons.filter(lesson=>lesson.track==='core' && lesson.status==='published').length}수업`));
 assert.equal([...readingHtml.matchAll(/<h1[ >]/g)].length,1);
 const readingBlocks=[...readingSource.matchAll(/```cpp\n([\s\S]*?)```/g)];
 const readingRendered=[...readingHtml.matchAll(/<pre><code class="[^"]*language-cpp[^"]*">([\s\S]*?)<\/code><\/pre>/g)];
@@ -192,7 +193,7 @@ const calculationHtml=readFileSync('docs/lessons/calculation-conversion/index.ht
 const calculationSource=readFileSync('content/calculation-conversion.md','utf8');
 const curriculumState=JSON.parse(readFileSync('curriculum/state.json','utf8'));
 const publishedChapters=[...JSON.parse(readFileSync('content/chapters.json','utf8')), ...curriculumState.lessons.filter(c=>c.status==='published').map(c=>({number:c.id,title:c.title,slug:c.publication_path.split('/')[2]}))];
-assert.equal(publishedChapters.length,13, 'Introduction plus twelve published lessons');
+assert.equal(publishedChapters.length,html.filter(file=>file.startsWith('docs/lessons/') && file.endsWith('/index.html')).length, 'Published curriculum entries match generated lesson pages');
 assert(publishedChapters.some(c=>c.number==='01-2'&&c.slug==='calculation-conversion'&&c.title.startsWith('계산과 변환')));
 assert.equal([...calculationHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(calculationHtml.includes(commentsHtml));

@@ -285,7 +285,7 @@ name=[Mina Kim]
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-comment">// UTF-8 bytes for U+AC00, one Korean syllable. Do not print the bytes.</span>
     <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-local">utf8</span> = <span class="hljs-string">&quot;\xEA\xB0\x80&quot;</span>;
-    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;sizeof(char)=&quot;</span> &lt;&lt; <span class="hljs-title function_">sizeof</span>(<span class="hljs-type">char</span>) &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;sizeof(char)=&quot;</span> &lt;&lt; <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">char</span>) &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;UTF-8 byte count=&quot;</span> &lt;&lt; utf<span class="hljs-number">8.l</span>ength() &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;known Unicode code points=1\n&quot;</span>;
     <span class="hljs-comment">// std::string counts char units, not human-perceived characters.</span>
