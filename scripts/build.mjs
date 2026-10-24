@@ -1,6 +1,6 @@
 import {readFileSync,writeFileSync,mkdirSync,cpSync,rmSync,existsSync} from 'node:fs';
 import {marked} from 'marked';
-import {withLessonCallouts} from './lesson-callouts.mjs';
+import {withLessonCallouts,preserveSolutionAnchors} from './lesson-callouts.mjs';
 // Numeric ranges such as 1~9 and 100~900 are prose, never strikethrough.
 marked.use({tokenizer:{del(){return undefined;}}});
 import {createHash} from 'node:crypto';
@@ -10,7 +10,7 @@ import {renderComments} from './comments.mjs';
 function parseLesson(source, options) {
   const context=[...source.matchAll(/```(?:cpp|c\+\+|cc|cxx|hpp|h\+\+)\n([\s\S]*?)```/g)].map(m=>m[1]).join('\n');
   const contextualRenderer=Object.assign(Object.create(options.renderer), {code: token=>renderCode(token,context)});
-  return marked.parser(withLessonCallouts(marked.lexer(source)),{...options,renderer:contextualRenderer}).replace(
+  return preserveSolutionAnchors(marked.parser(withLessonCallouts(marked.lexer(source)),{...options,renderer:contextualRenderer})).replace(
     /((?:src|href)=")(\/cpp-jeongseok\/assets\/illustrations\/[^"?]+\.webp)(")/g,
     (_, before, url, after) => before + asset(url.slice('/cpp-jeongseok/'.length)) + after
   );

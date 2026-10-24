@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>코드를 읽고 실행을 따라가기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=8b14178211a6"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">00-3 / READING EXECUTION</p><h1>코드를 읽고 실행을 따라가기</h1><p class="article-deck">실행할 문장과 지금까지의 출력을 나누어,<br>예상과 실제를 비교해 보기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-17">2026년 10월 17일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>READ. TRACE.<br>CHECK.</span><span class="article-symbol">&gt;_</span><small>STATEMENTS / OUTPUT / EVIDENCE</small></div><div class="prose"><p>코드는 읽었는데 어떤 결과가 나올지는 잘 모르겠다면, 어디부터 살펴보면 될까요? 우선 짧은 프로그램에서 지금 실행하는 문장과 지금까지 출력한 내용을 함께 적어 보겠습니다. 이번 수업에서는 새로운 문법을 많이 외우기보다, 예상한 결과를 실제 실행과 비교하는 방법을 익힙니다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>코드를 읽고 실행을 따라가기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=7ae6abe76509"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">00-3 / READING EXECUTION</p><h1>코드를 읽고 실행을 따라가기</h1><p class="article-deck">실행할 문장과 지금까지의 출력을 나누어,<br>예상과 실제를 비교해 보기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-17">2026년 10월 17일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>READ. TRACE.<br>CHECK.</span><span class="article-symbol">&gt;_</span><small>STATEMENTS / OUTPUT / EVIDENCE</small></div><div class="prose"><p>코드는 읽었는데 어떤 결과가 나올지는 잘 모르겠다면, 어디부터 살펴보면 될까요? 우선 짧은 프로그램에서 지금 실행하는 문장과 지금까지 출력한 내용을 함께 적어 보겠습니다. 이번 수업에서는 새로운 문법을 많이 외우기보다, 예상한 결과를 실제 실행과 비교하는 방법을 익힙니다.</p>
 <p>앞 수업에서 만든 콘솔 프로젝트를 그대로 사용해도 됩니다. 예제는 하나씩 <code>main</code>이 들어 있는 기존 파일의 내용과 교체해서 실행하세요. 여러 예제의 <code>main</code>을 같은 프로젝트에 한꺼번에 추가하지 않습니다.</p>
 <h2 id="section-1">이 수업을 마치면</h2>
 <ul>
@@ -183,20 +183,25 @@ Close
 <section class="lesson-callout lesson-callout--solution" aria-label="해설">
 <div class="lesson-callout-label" aria-hidden="true">해설</div>
 <h2 id="section-13">해설</h2>
-<h3 id="section-14">연습 1</h3>
+<span class="solution-anchor" id="section-14" aria-hidden="true"></span><span class="solution-anchor" id="section-15" aria-hidden="true"></span><span class="solution-anchor" id="section-16" aria-hidden="true"></span><span class="solution-anchor" id="section-17" aria-hidden="true"></span><details class="solution-disclosure">
+<summary><span class="solution-show">해설 보기</span><span class="solution-hide">해설 접기</span></summary>
+<div class="solution-content">
+<h3>연습 1</h3>
 <p>두 줄이며 첫 줄은 <code>12</code>, 둘째 줄은 <code>3</code>입니다. 첫 번째 출력은 줄바꿈을 넣지 않습니다. 두 번째 출력이 <code>2</code>를 이어 붙인 뒤 줄을 바꿉니다.</p>
 <pre><code class="language-plaintext">12
 3
 </code></pre>
-<h3 id="section-15">연습 2</h3>
+<h3>연습 2</h3>
 <p>출력문은 두 개, <code>return</code>문을 포함하면 문장은 세 개입니다. 둘째 출력문은 두 소스 줄에 걸쳐 있지만 하나의 문장입니다. 화면에는 <code>AB</code>가 한 줄로 출력됩니다.</p>
-<h3 id="section-16">연습 3</h3>
+<h3>연습 3</h3>
 <p><code>Go</code>만 출력됩니다. <code>Wait</code> 출력문은 <code>//</code> 주석 안에 있습니다. <code>Stop</code> 출력문은 <code>return</code> 이후에 있어 이 실행 경로에서는 도달하지 않습니다.</p>
-<h3 id="section-17">연습 4</h3>
+<h3>연습 4</h3>
 <p>첫 출력문은 <code>2+3=</code>라는 글자를 그대로 출력하고, 두 번째 출력문은 <code>2+3</code>의 계산 결과인 <code>5</code>를 출력합니다. 따라서 한 줄에 <code>2+3=5</code>가 나옵니다. 첫 출력문에도 <code>std::endl</code>을 넣으면 <code>2+3=</code>와 <code>5</code>가 서로 다른 줄에 나옵니다. 다음 두 출력문으로 바꾸어 확인할 수 있습니다.</p>
 <pre><code class="language-cpp hljs">    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;2+3=&quot;</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">endl</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-number">2</span> + <span class="hljs-number">3</span> &lt;&lt; <span class="hljs-namespace">std</span>::<span class="hljs-title function_">endl</span>;
 </code></pre>
+</div>
+</details>
 </section>
 <h2 id="section-18">정리</h2>
 <p>짧은 코드를 읽을 때는 지금 실행할 문장과 지금까지 생긴 결과를 나누어 적어 보세요. 줄 수만 보고 실행 횟수를 세거나, 주석까지 실행한다고 생각하거나, 빌드 성공을 원하는 동작의 증거로 삼으면 결과를 놓치기 쉽습니다. 다음 수업에서는 변수에 이름을 붙이고 값을 초기화하면서, 출력뿐 아니라 값의 변화도 함께 따라가겠습니다.</p>

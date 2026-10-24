@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {marked} from 'marked';
-import {withLessonCallouts,calloutKind} from './lesson-callouts.mjs';
+import {withLessonCallouts,calloutKind,preserveSolutionAnchors} from './lesson-callouts.mjs';
 
 const opening=/<section class="lesson-callout lesson-callout--(?:exercise|solution)" aria-label="(?:연습문제|해설)">\n<div class="lesson-callout-label" aria-hidden="true">(?:연습문제|해설)<\/div>\n/g;
-const unwrap=html=>html.replace(opening,'').replace(/<\/section>\n/g,'');
+const disclosureOpening='<details class="solution-disclosure">\n<summary><span class="solution-show">해설 보기</span><span class="solution-hide">해설 접기</span></summary>\n<div class="solution-content">\n';
+const stripDisclosure=html=>html.replaceAll(disclosureOpening,'').replaceAll('</div>\n</details>\n','');
+const unwrap=html=>stripDisclosure(html).replace(opening,'').replace(/<\/section>\n/g,'');
 let lessons=0,codeBlocks=0;
 for (const file of readdirSync('content').filter(f=>f.endsWith('.md'))) {
   const source=readFileSync(`content/${file}`,'utf8');
@@ -23,10 +25,21 @@ for (const file of readdirSync('content').filter(f=>f.endsWith('.md'))) {
     let end=start+1;
     while(end<tokens.length && !(tokens[end].type==='heading' && tokens[end].depth<=2))end++;
     const section=tokens.slice(start,end); section.links=tokens.links;
-    assert.equal(body,marked.parser(section),`${file}: ${kind} ends at next peer heading`);
+    assert.equal(stripDisclosure(body),marked.parser(section),`${file}: ${kind} ends at next peer heading`);
   }
   const page=readFileSync(`docs/lessons/${file.slice(0,-3)}/index.html`,'utf8');
   assert.deepEqual([...page.matchAll(/class="lesson-callout lesson-callout--(exercise|solution)"/g)].map(m=>m[1]),expected,`${file}: built page`);
+  const disclosures=[...page.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)];
+  assert.equal(disclosures.length,expected.length ? 1 : 0);
+  for(const [,attrs,body] of disclosures) {
+    assert.equal(attrs,' class="solution-disclosure"','No open attribute at initial render');
+    assert(body.startsWith('\n<summary>'));
+    assert(!/<details\b/.test(body),'No nested disclosure');
+    assert(!/ id="/.test(body),'No hidden anchor that could auto-open answers');
+    assert(body.includes('<span class="solution-show">해설 보기</span>'));
+    assert(body.includes('<span class="solution-hide">해설 접기</span>'));
+  }
+  assert.equal((page.match(/class="lesson-callout lesson-callout--exercise"/g)||[]).length,expected.length ? 1 : 0);
   codeBlocks+=tokens.filter(t=>t.type==='code').length;
   lessons++;
 }
@@ -55,3 +68,15 @@ for(const [foreground,background] of [['513582','e9e0f8'],['205c4e','daeee6'],['
   assert((luminance(background)+.05)/(luminance(foreground)+.05)>=4.5);
 }
 console.log('PASS: H1/H2 boundaries, matching generated styles, callout body/label contrast >= 4.5:1');
+
+const fragmentFixture='<h2 id="section-1">해설</h2><details class="solution-disclosure">\n<summary>해설 보기</summary><div class="solution-content"><h3 id="section-2">답 1</h3><p>답</p><h4 id="section-3">이유</h4></div></details>';
+const protectedFragments=preserveSolutionAnchors(fragmentFixture);
+assert(protectedFragments.indexOf('id="section-2"')<protectedFragments.indexOf('<details'));
+assert(protectedFragments.indexOf('id="section-3"')<protectedFragments.indexOf('<details'));
+assert(protectedFragments.includes('<h3>답 1</h3>'));
+assert(protectedFragments.includes('<h4>이유</h4>'));
+assert(css.includes('.solution-disclosure:not([open])>.solution-content{display:none!important}'));
+assert(css.includes('.solution-disclosure>summary:focus-visible'));
+assert(css.includes('.solution-disclosure[open]>summary .solution-hide{display:inline}'));
+assert.equal(codeBlocks,184);
+console.log('PASS: all 13 solutions closed in HTML; native summary controls, hidden body/print rules, preserved safe fragment targets, no nested details');

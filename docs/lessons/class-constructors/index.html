@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>class와 생성자 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=8b14178211a6"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">03-2 / CLASS AND CONSTRUCTORS</p><h1>class와 생성자</h1><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-23">2026년 10월 23일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><h2 id="section-1">유효한 상태로 객체 만들기, 멤버 초기화, 접근 제어</h2>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>class와 생성자 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=7ae6abe76509"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">03-2 / CLASS AND CONSTRUCTORS</p><h1>class와 생성자</h1><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-23">2026년 10월 23일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><h2 id="section-1">유효한 상태로 객체 만들기, 멤버 초기화, 접근 제어</h2>
 <blockquote>
 <p>이번 수업의 질문: 값을 한데 묶는 데서 한 걸음 더 나아가, 그 값이 지켜야 할 규칙을 어디에 둘까요?</p>
 </blockquote>
@@ -261,13 +261,16 @@ ready
 <section class="lesson-callout lesson-callout--solution" aria-label="해설">
 <div class="lesson-callout-label" aria-hidden="true">해설</div>
 <h2 id="section-17">8. 해설</h2>
-<h3 id="section-18">해설 1</h3>
+<span class="solution-anchor" id="section-18" aria-hidden="true"></span><span class="solution-anchor" id="section-19" aria-hidden="true"></span><span class="solution-anchor" id="section-20" aria-hidden="true"></span><span class="solution-anchor" id="section-21" aria-hidden="true"></span><span class="solution-anchor" id="section-22" aria-hidden="true"></span><details class="solution-disclosure">
+<summary><span class="solution-show">해설 보기</span><span class="solution-hide">해설 접기</span></summary>
+<div class="solution-content">
+<h3>해설 1</h3>
 <p>생성과 변경 모두 <code>0, 0, 100, 100</code>입니다. 최솟값과 최댓값 자체는 유지하고, 범위를 벗어난 값만 가까운 끝값으로 보정합니다.</p>
-<h3 id="section-19">해설 2</h3>
+<h3>해설 2</h3>
 <p>틀렸습니다. 멤버 함수는 private 멤버에 접근할 수 있습니다. 새 public 함수가 검사 없이 값을 대입하면 불변식이 깨질 수 있습니다. 접근 제어는 변경 경로를 줄이는 데 도움을 주며, 그 경로의 올바른 구현은 작성자의 책임입니다.</p>
-<h3 id="section-20">해설 3</h3>
+<h3>해설 3</h3>
 <p>바뀌지 않습니다. 실제 순서는 데이터 멤버의 선언 순서입니다. 초기화 목록도 <code>first_</code>, <code>second_</code> 순으로 적으면 실제 순서와 읽는 순서가 일치합니다.</p>
-<h3 id="section-21">해설 4</h3>
+<h3>해설 4</h3>
 <p>다음은 교체할 <code>main</code>입니다. 앞에서 작성한 <code>boundedLevel</code>과 <code>Volume</code> 정의 뒤에 둡니다. 이 코드 조각만으로는 완전한 프로그램이 아닙니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
@@ -298,8 +301,10 @@ ready
 <pre><code class="language-plaintext">0 0 100 100
 0 0 100 100
 </code></pre>
-<h3 id="section-22">해설 5</h3>
+<h3>해설 5</h3>
 <p>적절하다고 단정할 수 없습니다. 객체를 사용하려면 번호가 반드시 필요하다면 인자 없이 만드는 것을 허용하지 않는 설계가 더 명확합니다. 정수 0이 언어 차원에서 표현 가능한 값이라는 사실과, 입장권 번호로 유효하다는 사실은 다릅니다. 기본 생성자를 추가할지와 기본값을 무엇으로 정할지는 프로그램의 규칙에 따라 결정합니다.</p>
+</div>
+</details>
 </section>
 <h2 id="section-23">정리</h2>
 <ul>

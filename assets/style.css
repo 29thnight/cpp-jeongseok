@@ -96,3 +96,20 @@
   .prose .lesson-callout>h2{font-size:22px}
   .prose .lesson-callout pre{padding:14px 12px}
 }
+
+/* Native disclosure: answers are closed in the HTML, including without JS. */
+.prose .solution-disclosure>summary{cursor:pointer;padding:12px 16px;border-radius:5px;background:#daeee6;color:#205c4e;font-weight:700;min-height:44px}
+.prose .solution-disclosure>summary:hover{background:#cde6dc}
+.prose .solution-disclosure>summary:focus-visible{outline:3px solid #287565;outline-offset:4px}
+.prose .solution-disclosure>summary .solution-hide{display:none}
+.prose .solution-disclosure[open]>summary .solution-show{display:none}
+.prose .solution-disclosure[open]>summary .solution-hide{display:inline}
+.prose .solution-content{padding-top:20px}
+.prose .solution-content>:first-child{margin-top:0}
+.prose .solution-content>:last-child{margin-bottom:0}
+.prose .solution-anchor{display:block;scroll-margin-top:24px}
+/* Do not let browser print styles expose answers the reader has not opened. */
+.prose .solution-disclosure:not([open])>.solution-content{display:none}
+@media print{
+  .prose .solution-disclosure:not([open])>.solution-content{display:none!important}
+}

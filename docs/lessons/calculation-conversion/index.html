@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>계산과 변환 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=8b14178211a6"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">01-2 / CALCULATION AND CONVERSION</p><h1>계산과 변환</h1><p class="article-deck">계산에 참여하는 타입과 연산의 묶임,<br>변환이 일어나는 위치를 함께 읽기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-18">2026년 10월 18일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>CALCULATE. CONVERT.<br>CHECK.</span><span class="article-symbol">÷</span><small>TYPES / OPERATORS / CONVERSION</small></div><div class="prose"><p>앞 수업에서는 변수에 첫 값을 넣고 변경하는 방법을 살펴봤습니다. 이번에는 그 값들을 계산에 사용합니다. 같은 7과 2라도 정수로 나누는지, 소수 부분이 있는 수로 나누는지에 따라 결과가 달라집니다. 결과를 저장할 변수의 타입만 바꿔서는 이미 끝난 계산을 되돌릴 수 없습니다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>계산과 변환 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=7ae6abe76509"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">01-2 / CALCULATION AND CONVERSION</p><h1>계산과 변환</h1><p class="article-deck">계산에 참여하는 타입과 연산의 묶임,<br>변환이 일어나는 위치를 함께 읽기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-18">2026년 10월 18일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>CALCULATE. CONVERT.<br>CHECK.</span><span class="article-symbol">÷</span><small>TYPES / OPERATORS / CONVERSION</small></div><div class="prose"><p>앞 수업에서는 변수에 첫 값을 넣고 변경하는 방법을 살펴봤습니다. 이번에는 그 값들을 계산에 사용합니다. 같은 7과 2라도 정수로 나누는지, 소수 부분이 있는 수로 나누는지에 따라 결과가 달라집니다. 결과를 저장할 변수의 타입만 바꿔서는 이미 끝난 계산을 되돌릴 수 없습니다.</p>
 <p>이 수업은 계산에 참여하는 값의 타입, 연산자가 묶이는 방식, 변환이 일어나는 위치를 함께 읽는 연습입니다. 예제는 C++20 콘솔 프로젝트에서 하나씩 실행합니다. 완전한 실행 예제에는 <code>main</code>이 있으며, 짧은 코드 조각은 설명용입니다.</p>
 <h2 id="section-1">이 수업을 마치면</h2>
 <ol>
@@ -167,18 +167,23 @@ false
 <section class="lesson-callout lesson-callout--solution" aria-label="해설">
 <div class="lesson-callout-label" aria-hidden="true">해설</div>
 <h2 id="section-17">10 해설</h2>
-<h3 id="section-18">문제 1 정답</h3>
+<span class="solution-anchor" id="section-18" aria-hidden="true"></span><span class="solution-anchor" id="section-19" aria-hidden="true"></span><span class="solution-anchor" id="section-20" aria-hidden="true"></span><span class="solution-anchor" id="section-21" aria-hidden="true"></span><span class="solution-anchor" id="section-22" aria-hidden="true"></span><span class="solution-anchor" id="section-23" aria-hidden="true"></span><details class="solution-disclosure">
+<summary><span class="solution-show">해설 보기</span><span class="solution-hide">해설 접기</span></summary>
+<div class="solution-content">
+<h3>문제 1 정답</h3>
 <p><code>18 / 4 * 2</code>는 <code>(18 / 4) * 2</code>이므로 <code>4 * 2</code>, 즉 8입니다. <code>18 / (4 * 2)</code>는 <code>18 / 8</code>이므로 2입니다. 정수끼리 나누는 각 지점에서 소수 부분을 버립니다.</p>
-<h3 id="section-19">문제 2 정답</h3>
+<h3>문제 2 정답</h3>
 <p>오른쪽을 <code>static_cast&lt;double&gt;(total) / count</code>로 바꾸면 2.75를 얻습니다. <code>static_cast&lt;double&gt;(total / count)</code>는 이미 정수 나눗셈으로 얻은 2를 바꾸므로 해결되지 않습니다.</p>
-<h3 id="section-20">문제 3 정답</h3>
+<h3>문제 3 정답</h3>
 <p>몫은 -2, 나머지는 -3입니다. <code>(-2) * 4 + (-3)</code>은 -11입니다. <code>-11 / 4</code>를 -3으로 예상했다면 0 방향 절삭과 내림을 혼동한 것입니다.</p>
-<h3 id="section-21">문제 4 정답</h3>
+<h3>문제 4 정답</h3>
 <p>부동소수점에서 정수로의 변환은 중괄호 초기화의 좁히기 변환 규칙에 걸립니다. <code>int whole{static_cast&lt;int&gt;(4.8)};</code>처럼 의도를 적을 수 있으며 값은 4입니다. 다만 <code>static_cast</code>는 범위 검사를 하지 않습니다. 이 예제의 작은 유한 값이 <code>int</code> 범위 안이라는 전제를 다른 값 전체에 확대하면 안 됩니다.</p>
-<h3 id="section-22">문제 5 정답</h3>
+<h3>문제 5 정답</h3>
 <p>결과는 차례로 <code>false</code>, <code>false</code>, <code>true</code>입니다. <code>tickets &gt;= 2</code>가 <code>false</code>이고 <code>connected</code>도 <code>false</code>이기 때문입니다. 입력을 <code>tickets{2}</code>, <code>connected{false}</code>로 바꾸면 차례로 <code>false</code>, <code>true</code>, <code>true</code>가 됩니다.</p>
-<h3 id="section-23">문제 6 정답</h3>
+<h3>문제 6 정답</h3>
 <p>부호 있는 정수의 산술 범위 초과는 미정의 동작이므로 순환을 보장하지 않습니다. 두 번째 주장은 결과를 저장하는 시점과 계산 시점을 혼동했습니다. 피연산자가 모두 <code>int</code>라면 먼저 정수 나눗셈을 하므로, 소수 부분이 필요할 때는 계산 전에 알맞은 타입으로 변환해야 합니다.</p>
+</div>
+</details>
 </section>
 <h2 id="section-24">이번 수업에서 기억할 것</h2>
 <p>계산을 읽을 때는 결과 변수만 보지 않고, 연산에 참여하는 값의 타입부터 확인합니다. 괄호는 묶임을 명확하게 하고, 변환 위치는 결과에 영향을 줍니다. 중괄호의 진단과 컴파일러 경고는 이유를 이해하고 수정해야 합니다. 명시적 변환으로 경고를 숨기는 것만으로 안전성이 생기지는 않습니다.</p>

@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>AI 시대에 C++을 배워야 하는 이유 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=8b14178211a6"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">00-1 / WHY C++</p><h1>AI 시대에 C++을 배워야 하는 이유</h1><p class="article-deck">코드 제안을 검토하는 과정과<br>나에게 필요한 C++ 학습 이유.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-16">2026년 10월 16일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>ASK. CHECK.<br>UNDERSTAND.</span><span class="article-symbol">?</span><small>REQUIREMENTS / EVIDENCE / CHOICE</small></div><div class="prose"><p>AI에게 프로그램을 만들어 달라고 하면 코드와 설명을 받을 수 있습니다. 그렇다면 굳이 문법을 배우고, 오류를 직접 고치는 연습까지 해야 할까요? 우선 작은 검색 기능을 예로 들어 살펴보겠습니다. 이 수업에서 확인할 것은 코드를 얼마나 많이 작성할 수 있는지가 아니라, 제안받은 코드가 원하는 조건에 맞게 동작하는지 판단할 수 있는가입니다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>AI 시대에 C++을 배워야 하는 이유 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=7ae6abe76509"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">00-1 / WHY C++</p><h1>AI 시대에 C++을 배워야 하는 이유</h1><p class="article-deck">코드 제안을 검토하는 과정과<br>나에게 필요한 C++ 학습 이유.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-16">2026년 10월 16일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>ASK. CHECK.<br>UNDERSTAND.</span><span class="article-symbol">?</span><small>REQUIREMENTS / EVIDENCE / CHOICE</small></div><div class="prose"><p>AI에게 프로그램을 만들어 달라고 하면 코드와 설명을 받을 수 있습니다. 그렇다면 굳이 문법을 배우고, 오류를 직접 고치는 연습까지 해야 할까요? 우선 작은 검색 기능을 예로 들어 살펴보겠습니다. 이 수업에서 확인할 것은 코드를 얼마나 많이 작성할 수 있는지가 아니라, 제안받은 코드가 원하는 조건에 맞게 동작하는지 판단할 수 있는가입니다.</p>
 <p>프로그래밍 경험이나 AI 서비스 계정은 없어도 됩니다. 이번 수업에서는 코드를 실행하기보다 주어진 상황을 읽고 판단하는 과정을 연습합니다. 개발 도구를 설치하고 프로그램을 실행하는 과정은 다음 수업에서 다루겠습니다.</p>
 <h2 id="section-1">이 수업을 마치면</h2>
 <ul>
@@ -113,15 +113,18 @@
 <section class="lesson-callout lesson-callout--solution" aria-label="해설">
 <div class="lesson-callout-label" aria-hidden="true">해설</div>
 <h2 id="section-16">7 해설과 스스로 확인할 기준</h2>
-<h3 id="section-17">연습 1 해설</h3>
+<span class="solution-anchor" id="section-17" aria-hidden="true"></span><span class="solution-anchor" id="section-18" aria-hidden="true"></span><span class="solution-anchor" id="section-19" aria-hidden="true"></span><span class="solution-anchor" id="section-20" aria-hidden="true"></span><span class="solution-anchor" id="section-21" aria-hidden="true"></span><details class="solution-disclosure">
+<summary><span class="solution-show">해설 보기</span><span class="solution-hide">해설 접기</span></summary>
+<div class="solution-content">
+<h3>연습 1 해설</h3>
 <p>이 결과는 채택할 수 없습니다. 기대 결과는 [나무검, 강철검]인데, 일치하는 항목 중 강철검이 빠져 있기 때문입니다. 이후 코드를 읽을 수 있게 되면 첫 번째 일치를 찾은 직후 탐색을 끝내는지 등을 확인할 수 있습니다. 다만 지금은 코드를 확인하지 않았으므로 이것을 실제 원인이라고 단정할 수는 없습니다. 우선 기대 결과와 실제 결과가 다르다는 사실을 재현할 수 있도록 기록하면 됩니다.</p>
-<h3 id="section-18">연습 2 해설</h3>
+<h3>연습 2 해설</h3>
 <p>기대 결과는 빈 목록입니다. 프로그램이 오류로 종료했다면 사용한 입력, 기대 결과, 실제로 발생한 현상과 재현 순서를 기록합니다. 빈 목록에서 존재하지 않는 항목에 접근했을 가능성은 조사할 대상이지만, 코드와 오류 정보를 확인하기 전에는 원인으로 확정할 수 없습니다. 기대 결과를 먼저 정하고 확인한 사실과 추측을 구분했다면 이 연습의 목표를 충족한 것입니다.</p>
-<h3 id="section-19">연습 3 해설</h3>
+<h3>연습 3 해설</h3>
 <p>예를 들어 실제로 처리할 최대 자료 수와 허용할 수 있는 응답 시간을 아직 모릅니다. 측정 전에는 사용할 기기, 빌드 조건과 대표 입력 규모를 정하고, 같은 조건에서 반복해서 측정할 계획을 세울 수 있습니다. 필요한 응답 속도는 프로그램의 목적에 따라 달라지므로, 이 수업에서 특정 시간 제한을 정답으로 정하지는 않습니다. 또한 처리 속도가 빠르더라도 검색 결과가 틀리면 요구사항을 충족한 것이 아닙니다.</p>
-<h3 id="section-20">연습 4 해설</h3>
+<h3>연습 4 해설</h3>
 <p>예를 들어 “나는 게임의 자원 목록 도구를 만들고 싶다. 특히 필요 없는 자료가 메모리에 계속 남는 문제를 이해해야 한다. 그래서 C++에서 객체의 수명과 소유권을 배우려 한다”라고 작성할 수 있습니다. 다른 답도 가능합니다. 중요한 것은 프로젝트의 제약과 배우려는 개념이 연결되어 있는가입니다. C++이면 언제나 가장 빠르다거나 AI는 C++ 코드를 작성하지 못한다는 주장을 이유로 삼지는 않습니다.</p>
-<h3 id="section-21">연습 1을 바탕으로 한 네 줄 메모 예시</h3>
+<h3>연습 1을 바탕으로 한 네 줄 메모 예시</h3>
 <ol>
 <li><p>이름에 검색어가 포함된 모든 항목을 원래 순서로 반환한다.</p>
 </li>
@@ -133,6 +136,8 @@
 </li>
 </ol>
 <p>위 메모는 검증 계획이며, 테스트를 통과했다는 보고가 아닙니다. 아직 실행하지 않았다면 확인할 내용을 계획으로 적고, 실제로 확인한 사실과 구분해야 합니다.</p>
+</div>
+</details>
 </section>
 <h2 id="section-22">8 다음 수업으로</h2>
 <p>이번 수업에서는 원하는 동작을 정하고, 그 동작을 확인할 근거를 남기는 과정을 살펴보았습니다. 코드가 어디에서 왔는지와 관계없이 필요한 과정입니다. 이후에는 이 판단을 데이터 처리 비용, 객체의 수명과 외부 코드의 사용 조건까지 넓혀 가겠습니다.</p>

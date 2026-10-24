@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>vector와 array로 여러 값 다루기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=8b14178211a6"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">02-3 / CONTAINERS</p><h1>vector와 array로 여러 값 다루기</h1><p class="article-deck">여러 값을 하나의 이름으로 묶고,<br>원소 개수와 접근 범위를 정확하게 다루기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-21">2026년 10월 21일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>GROUP. CHECK.<br>ITERATE.</span><span class="article-symbol">[ ]</span><small>SIZE / INDEX / VALUE</small></div><div class="prose"><p>한 사람의 이름은 <code>std::string</code> 변수 하나에 저장할 수 있습니다. 그렇다면 신청자가 세 명일 때는 어떻게 할까요? <code>name1</code>, <code>name2</code>, <code>name3</code>을 각각 만들어도 되지만, 네 번째 신청자가 오면 선언문부터 고쳐야 합니다. 전체 이름을 출력하는 코드도 계속 길어집니다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>vector와 array로 여러 값 다루기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=7ae6abe76509"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">02-3 / CONTAINERS</p><h1>vector와 array로 여러 값 다루기</h1><p class="article-deck">여러 값을 하나의 이름으로 묶고,<br>원소 개수와 접근 범위를 정확하게 다루기.</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-21">2026년 10월 21일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="article-art" aria-hidden="true"><span>GROUP. CHECK.<br>ITERATE.</span><span class="article-symbol">[ ]</span><small>SIZE / INDEX / VALUE</small></div><div class="prose"><p>한 사람의 이름은 <code>std::string</code> 변수 하나에 저장할 수 있습니다. 그렇다면 신청자가 세 명일 때는 어떻게 할까요? <code>name1</code>, <code>name2</code>, <code>name3</code>을 각각 만들어도 되지만, 네 번째 신청자가 오면 선언문부터 고쳐야 합니다. 전체 이름을 출력하는 코드도 계속 길어집니다.</p>
 <p>여러 값을 하나의 이름으로 묶고, 필요한 값을 골라 쓰거나 차례로 처리할 수 있다면 훨씬 편합니다. 이번 절에서는 그 일을 하는 표준 라이브러리 컨테이너인 <code>std::vector</code>와 <code>std::array</code>를 배웁니다. 컨테이너 안에 들어 있는 각각의 값을 <strong>원소</strong>라고 부릅니다.</p>
 <h2 id="section-1">이번 절의 목표</h2>
 <p>이 절을 마치면 다음 세 가지를 할 수 있습니다.</p>
@@ -427,11 +427,14 @@ original: 80 90 70
 <section class="lesson-callout lesson-callout--solution" aria-label="해설">
 <div class="lesson-callout-label" aria-hidden="true">해설</div>
 <h2 id="section-31">8. 정답과 해설</h2>
-<h3 id="section-32">문제 1 해설</h3>
+<span class="solution-anchor" id="section-32" aria-hidden="true"></span><span class="solution-anchor" id="section-33" aria-hidden="true"></span><span class="solution-anchor" id="section-34" aria-hidden="true"></span><span class="solution-anchor" id="section-35" aria-hidden="true"></span><span class="solution-anchor" id="section-36" aria-hidden="true"></span><span class="solution-anchor" id="section-37" aria-hidden="true"></span><details class="solution-disclosure">
+<summary><span class="solution-show">해설 보기</span><span class="solution-hide">해설 접기</span></summary>
+<div class="solution-content">
+<h3>문제 1 해설</h3>
 <p>명단은 개수가 늘어나므로 <code>std::vector&lt;std::string&gt; names{};</code>가 자연스럽습니다. 빨강, 초록, 파랑 값은 항상 세 성분이므로 <code>std::array&lt;int, 3&gt; rgb{255, 128, 0};</code>가 의미를 잘 드러냅니다. 실행 후에 개수를 전달받는 점수 목록은 <code>std::vector&lt;int&gt; scores{};</code>로 시작할 수 있습니다.</p>
 <p>세 번째 상황에서 개수가 검증되어 있다면 그 개수로 <code>std::vector&lt;int&gt;</code>를 만들 수도 있습니다. 여기서는 입력받은 개수 자체의 검증을 아직 작성하지 않았으므로, 음수를 곧바로 생성자의 개수에 넘기는 코드는 사용하지 않습니다. 핵심은 실행 중의 일반 입력값을 <code>std::array</code> 타입의 고정 개수로 삼지 않는 것입니다.</p>
 <p>필요한 헤더는 명단에 <code>&lt;vector&gt;</code>와 <code>&lt;string&gt;</code>, 색상에 <code>&lt;array&gt;</code>입니다. 같은 프로그램에서 모두 사용한다면 세 헤더를 포함합니다.</p>
-<h3 id="section-33">문제 2 해설</h3>
+<h3>문제 2 해설</h3>
 <table>
 <thead>
 <tr>
@@ -462,10 +465,10 @@ original: 80 90 70
 </tr>
 </tbody></table>
 <p><code>a</code>의 중괄호는 값 <code>4</code> 하나를 나열합니다. <code>b</code>의 소괄호는 정수 원소 네 개를 만들며, 이 <code>int</code> 원소들은 <code>0</code>으로 시작합니다. <code>c</code>는 <code>9</code>를 두 개 만듭니다. <code>d</code>의 개수는 타입에 적힌 <code>4</code>이고, 중괄호에 적지 않은 나머지 <code>int</code> 원소는 <code>0</code>입니다. <code>d.empty()</code>는 <code>false</code>입니다.</p>
-<h3 id="section-34">문제 3 해설</h3>
+<h3>문제 3 해설</h3>
 <p><code>values.size()</code>는 <code>4</code>, 마지막 유효 인덱스는 <code>3</code>입니다. 제시한 인덱스 중 <code>0</code>과 <code>3</code>만 허용됩니다. <code>-1</code>은 시작보다 작고 <code>4</code>는 개수와 같아 범위를 벗어납니다.</p>
 <p><code>none.size()</code>는 <code>0</code>, <code>none.empty()</code>는 <code>true</code>이며 반복 횟수는 <code>0</code>입니다. <code>zeros.size()</code>는 <code>3</code>, <code>zeros.empty()</code>는 <code>false</code>이며 반복 횟수는 <code>3</code>입니다. <code>zeros</code> 안의 값이 모두 <code>0</code>이라는 사실은 원소 개수와 무관합니다.</p>
-<h3 id="section-35">문제 4 해설</h3>
+<h3>문제 4 해설</h3>
 <p>수정할 부분 코드는 다음과 같습니다. 전체 프로그램의 입력 실패 처리는 5절과 같이 먼저 수행합니다. 필요한 헤더는 <code>&lt;cstddef&gt;</code>, <code>&lt;iostream&gt;</code>, <code>&lt;iterator&gt;</code>, <code>&lt;vector&gt;</code>입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-control">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt;= <span class="hljs-namespace">std</span>::<span class="hljs-title function_">ssize</span>(scores))
 {
@@ -477,10 +480,10 @@ original: 80 90 70
 <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;score: &quot;</span> &lt;&lt; scores[<span class="hljs-local">position</span>] &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
 </code></pre>
 <p>원래 조건은 음수를 전혀 검사하지 않았고, <code>&gt;</code>만 사용하여 개수와 같은 <code>3</code>도 통과시켰습니다. <code>&gt;=</code>와 음수 검사를 함께 사용해야 합니다. 타입 변환은 두 경계를 통과한 뒤에 있습니다. <code>scores</code>가 비어 있으면 <code>0</code>도 거절하므로 같은 조건을 그대로 사용할 수 있습니다.</p>
-<h3 id="section-36">문제 5 해설</h3>
+<h3>문제 5 해설</h3>
 <p>첫 줄은 <code>copies: 0 0 0</code>, 둘째 줄은 <code>original: 2 4 6</code>입니다. 첫 반복문의 <code>value</code>는 각 <code>int</code> 원소의 복사본이므로 <code>value = 0;</code>은 원본 원소에 대입하지 않습니다. <code>std::array</code>라서 원본이 유지되는 것이 아니라, 이 반복문에서 복사본을 수정했기 때문입니다.</p>
 <p>원본의 첫 원소 하나를 바꾸려면, 여기서는 유효한 인덱스임을 아는 <code>values[0] = 0;</code>처럼 대상을 명확히 적을 수 있습니다. 모든 원소를 참조로 순회하며 바꾸는 방법은 다음 학습 내용과 연결됩니다.</p>
-<h3 id="section-37">문제 6 해설</h3>
+<h3>문제 6 해설</h3>
 <p>다음은 <code>07_score_summary_solution.cpp</code>의 전체 코드입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
@@ -518,6 +521,8 @@ passing: 3
 </code></pre>
 <p>합계는 <code>55 + 80 + 60 + 95 + 40</code>입니다. <code>80</code>, <code>60</code>, <code>95</code>가 통과하므로 통과 인원은 세 명입니다. <code>is_passing</code>은 점수 하나를 판단하고, 반복문은 모든 점수를 모아 요약합니다. 함수가 맡은 일과 반복문이 맡은 일을 나누어 읽을 수 있습니다.</p>
 <p>빈 경우도 확인합니다. 선언을 <code>std::vector&lt;int&gt; scores{};</code>로 바꾸고 <code>push_back</code> 줄을 제거하면 반복문은 실행되지 않습니다. <code>total</code>과 <code>passing</code>을 미리 <code>0</code>으로 초기화했으므로 출력은 각각 <code>count: 0</code>, <code>total: 0</code>, <code>passing: 0</code>입니다. 빈 컨테이너의 첫 원소를 읽지 않아도 요약을 만들 수 있습니다.</p>
+</div>
+</details>
 </section>
 <h2 id="section-38">마무리: 세 문장으로 점검합니다</h2>
 <ul>

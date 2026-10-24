@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>struct와 enum class · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=8b14178211a6"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">03-1 / STRUCT AND ENUM CLASS</p><h1>struct와 enum class: 관련된 값을 묶고 상태를 표현하기</h1><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-23">2026년 10월 23일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><p>작은 편집팀에서 원고 작업을 관리한다고 해 봅시다. 작업마다 제목, 담당자, 예상 시간이 있고, 진행 상태도 기록해야 합니다. 제목 목록과 담당자 목록을 따로 만들면 같은 위치의 값들이 한 작업을 가리킨다는 약속을 계속 지켜야 합니다. 작업 하나를 전달할 때도 인자가 늘어납니다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>struct와 enum class · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=7ae6abe76509"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">03-1 / STRUCT AND ENUM CLASS</p><h1>struct와 enum class: 관련된 값을 묶고 상태를 표현하기</h1><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-23">2026년 10월 23일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><p>작은 편집팀에서 원고 작업을 관리한다고 해 봅시다. 작업마다 제목, 담당자, 예상 시간이 있고, 진행 상태도 기록해야 합니다. 제목 목록과 담당자 목록을 따로 만들면 같은 위치의 값들이 한 작업을 가리킨다는 약속을 계속 지켜야 합니다. 작업 하나를 전달할 때도 인자가 늘어납니다.</p>
 <p>이번 절에서는 관련된 값을 <code>struct</code>로 묶어 <code>Task</code>라는 타입을 만들고, 진행 상태는 <code>enum class</code>로 이름 붙입니다. 이어서 앞 절에서 익힌 const 참조와 값 반환을 사용자 정의 타입에도 적용합니다. 마지막에는 여러 작업을 모아 완료 개수와 미완료 작업의 예상 시간을 계산합니다.</p>
 <h2 id="section-1">이번 절을 마치면</h2>
 <ol>
@@ -377,21 +377,24 @@ Unfinished planned minutes: 0
 <section class="lesson-callout lesson-callout--solution" aria-label="해설">
 <div class="lesson-callout-label" aria-hidden="true">해설</div>
 <h2 id="section-30">7 연습문제 해설</h2>
-<h3 id="section-31">해설 1 같은 타입이면 순서 실수를 잡지 못할 수 있다</h3>
+<span class="solution-anchor" id="section-31" aria-hidden="true"></span><span class="solution-anchor" id="section-32" aria-hidden="true"></span><span class="solution-anchor" id="section-33" aria-hidden="true"></span><span class="solution-anchor" id="section-34" aria-hidden="true"></span><span class="solution-anchor" id="section-35" aria-hidden="true"></span><span class="solution-anchor" id="section-36" aria-hidden="true"></span><details class="solution-disclosure">
+<summary><span class="solution-show">해설 보기</span><span class="solution-hide">해설 접기</span></summary>
+<div class="solution-content">
+<h3>해설 1 같은 타입이면 순서 실수를 잡지 못할 수 있다</h3>
 <p>제목은 Joon, 담당자는 Outline, 시간은 15입니다. 첫 두 값은 선언 순서대로 들어가고, 생략된 시간은 예제 2의 멤버 기본값 15를 사용합니다. 다음처럼 문자열 순서를 고칩니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-user-type">Task</span> <span class="hljs-local">task</span>{<span class="hljs-string">&quot;Outline&quot;</span>, <span class="hljs-string">&quot;Joon&quot;</span>};
 </code></pre>
 <p>문법상 올바른 코드와 업무상 의도한 코드가 항상 같지는 않습니다. 같은 타입의 멤버가 연달아 있을수록 초기화 순서를 더 주의해서 읽으세요.</p>
-<h3 id="section-32">해설 2 복사본은 독립적이고 참조는 원본을 가리킨다</h3>
+<h3>해설 2 복사본은 독립적이고 참조는 원본을 가리킨다</h3>
 <p>차례대로 Ara, Joon, Ara입니다. <code>copy</code>는 별도의 객체이므로 그 담당자를 바꿔도 원본은 바뀌지 않습니다. <code>view</code>는 원본에 대한 참조이므로 원본이 Ara로 바뀐 뒤 읽으면 Ara가 나옵니다. <code>const</code>는 <code>view</code>를 통해 값을 변경하지 못하게 할 뿐, 원본이 다른 경로로 바뀌는 것까지 막지는 않습니다.</p>
-<h3 id="section-33">해설 3 메뉴 번호와 타입 값을 구분한다</h3>
+<h3>해설 3 메뉴 번호와 타입 값을 구분한다</h3>
 <p>정수는 <code>TaskState</code>로 암시적으로 변환되지 않습니다. 메뉴 번호 2가 Doing이라는 연결은 예제 3의 조건문에 작성한 규칙이며, 열거형 선언 자체가 입력 메뉴를 이해하는 것은 아닙니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-user-type">TaskState</span> <span class="hljs-local">state</span> = <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Doing</span>;
 
 <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-title function_">stateName</span>(<span class="hljs-local">state</span>) &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
 </code></pre>
 <p>이름 있는 값으로 초기화하면 의도가 드러납니다. 출력은 <code>stateName</code>이 돌려준 문자열을 사용합니다.</p>
-<h3 id="section-34">해설 4 원본을 복사한 뒤 복사본만 변경한다</h3>
+<h3>해설 4 원본을 복사한 뒤 복사본만 변경한다</h3>
 <pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-user-type">Task</span> <span class="hljs-title">withOwner</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">Task</span>&amp; <span class="hljs-parameter">task</span>, <span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span>&amp; <span class="hljs-parameter">owner</span>)</span> </span>{
     <span class="hljs-user-type">Task</span> <span class="hljs-local">result</span> = <span class="hljs-parameter">task</span>;
 
@@ -408,7 +411,7 @@ Unfinished planned minutes: 0
 <span class="hljs-title function_">printTask</span>(<span class="hljs-local">reassigned</span>);
 </code></pre>
 <p>출력은 <code>Review / Mina / 30 / Todo</code>, <code>Review / Joon / 30 / Todo</code>입니다. <code>task</code>가 const 참조이므로 원본을 직접 고치지 않고, <code>result</code>를 만들어 수정합니다. 제목·시간·상태는 복사한 값을 유지합니다. 함수 호출만 하고 반환값을 버리면 원본 담당자는 바뀌지 않습니다.</p>
-<h3 id="section-35">해설 5 유효한 입력을 확인한 뒤 객체를 만든다</h3>
+<h3>해설 5 유효한 입력을 확인한 뒤 객체를 만든다</h3>
 <p>다음은 예제 4의 타입과 함수 정의를 그대로 두고 바꾼 <code>main</code>입니다.</p>
 <pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">minutes</span> = <span class="hljs-number">0</span>;
@@ -426,7 +429,7 @@ Unfinished planned minutes: 0
 }
 </code></pre>
 <p><code>-1</code>은 음수이므로, <code>abc</code>는 정수 추출에 실패하므로 <code>Invalid minutes</code>를 출력합니다. <code>0</code>은 허용 범위에 있으므로 <code>Review / Mina / 0 / Todo</code>, <code>25</code>는 <code>Review / Mina / 25 / Todo</code>를 출력합니다. 검사를 객체 생성 앞에 둔 것은 이 경로에서 잘못된 시간의 작업을 만들지 않기 위해서입니다. 다른 코드가 나중에 멤버에 음수를 대입하는 것까지 막지는 못합니다.</p>
-<h3 id="section-36">해설 6 조건을 만족하는 원소만 누적한다</h3>
+<h3>해설 6 조건을 만족하는 원소만 누적한다</h3>
 <pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">unfinishedMinutesFor</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-user-type">Task</span>&gt;&amp; <span class="hljs-parameter">tasks</span>,
                          <span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span>&amp; <span class="hljs-parameter">owner</span>)</span> </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-number">0</span>;
@@ -441,6 +444,8 @@ Unfinished planned minutes: 0
 }
 </code></pre>
 <p>담당자 일치와 미완료라는 두 조건을 모두 만족해야 시간을 더합니다. Mina의 Outline은 완료 상태여서 제외되고 Publish의 10분만 더합니다. Joon의 Review는 미완료여서 30분입니다. Ara는 일치하는 원소가 없어 0이고, 빈 목록은 반복문이 실행되지 않아 초기값 0을 반환합니다. 조건에 맞는 원소가 하나도 없을 때 자연스럽게 나올 값을 먼저 정하면 별도 예외 처리를 줄일 수 있습니다.</p>
+</div>
+</details>
 </section>
 <h2 id="section-37">핵심 정리</h2>
 <ul>
