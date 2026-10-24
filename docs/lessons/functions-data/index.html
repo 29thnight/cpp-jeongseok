@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>함수로 자료 처리하기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=8b676ae99019"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">02-4 / PROCESSING DATA</p><h1>함수로 자료 처리하기</h1><p class="article-deck">const 참조 매개변수, 값 반환, 간단한 통계 프로그램</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-22">2026년 10월 22일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><p>이번 수업에서는 점수 목록을 함수에 전달해 합계, 평균, 기준 점수 이상인 사람 수를 구합니다. 함수가 목록 전체를 새로 보관할 필요는 없습니다. 기존 목록을 읽고 계산한 결과만 돌려주면 됩니다. 이때 쓸 도구가 <code>const</code> 참조 매개변수와 값 반환입니다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>함수로 자료 처리하기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=8b14178211a6"><script src="/cpp-jeongseok/assets/app.js?v=c75762cfa893" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">02-4 / PROCESSING DATA</p><h1>함수로 자료 처리하기</h1><p class="article-deck">const 참조 매개변수, 값 반환, 간단한 통계 프로그램</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-22">2026년 10월 22일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><p>이번 수업에서는 점수 목록을 함수에 전달해 합계, 평균, 기준 점수 이상인 사람 수를 구합니다. 함수가 목록 전체를 새로 보관할 필요는 없습니다. 기존 목록을 읽고 계산한 결과만 돌려주면 됩니다. 이때 쓸 도구가 <code>const</code> 참조 매개변수와 값 반환입니다.</p>
 <p>앞 수업에서 함수의 값 매개변수, 지역 변수, 선언과 정의를 배웠습니다. <code>std::string</code>, <code>std::vector</code>, 범위 기반 <code>for</code>, 기초적인 <code>auto</code>도 알고 있다고 가정합니다. 이번에는 참조를 처음 소개합니다. 포인터, 사용자 정의 자료형, 함수 템플릿, 예외 처리는 필요하지 않습니다. 코드에 등장하는 <code>std::vector&lt;int&gt;</code>는 이미 배운 정수 목록으로 사용합니다.</p>
 <p>수업을 마치면 다음을 할 수 있어야 합니다.</p>
 <ul>
@@ -446,6 +446,8 @@ Average: no data
 <h3 id="section-22">오늘의 선택 기준</h3>
 <p>작은 설정값을 넘길 때는 값 매개변수를 자연스럽게 사용합니다. 기존 목록을 함수 실행 중 읽기만 할 때는 <code>const std::vector&lt;int&gt;&amp;</code>를 사용합니다. 계산 결과인 정수, 실수, 문자열은 값으로 반환합니다. 빈 자료처럼 계산할 수 없는 경우는 함수의 사전 조건과 호출부의 분기로 명확히 다룹니다.</p>
 <p>이 기준은 모든 C++ 함수에 대한 최종 규칙이 아닙니다. 하지만 지금 배운 문법으로 데이터를 처리하는 함수를 정확히 만드는 데 충분합니다. 더 복잡한 기술을 추가하기 전에 각 함수가 무엇을 읽고, 무엇을 바꾸고, 무엇을 돌려주는지 설명할 수 있어야 합니다.</p>
+<section class="lesson-callout lesson-callout--exercise" aria-label="연습문제">
+<div class="lesson-callout-label" aria-hidden="true">연습문제</div>
 <h2 id="section-23">연습문제</h2>
 <p>먼저 스스로 풀고 뒤의 해설을 확인하세요. 코드 작성 문제에도 최대 100개, 점수 0부터 100이라는 조건을 그대로 적용합니다.</p>
 <h3 id="section-24">문제 1 출력 추적</h3>
@@ -506,6 +508,9 @@ Average: no data
 <li><code>{80, 80}</code>, 범위 80부터 80</li>
 </ul>
 <p>추가로 이 함수에서 개수를 담는 <code>int</code>가 충분한 이유를 설명하세요.</p>
+</section>
+<section class="lesson-callout lesson-callout--solution" aria-label="해설">
+<div class="lesson-callout-label" aria-hidden="true">해설</div>
 <h2 id="section-30">연습문제 상세 해설</h2>
 <h3 id="section-31">해설 1</h3>
 <pre><code class="language-plaintext">30 90
@@ -572,6 +577,7 @@ Average: no data
 <p>두 비교를 <code>&amp;&amp;</code>로 연결합니다. 수학에서 쓰는 <code>low &lt;= score &lt;= high</code>를 그대로 C++ 식으로 쓰면 의도한 두 비교가 되지 않습니다. 첫 비교 결과가 다시 다음 비교의 입력이 되기 때문입니다. 각각의 비교를 분리해서 작성하세요.</p>
 <p>예상값은 차례대로 3, 6, 0, 2입니다. 첫 경우에는 60, 79, 80을 포함합니다. 넷째 경우에는 양 끝이 모두 포함되므로 80 두 개를 모두 셉니다. 빈 목록에서는 반복문을 한 번도 실행하지 않아서 0을 반환합니다.</p>
 <p>목록은 최대 100개이므로 결과 개수는 0부터 100입니다. 이 범위는 <code>int</code>로 충분합니다. 합계를 세는 것이 아니라 조건에 맞는 원소마다 1씩 세므로 점수 자체의 크기를 누적하지 않습니다. 입력 조건을 없애거나 자료가 매우 커지는 다른 프로그램에 적용할 때는 같은 타입 선택을 그대로 보장할 수 없습니다.</p>
+</section>
 <h2 id="section-37">마무리 확인</h2>
 <ul>
 <li><code>int copied = original;</code>과 <code>int&amp; alias = original;</code>의 차이를 설명할 수 있나요?</li>

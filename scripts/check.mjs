@@ -1,3 +1,4 @@
+import './check-lesson-callouts.mjs';
 import './check-illustrations.mjs';
 import './check-course-search.mjs';
 import './check-variable-roles.mjs';
