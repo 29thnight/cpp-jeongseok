@@ -31,8 +31,9 @@ int main()
 실습: `health`를 99, 100, 101로 바꾸고 각각의 출력을 예상한 뒤 실행해 보세요. 101도 `Already full`이 나옵니다. 이 코드는 ‘최대 체력 이상이면 회복하지 않는다’만 판단하며, 101이라는 상태가 유효한지까지 검사하지는 않습니다. 조건식이 실제로 보장하는 범위를 구분해야 합니다.
 
 <figure class="concept-figure">
-<a href="/cpp-jeongseok/assets/illustrations/01-3-branch-loop.webp"><img src="/cpp-jeongseok/assets/illustrations/01-3-branch-loop.webp" alt="흰 배경에서 로봇이 도형을 두 레인으로 분류하고, 다른 로봇이 작업대의 블록을 하나씩 확인하는 모습" width="1200" height="800" loading="lazy" decoding="async"></a>
-<figcaption>AI 생성 개념 일러스트: 조건에 따라 처리할 길을 고르는 분기와, 같은 작업을 거듭 수행하는 반복을 비유했습니다. 실제 코드의 실행 순서나 종료 조건을 정확하게 나타낸 순서도는 아닙니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/01-3-branch-loop.webp"><img src="/cpp-jeongseok/assets/illustrations/01-3-branch-loop.webp" width="1200" height="800" loading="lazy" decoding="async" alt="체력 70/100인 게임 인물은 회복할 수 있고 100/100인 인물은 회복하지 않으며, 아래에는 방패 들기 동작이 세 번 반복됩니다."></a>
+<div class="figure-example"><strong>본문 예제와 연결</strong><ul><li>health = 70, max_health = 100</li><li>health &lt; max_health는 참 → Can heal 출력</li><li>반복 예제: step은 0 → 1 → 2, 반복 뒤 Done 출력. 100 &lt; 100은 거짓이므로 분기 예제에서는 Already full을 출력합니다.</li></ul></div>
+<figcaption>그림 1. AI 생성 개념 일러스트입니다. 체력이 최대치보다 작은지에 따른 선택과 같은 작업을 세 번 수행하는 반복을 구체적인 게임 장면으로 표현했습니다. 방패 동작은 반복 횟수의 예시이며 코드의 실제 출력은 아래에서 확인합니다.</figcaption>
 </figure>
 
 ## 2. `else if`: 조건을 검사하는 순서도 중요합니다

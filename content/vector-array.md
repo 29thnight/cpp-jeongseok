@@ -47,8 +47,9 @@ cl /std:c++20 /EHsc /W4 01_vector_start.cpp
 반면 빨강, 초록, 파랑 세 성분을 각각 정수로 저장한다면 개수는 항상 세 개입니다. 프로그램을 만들 때 개수를 정할 수 있고 그 개수 자체가 자료의 의미라면 `std::array`를 고려합니다. 두 컨테이너 모두 같은 타입의 원소를 순서대로 다룹니다. 우선 성능을 추측하기보다 자료가 요구하는 개수를 살펴봅니다.
 
 <figure class="concept-figure">
-<a href="/cpp-jeongseok/assets/illustrations/02-3-array-vector.webp"><img src="/cpp-jeongseok/assets/illustrations/02-3-array-vector.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="위에는 네 칸짜리 파란 트레이에 원소를 상징하는 조각 네 개가 있고, 아래에는 청록색 카드 세 장과 추가할 수 있는 별도 카드 한 장이 있습니다. array는 개수가 고정되어도 값은 바꿀 수 있고 vector는 개수를 바꿀 수 있다는 개념적 비유이며, 실제 메모리 배치는 아닙니다."></a>
-<figcaption>그림 1. AI 생성 개념 일러스트. 위의 고정된 네 칸은 <code>std::array</code>, 아래의 카드를 더할 수 있는 모음은 <code>std::vector</code>를 떠올리기 위한 개념적 비유입니다. <code>std::array</code>는 원소 개수가 고정되지만 각 원소의 값은 바꿀 수 있고, <code>std::vector</code>는 원소 개수를 바꿀 수 있습니다. 실제 메모리 배치를 나타낸 그림은 아닙니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/02-3-array-vector.webp"><img src="/cpp-jeongseok/assets/illustrations/02-3-array-vector.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="왼쪽 색상 조절 화면에는 R, G, B 슬라이더 세 개가 있고, 오른쪽 신청 명단에는 Mina, Jin, Sol, 새로 추가한 Ara가 있습니다."></a>
+<div class="figure-example"><strong>원소 개수와 값은 다릅니다</strong><ul><li>RGB처럼 언제나 세 성분인 자료 → <code>std::array</code></li><li>names: Mina · Jun · Sol → Jun을 Jin으로 변경 → Ara 추가 후 size()는 4</li><li>array는 개수가 고정되어도 값을 바꿀 수 있습니다. vector는 원소를 추가할 수 있습니다.</li></ul></div>
+<figcaption>AI 생성 개념 일러스트. RGB 세 성분은 값을 바꾸어도 개수가 셋이며, 행사 신청자 목록에는 이름을 수정하거나 참가자를 추가할 수 있습니다. 실제 메모리 배치를 나타내지 않습니다.</figcaption>
 </figure>
 
 | 확인할 질문 | `std::vector` | `std::array` |

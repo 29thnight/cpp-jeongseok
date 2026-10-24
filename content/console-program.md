@@ -15,8 +15,9 @@
 중요한 한계도 먼저 정하겠습니다. 이번 예제의 정수 입력은 한 줄 전체가 정수인지 검사하지 않습니다. `std::cin >> quantity`는 앞부분에서 정수로 해석할 수 있는 문자를 읽습니다. 따라서 2abc를 입력하면 먼저 2를 읽을 수 있습니다. 뒤의 abc는 다음 입력 시도에서 문제가 됩니다. 문자열 전체를 검사하는 엄격한 입력기는 문자열을 배운 뒤 별도로 만들겠습니다.
 
 <figure class="concept-figure">
-<a href="/cpp-jeongseok/assets/illustrations/01-4-input-check.webp"><img src="/cpp-jeongseok/assets/illustrations/01-4-input-check.webp" width="1200" height="800" loading="lazy" decoding="async" alt="파란 옷의 사람이 입력 카드를 확인 장치에 대고, 옆에는 제외한 카드와 청록색 누적 블록이 따로 놓여 있습니다."></a>
-<figcaption>그림 1. AI 생성 개념 일러스트입니다. 입력을 확인한 뒤 받아들인 값만 누적한다는 생각을 비유적으로 표현했습니다. 실제 스트림의 내부 구조나 정확한 실행 순서를 그린 도표는 아닙니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/01-4-input-check.webp"><img src="/cpp-jeongseok/assets/illustrations/01-4-input-check.webp" width="1200" height="800" loading="lazy" decoding="async" alt="동일한 청록색 공책의 정상 주문, 잘못된 입력 경고, 주문 종료 후 합계 확인 화면이 나란히 있습니다."></a>
+<div class="figure-example"><strong>주문 계산기의 판단</strong><ul><li>수량 0 → 종료 / 수량 1~9 → 금액 계산</li><li>amount = quantity * 100</li><li>정수 입력 성공과 수량 범위, 합계 한도 2000을 확인한 주문만 total에 더합니다.</li></ul></div>
+<figcaption>그림 1. AI 생성 개념 일러스트입니다. 수량을 받아 같은 상품의 주문을 누적하고, 오류 주문은 더하지 않으며, 종료할 때 합계를 확인하는 세 상태를 표현했습니다. 그림의 공책은 본문의 동일 상품을 구체화한 예시입니다. 오른쪽은 추가 입력을 마치고 합계를 확인하는 종료 상태이며, 보안 기능을 뜻하지 않습니다.</figcaption>
 </figure>
 
 ## 2. 정수로 읽는 데 성공했는지 확인합니다

@@ -36,8 +36,9 @@
 함수 바깥에서는 무엇을 넣어야 하는지, 어떤 결과를 받을 수 있는지 알아야 합니다. 함수 안에서는 그 약속에 맞게 계산합니다. 이 경계가 분명하면 계산을 사용하는 쪽과 계산을 구현하는 쪽을 나누어 생각할 수 있습니다.
 
 <figure class="concept-figure">
-<a href="/cpp-jeongseok/assets/illustrations/02-1-function-workbench.webp"><img src="/cpp-jeongseok/assets/illustrations/02-1-function-workbench.webp" width="1200" height="800" loading="lazy" decoding="async" alt="밝은 청색 작업대의 왼쪽으로 빈 카드가 들어가고 오른쪽으로 청록색 카드가 나온다. 함수의 입력, 처리, 결과를 비유한 그림이다."></a>
-<figcaption>AI 생성 개념 일러스트입니다. 입력을 받아 계산하고 결과를 돌려주는 함수를 작업대로 비유했습니다. 실제 메모리 구조나 실행 장치를 나타내는 그림은 아닙니다. 모든 함수가 입력과 반환값을 함께 갖는 것은 아닙니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/02-1-function-workbench.webp"><img src="/cpp-jeongseok/assets/illustrations/02-1-function-workbench.webp" width="1200" height="800" loading="lazy" decoding="async" alt="교실 안내판 왼쪽에 작은 파란 정사각형 카드 네 장, 오른쪽에 더 큰 청록색 카드 세 장이 겹치지 않게 붙어 있습니다."></a>
+<div class="figure-example"><strong>정사각형 카드의 전체 면적</strong><ul><li>calculateCardArea(6, 4)</li><li>한 장: 6 × 6 = 36 / 네 장: 36 × 4 = 144</li><li>calculateCardArea(8, 3)은 192를 반환합니다. 두 결과의 합은 336이며 반환 자체가 화면 출력은 아닙니다.</li></ul></div>
+<figcaption>그림 1. AI 생성 개념 일러스트입니다. 한 변이 6인 카드 네 장과 한 변이 8인 카드 세 장에 같은 면적 계산 규칙을 적용하는 예시입니다. 정확한 길이와 면적은 아래 계산표에서 확인합니다.</figcaption>
 </figure>
 
 모든 함수가 입력과 반환값을 모두 갖는 것은 아닙니다. 이번에는 먼저 정수 두 개를 받아 정수 하나를 돌려주는 함수로 시작하고, 뒤에서 값을 돌려주지 않는 출력 함수도 만납니다.

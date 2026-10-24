@@ -64,11 +64,13 @@ int main()
 
 이 수업에서는 범위를 벗어난 요청을 가까운 끝값으로 보정합니다. 음수는 0, 100보다 큰 값은 100으로 바꿉니다. 입력을 거절하거나 오류를 알려 주는 설계도 가능하지만, 그것은 별도의 정책입니다. 보정이 언제나 옳은 방법인 것은 아닙니다.
 
-![왼쪽에는 빈 파란 케이스와 구, 사각형, 막대 모양의 부품이 놓여 있고, 오른쪽에는 같은 부품들이 케이스 안의 자리에 맞게 놓여 있습니다.](/cpp-jeongseok/assets/illustrations/03-2-construction.webp)
+<figure class="concept-figure">
+<a href="/cpp-jeongseok/assets/illustrations/03-2-construction.webp"><img src="/cpp-jeongseok/assets/illustrations/03-2-construction.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="음량 앱의 생성 화면과 변경 화면에 0부터 100까지의 슬라이더가 있고 각각 최솟값과 최댓값을 가리킵니다."></a>
+<div class="figure-example"><strong>그림과 본문 코드를 연결하기</strong><ul><li>왼쪽: Volume quiet{-10}; → quiet.level()은 0</li><li>오른쪽: quiet.setLevel(135); → quiet.level()은 100</li><li>본문의 boundedLevel을 사용한 적용 예입니다. 생성자와 변경 함수 모두 작성한 0~100 규칙을 사용합니다.</li></ul></div>
+<figcaption>AI 생성 개념 일러스트. 음량 객체를 처음 만들 때와 나중에 값을 바꿀 때 모두 프로그램이 정한 0~100 범위를 유지하도록 구현합니다. 이 규칙은 C++가 자동으로 검사하는 것이 아닙니다. 왼쪽은 음수 초기값을 0으로, 오른쪽은 100 초과 변경 요청을 100으로 보정한 예입니다.</figcaption>
+</figure>
 
-*그림 1. AI 생성 개념 일러스트. 흩어진 부품을 맞추어 하나의 구성을 완성하듯, 생성자는 객체가 의도한 초기 상태를 갖도록 작성합니다. 실제 메모리 배치나 초기화 순서를 나타낸 그림은 아닙니다.*
-
-그림의 완성 표시는 C++가 업무 규칙을 자동으로 알아서 검사한다는 뜻이 아닙니다. 다음 예제에서는 우리가 작성한 `boundedLevel` 함수가 범위를 맞춥니다.
+그림 속 음량 조절기는 생성과 변경 때 유지할 범위를 보여 줍니다. C++가 업무 규칙을 자동으로 검사하는 것은 아니며, 다음 예제에서는 우리가 작성한 `boundedLevel` 함수가 범위를 맞춥니다.
 
 ```cpp
 #include <iostream>

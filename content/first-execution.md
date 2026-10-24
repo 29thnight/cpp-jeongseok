@@ -31,10 +31,9 @@ Visual Studio Installer에서 ‘C++를 사용한 데스크톱 개발’ 워크�
 3. 실행합니다. 만들어진 프로그램을 시작하고 출력을 확인합니다.
 
 <figure class="concept-figure">
-  <a href="/cpp-jeongseok/assets/illustrations/00-2-source-build-run.webp" aria-label="소스 작성과 빌드, 실행 개념도 크게 보기">
-    <img src="/cpp-jeongseok/assets/illustrations/00-2-source-build-run.webp" width="1672" height="941" loading="lazy" decoding="async" alt="왼쪽의 소스 코드 문서, 가운데 렌치와 조립 블록이 놓인 작업대, 오른쪽의 출력 막대가 있는 터미널 창이 화살표로 이어진 그림">
-  </a>
-  <figcaption>AI로 생성한 개념 그림입니다. 소스 코드 작성 → 빌드 → 실행의 흐름을 단순화해 보여 주며, 실제 컴파일러의 내부 처리 단계를 나타내지는 않습니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/00-2-source-build-run.webp"><img src="/cpp-jeongseok/assets/illustrations/00-2-source-build-run.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="편집기에 Hello C++! 출력문, 빌드 창에 Compile·Link 성공과 FirstRun.exe, 실행 콘솔에 Hello C++!가 순서대로 나타난 작업 화면."></a>
+<div class="figure-example"><strong>본문 예제와 연결</strong><ul><li>소스 작성 → 빌드 성공 → 실행</li><li><code>std::cout</code> &lt;&lt; "Hello World!" &lt;&lt; <code>std::endl</code>;</li><li>소스를 Hello C++!로 바꾸면 다시 빌드한 뒤 실행 결과도 Hello C++!인지 확인합니다.</li></ul></div>
+<figcaption>AI 생성 개념 일러스트입니다. 소스 수정·저장, 컴파일과 링크를 포함한 빌드, 실행 후 출력 확인을 구분합니다. 편집기의 한 문장은 일부만 발췌했으며, 완전한 코드는 아래 본문을 기준으로 확인합니다. 실제 개발 도구의 화면이 아닙니다.</figcaption>
 </figure>
 
 파일을 저장했다고 해서 실행 파일이 자동으로 최신 내용이 되는 것은 아닙니다. 반대로 실행 버튼을 눌렀을 때 도구가 먼저 빌드해 주기도 합니다. 버튼 한 번으로 이어서 처리하더라도 ‘만들기’와 ‘실행하기’는 서로 다른 작업입니다.

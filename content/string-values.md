@@ -173,11 +173,12 @@ ban starts at zero
 검색어 `"ana"`를 `"banana"`로 바꾸면 결과는 0입니다. 전체 문자열과 일치해도 시작 위치는 첫 자리입니다. 다음으로 `"Ban"`을 찾아보세요. 대문자 `B`와 소문자 `b`는 다르게 비교하므로 못 찾습니다. `find()`는 사람처럼 비슷한 철자를 추측하는 검색 기능이 아닙니다.
 
 <figure class="concept-figure">
-<a href="/cpp-jeongseok/assets/illustrations/02-2-string-workbench.webp"><img src="/cpp-jeongseok/assets/illustrations/02-2-string-workbench.webp" width="1200" height="800" loading="lazy" decoding="async" alt="두 짧은 파란 띠와 하나의 긴 띠, 긴 띠의 일부를 살펴보는 청록색 돋보기"></a>
-<figcaption>AI로 생성한 개념 일러스트입니다. 두 문자열을 잇고 문자열 안에서 일부를 찾는 작업을 비유합니다. 실제 메모리 배치나 문자 개수를 나타내는 도표는 아닙니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/02-2-string-workbench.webp"><img src="/cpp-jeongseok/assets/illustrations/02-2-string-workbench.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="인사말 작성 화면에서 Hello, 와 Mina 및 느낌표를 연결하고, 검색 화면에서 banana의 첫 ana를 강조합니다."></a>
+<div class="figure-example"><strong>본문의 문자열 예제</strong><ul><li>"Hello, " + name에 name = "Mina", 이어 '!' 추가 → Hello, Mina!</li><li>"banana"에서 "ana" 검색 → 위치 1</li><li>못 찾으면 <code>std::string::npos</code>. 위치 0도 검색 성공입니다.</li></ul></div>
+<figcaption>AI 생성 개념 일러스트. 문자열을 연결해 인사말을 만들고, 검색어가 처음 나타나는 부분을 찾는 본문 예제를 보여 줍니다.</figcaption>
 </figure>
 
-그림 설명: 두 짧은 파란 띠와 하나의 긴 띠, 긴 띠의 일부를 살펴보는 청록색 돋보기
+그림 설명: 인사말 작성 화면에서 문자열을 연결하고, 검색 화면에서 banana에 처음 나타나는 ana를 강조합니다.
 
 ## 4. 선택 실험: 시작 위치와 빈 검색어
 

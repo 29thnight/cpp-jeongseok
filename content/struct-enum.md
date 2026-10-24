@@ -50,9 +50,11 @@ Review / Mina / 45
 
 `task.plannedMinutes`처럼 객체 이름 뒤에 점을 쓰면 그 객체의 멤버를 선택합니다. 이 식으로 값을 읽을 수도 있고 새 값을 대입할 수도 있습니다. 예제는 `task`의 예상 시간을 45로 바꾼 다음 출력하므로 45가 나옵니다. 같은 타입의 다른 객체를 만든다고 해서 그 객체의 예상 시간까지 바뀌지는 않습니다.
 
-![한 Task에 제목, 담당자, 예상 시간, 상태가 묶이고 상태는 Todo, Doing, Done 중 이름으로 표현되는 개념 그림](/cpp-jeongseok/assets/illustrations/03-1-task-state.webp)
-
-그림 03-1 · AI 생성 개념 일러스트. 작업과 관련 값, 상태 이름의 관계를 보여 줍니다. 실제 메모리 배치나 멤버 크기·주소·정렬을 나타낸 그림은 아닙니다.
+<figure class="concept-figure">
+<a href="/cpp-jeongseok/assets/illustrations/03-1-task-state.webp"><img src="/cpp-jeongseok/assets/illustrations/03-1-task-state.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="작업 관리 화면의 카드 하나에 Review 제목, 담당 Mina, 30분에서 45분으로 변경한 예상 시간과 Todo·Doing·Done 상태 선택이 묶여 있습니다."></a>
+<div class="figure-example"><strong>작업 하나에 관련 값 묶기</strong><ul><li>Task: title = Review / owner = Mina / plannedMinutes = 30</li><li>task.plannedMinutes = 45; → 이 객체의 예상 시간 변경</li><li>그림은 뒤에서 추가할 상태까지 포함합니다. TaskState는 Todo · Doing · Done을 이름으로 구별합니다.</li></ul></div>
+<figcaption>AI 생성 개념 일러스트. 작업 하나의 관련 값을 카드 하나로 묶어 보여 줍니다. 뒤에서 추가할 상태 선택까지 포함한 화면이며, 실제 멤버의 메모리 순서나 주소를 나타내지 않습니다.</figcaption>
+</figure>
 
 ### 직접 바꾸기
 

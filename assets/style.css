@@ -74,3 +74,11 @@
   .module-header p{font-size:13px}
   .course-module>ol{padding:0 16px}
 }
+
+/* Selectable, responsive links from each illustration to the actual lesson example. */
+.prose .figure-example{margin-top:14px;padding:16px 18px;background:#f1f6fa;border-left:3px solid #247687;border-radius:0 6px 6px 0;color:#243747;font-size:14px;line-height:1.8;overflow-wrap:anywhere}
+.prose .figure-example strong{display:block;margin-bottom:6px}
+.prose .figure-example ul{margin:0;padding-left:1.3em}
+.prose .figure-example li{margin:4px 0}
+.prose .figure-example code{white-space:normal;overflow-wrap:anywhere}
+@media(max-width:740px){.prose .figure-example{padding:12px 14px;font-size:13px}}

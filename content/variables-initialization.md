@@ -23,8 +23,9 @@ int remainingAttempts{3};
 변수를 이해할 때는 이름표가 붙은 보관함을 떠올려도 좋습니다. 이름표에는 용도를 쓰고, 보관함의 종류에 맞는 값을 넣습니다. 다만 이 비유는 이름·타입·값의 역할을 구분하기 위한 것입니다. 실제 메모리 배치나 컴퓨터 내부 구조를 그대로 보여 주지는 않습니다.
 
 <figure class="concept-figure">
-<a href="/cpp-jeongseok/assets/illustrations/01-1-variables-types.webp"><img src="/cpp-jeongseok/assets/illustrations/01-1-variables-types.webp" width="1200" height="800" loading="lazy" decoding="async" alt="이름표가 달린 네 칸에 구슬, 측정 리본, 스위치, 문자 A 블록이 놓인 모습"></a>
-<figcaption>그림 1. AI 생성 개념 일러스트입니다. 이름표가 달린 네 칸의 구슬, 측정 리본, 스위치와 문자 블록으로 서로 다른 종류의 값을 비유했습니다. 실제 메모리 배치나 저장 크기를 나타내는 그림은 아닙니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/01-1-variables-types.webp"><img src="/cpp-jeongseok/assets/illustrations/01-1-variables-types.webp" width="1200" height="800" loading="lazy" decoding="async" alt="게임 설정 화면에 남은 횟수 3, 이동 속도 2.5, 준비 완료 체크와 등급 B가 표시되어 있습니다."></a>
+<div class="figure-example"><strong>이름 · 타입 · 초기 값</strong><ul><li>remainingAttempts: <code>int</code>, 3 / movementSpeed: <code>double</code>, 2.5</li><li>isReady: <code>bool</code>, true / rank: <code>char</code>, 'B'</li><li>남은 횟수·이동 속도·준비 여부·등급을 서로 다른 타입으로 표현합니다.</li></ul></div>
+<figcaption>그림 1. AI 생성 개념 일러스트입니다. 게임 상태의 횟수·속도·준비 여부·등급을 네 종류의 값으로 연결했습니다. 정확한 C++ 타입과 선언은 아래 대응표에서 확인합니다.</figcaption>
 </figure>
 
 변수 값을 출력하려면 `std::cout << remainingAttempts << std::endl;`처럼 이름을 씁니다. 이름을 큰따옴표로 감싸면 변수의 값 대신 그 글자를 그대로 출력합니다.

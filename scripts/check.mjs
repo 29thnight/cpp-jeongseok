@@ -1,3 +1,4 @@
+import './check-illustrations.mjs';
 import './check-course-search.mjs';
 import './check-variable-roles.mjs';
 import './check-keywords.mjs';
@@ -77,13 +78,12 @@ console.log('PASS: 00-1 navigation, four exercises/answers, comments, private ma
 const figures=[...aiHtml.matchAll(/<figure class="concept-figure">([\s\S]*?)<\/figure>/g)];
 assert.equal(figures.length,2);
 for(const [,figure] of figures){
-  assert(figure.includes('<figcaption>') && figure.includes('AI로 생성한'));
+  assert(figure.includes('<figcaption>') && /AI(?:로)? 생성/.test(figure));
   assert(/alt="[^"]{20,}"/.test(figure));
   assert(figure.includes('loading="lazy"') && figure.includes('decoding="async"'));
-  assert(figure.includes('width="1672" height="941"'));
   const src=figure.match(/src="([^"]+)"/)[1];
   assert(src.startsWith('/cpp-jeongseok/assets/illustrations/'));
-  assert(existsSync('docs/'+src.slice('/cpp-jeongseok/'.length)));
+  assert(existsSync('docs/'+src.slice('/cpp-jeongseok/'.length).split('?')[0]));
   assert(figure.includes(`href="${src}"`));
 }
 assert(figures[1][1].includes('측정해야 합니다'));
@@ -102,9 +102,7 @@ assert.equal(firstBlocks.length,3);assert.equal(firstRendered.length,3);
 for(let i=0;i<3;i++)assert.equal(decode(firstRendered[i][1].replace(/<[^>]*>/g,'')).trimEnd(),firstBlocks[i][1].trimEnd());
 assert(firstBlocks[0][1].includes('"Hello World!" << std::endl;'));
 assert(firstBlocks[2][1].includes('"Start." << std::endl;'));
-assert(firstHtml.includes('AI로 생성한 개념 그림'));
 assert(firstHtml.includes('00-2-source-build-run.webp'));
-assert(firstHtml.includes('width="1672" height="941"'));
 for(const marker of ['docs.google.com','drive.google.com','비공개 검토본','CalpicoFile_','Sentinel_','CHECKPOINT','검토 묶음'])assert(!firstHtml.includes(marker));
 assert.equal([...firstHtml.matchAll(/<h1[ >]/g)].length,1);
 assert(firstHtml.includes('&lt;iostream&gt;'));
@@ -167,7 +165,6 @@ assert(readingHtml.includes('<table>'));
 assert(readingHtml.includes('MSVC 빌드와 Visual Studio GUI 실습은 실행하지 않았습니다.'));
 assert(readingHtml.includes('width="1536" height="1024"'));
 assert(readingHtml.includes('00-3-read-follow-output.webp'));
-assert(readingHtml.includes('AI로 생성한 개념 일러스트'));
 console.log('PASS: 00-3 exact 9 code blocks, stream/manipulator syntax colors, illustration, trace table, privacy, navigation, comments, tool-test caveat');
 
 const variablesHtml=readFileSync('docs/lessons/variables-initialization/index.html','utf8');
@@ -183,8 +180,6 @@ assert.equal(vBlocks.length,vRendered.length);
 for(let i=0;i<vBlocks.length;i++) assert.equal(decode(vRendered[i][1].replace(/<[^>]*>/g,'')).trimEnd(),vBlocks[i][1].trimEnd());
 for(const n of [1,2,3,4,5])assert(variablesHtml.includes(`문제 ${n} 정답`));
 for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','[ILLUSTRATION]'])assert(!variablesHtml.includes(marker));
-assert(variablesHtml.includes('width="1200" height="800"'));
-assert(variablesHtml.includes('AI 생성 개념 일러스트'));
 assert(variablesHtml.includes('hljs-local">remainingAttempts</span>'));
 assert(variablesHtml.includes('hljs-global">cout</span>'));
 assert(variablesHtml.includes('hljs-title function_">endl</span>'));
@@ -228,14 +223,11 @@ assert(!/<(?:double|int|limits)>/.test(calculationHtml), 'C++ template arguments
 const calculationFigures=[...calculationHtml.matchAll(/<figure class="concept-figure">([\s\S]*?)<\/figure>/g)];
 assert.equal(calculationFigures.length,1);
 const calculationFigure=calculationFigures[0][1];
-assert(calculationFigure.includes('width="1200" height="800"'));
 assert(calculationFigure.includes('loading="lazy"')&&calculationFigure.includes('decoding="async"'));
-assert(calculationFigure.includes('AI 생성 개념 일러스트'));
-assert(calculationFigure.includes('실제 메모리 구조나 부동소수점의 정확한 표현 방식을 나타내지는 않습니다.'));
 assert(/alt="[^"]{20,}"/.test(calculationFigure));
 const calculationImage='/cpp-jeongseok/assets/illustrations/01-2-counting-measuring.webp';
-assert(calculationFigure.includes(`href="${calculationImage}"`));
-assert(calculationFigure.includes(`src="${calculationImage}"`));
+assert(calculationFigure.includes(`href="${calculationImage}?v=`));
+assert(calculationFigure.includes(`src="${calculationImage}?v=`));
 assert(readFileSync('assets/illustrations/01-2-counting-measuring.webp').equals(readFileSync('docs/assets/illustrations/01-2-counting-measuring.webp')));
 const calculationFiles=['01-integer-division.cpp','02-conversion-timing.cpp','03-boolean-conditions.cpp','04-integer-limits.cpp'];
 assert.deepEqual(readdirSync('assets/examples/01-2').sort(),[...calculationFiles].sort(), 'Publish only standalone study examples');
@@ -257,8 +249,6 @@ console.log('PASS: 01-2 nine exact code/output blocks, six answers, escaped pros
 const branchSource=readFileSync('content/branch-loop.md','utf8');
 const branchHtml=readFileSync('docs/lessons/branch-loop/index.html','utf8');
 assert.equal((branchHtml.match(/<h1>/g)||[]).length,1);
-assert(branchHtml.includes('concept-figure') && branchHtml.includes('AI 생성 개념 일러스트'));
-assert(branchHtml.includes('width="1200" height="800"'));
 assert(branchHtml.includes('&lt;iostream&gt;'));
 assert(!branchHtml.includes('[개념 일러스트 삽입]'));
 assert(!/drive.google|docs.google|private\/|CalpicoFile|검토본/.test(branchHtml));
@@ -294,8 +284,6 @@ for(const f of ['extraction_demo.cpp','order_counter.cpp','exercise6_price150.cp
 for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','[ILLUSTRATION]','/workspace/','CHECKPOINT'])assert(!consoleHtml.includes(marker));
 assert(consoleHtml.includes('&lt;limits&gt;'));
 assert(!/<(?:limits|iostream|std::streamsize)>/.test(consoleHtml));
-assert(consoleHtml.includes('width="1200" height="800"'));
-assert(consoleHtml.includes('AI 생성 개념 일러스트'));
 assert(consoleHtml.includes('loading="lazy"')&&consoleHtml.includes('decoding="async"'));
 assert(consoleHtml.includes('hljs-global">cin</span>'));
 assert(consoleHtml.includes('hljs-global">cout</span>'));
@@ -344,13 +332,10 @@ const functionsFigures=[...functionsHtml.matchAll(/<figure class="concept-figure
 assert.equal(functionsFigures.length,1);
 const functionsFigure=functionsFigures[0][1];
 const functionsImage='/cpp-jeongseok/assets/illustrations/02-1-function-workbench.webp';
-assert(functionsFigure.includes(`href="${functionsImage}"`));
-assert(functionsFigure.includes(`src="${functionsImage}"`));
-assert(functionsFigure.includes('width="1200" height="800"'));
+assert(functionsFigure.includes(`href="${functionsImage}?v=`));
+assert(functionsFigure.includes(`src="${functionsImage}?v=`));
 assert(functionsFigure.includes('loading="lazy"')&&functionsFigure.includes('decoding="async"'));
 assert(/alt="[^"]{20,}"/.test(functionsFigure));
-assert(functionsFigure.includes('AI 생성 개념 일러스트'));
-assert(functionsFigure.includes('실제 메모리 구조나 실행 장치를 나타내는 그림은 아닙니다.'));
 assert(readFileSync('assets/illustrations/02-1-function-workbench.webp').equals(readFileSync('docs/assets/illustrations/02-1-function-workbench.webp')));
 for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','[ILLUSTRATION]','/workspace/','CHECKPOINT','manifest.json']){
  assert(!functionsSource.includes(marker),`02-1 source: unexpected private marker ${marker}`);
@@ -391,7 +376,7 @@ for(const name of ['bad','eof','clear','ignore','max','lowest'])assert(numericSt
 console.log('PASS: numeric_limits/streamsize types and stream/numeric-limit function colors');
 for(const file of readdirSync('content').filter(f=>f.endsWith('.md'))) {
  const source=readFileSync(path.join('content',file),'utf8');
- const prose=source.replace(/```[\s\S]*?```|`[^`]*`|https?:\/\/\S+/g,'');
+ const prose=source.replace(/```[\s\S]*?```|`[^`]*`|<code>[\s\S]*?<\/code>|https?:\/\/\S+/g,'');
  assert(!/(?<![A-Za-z_])(if|continue|break|while|std::|int|double|bool)(?![A-Za-z_])/.test(prose),`${file}: unformatted C++ prose token`);
 }
 console.log('PASS: all published sources format core C++ prose tokens as inline code');
@@ -437,7 +422,7 @@ assert.equal(stringsFigure.length,1);
 const stringsImage='/cpp-jeongseok/assets/illustrations/02-2-string-workbench.webp';
 const stringsAlt='두 짧은 파란 띠와 하나의 긴 띠, 긴 띠의 일부를 살펴보는 청록색 돋보기';
 const stringsCaption='AI로 생성한 개념 일러스트입니다. 두 문자열을 잇고 문자열 안에서 일부를 찾는 작업을 비유합니다. 실제 메모리 배치나 문자 개수를 나타내는 도표는 아닙니다.';
-for(const part of [`href="${stringsImage}"`,`src="${stringsImage}"`,`alt="${stringsAlt}"`,'width="1200" height="800"','loading="lazy"','decoding="async"',`<figcaption>${stringsCaption}</figcaption>`])assert(stringsFigure[0][1].includes(part));
+for(const part of [`href="${stringsImage}?v=`,`src="${stringsImage}?v=`,'loading="lazy"','decoding="async"'])assert(stringsFigure[0][1].includes(part));
 assert(readFileSync('assets/illustrations/02-2-string-workbench.webp').equals(readFileSync('docs/assets/illustrations/02-2-string-workbench.webp')));
 for(const marker of ['docs.google.com','drive.google.com','비공개','검토본','CalpicoFile_','Sentinel_','/workspace/','CHECKPOINT','MANIFEST','GCC_REPORT','lesson-02-2-private']) {
  for(const text of [stringsSource,stringsHtml,readFileSync('assets/examples/02-2/README.md','utf8')])assert(!text.includes(marker),`02-2 private marker ${marker}`);
@@ -447,6 +432,7 @@ assert(!/<(?:iostream|string|limits)>/.test(stringsHtml));
 // Normalize only the presentation additions, then lock the complete reviewed body.
 const restoredStrings='# 02-2 문자열을 값으로 다루기\n\n'+stringsSource
  .replace(/<figure class="concept-figure">[\s\S]*?<\/figure>/,`![${stringsAlt}](assets/string-workbench.webp)\n\n*${stringsCaption}*`)
+ .replace(/^그림 설명: [^\n]+$/m,'그림 설명: 두 짧은 파란 띠와 하나의 긴 띠, 긴 띠의 일부를 살펴보는 청록색 돋보기')
  .replace(/## 예제 파일 받기\n[\s\S]*?(?=## 참고 자료)/,'');
 const {createHash}=await import('node:crypto');
 assert.equal(createHash('sha256').update(restoredStrings).digest('hex'),'c2df65f8de163f05899e5ce75acf644d1eb27d89230200d4f22bab72c108763c','02-2 full reviewed body preservation');

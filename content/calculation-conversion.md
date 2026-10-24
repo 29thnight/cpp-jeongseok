@@ -17,10 +17,9 @@
 정수와 부동소수점의 차이를 셀 수 있는 물건과 측정할 수 있는 양에 빗대어 보겠습니다. 물건을 몇 개씩 나눌 때와 길이를 나눌 때는 필요한 결과의 형태가 다릅니다. 실제 `double`이 모든 실수를 정확히 표현한다는 뜻은 아닙니다.
 
 <figure class="concept-figure">
-  <a href="/cpp-jeongseok/assets/illustrations/01-2-counting-measuring.webp" aria-label="개수와 측정량을 대비한 개념 일러스트 크게 보기">
-    <img src="/cpp-jeongseok/assets/illustrations/01-2-counting-measuring.webp" width="1200" height="800" loading="lazy" decoding="async" alt="흰 탁자 위 접시의 파란 낱개 토큰과, 청록색 액체가 담긴 투명 용기 및 길게 펼쳐진 리본을 대비한 AI 개념 일러스트">
-  </a>
-  <figcaption>그림 1. AI 생성 개념 일러스트입니다. 개수를 세는 토큰과 연속적인 양을 측정하는 도구를 대비한 비유입니다. 실제 메모리 구조나 부동소수점의 정확한 표현 방식을 나타내지는 않습니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/01-2-counting-measuring.webp"><img src="/cpp-jeongseok/assets/illustrations/01-2-counting-measuring.webp" width="1200" height="800" loading="lazy" decoding="async" alt="두 학생에게 토큰을 세 개씩 나누고 한 개가 남아 있으며, 옆에는 같은 길이로 나눈 청록색 리본 두 조각이 있습니다."></a>
+<div class="figure-example"><strong>같은 7과 2, 다른 계산</strong><ul><li>7 / 2 → 3, 7 % 2 → 1</li><li>7.0 / 2 → 3.5</li><li>static_cast&lt;<code>double</code>&gt;(7 / 2)는 이미 계산된 3을 바꿉니다. 나누기 전에 변환해야 3.5를 얻습니다.</li></ul></div>
+<figcaption>그림 1. AI 생성 개념 일러스트입니다. 토큰 7개를 두 사람에게 나누는 경우와 길이 7을 반으로 나누는 경우를 대비했습니다. 정확한 연산 결과는 아래 식을 함께 읽습니다.</figcaption>
 </figure>
 
 ## 2 기본 연산과 괄호를 읽습니다

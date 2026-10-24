@@ -34,10 +34,9 @@ int main()
 `std::endl`은 줄바꿈 문자를 넣고 스트림을 flush하는 스트림 조작 함수입니다. flush는 버퍼에 남은 출력을 연결된 출력 대상으로 전달하도록 요청하는 동작입니다. 함수 템플릿이라는 정확한 분류는 후속 수업에서 살펴봅니다. 이 위치에서는 함수 이름을 `<<`에 전달하면 해당 연산자가 함수를 호출하므로, 코드에 `endl()`이라고 쓰지 않습니다. 여기서는 앞 수업의 출력 형태를 유지합니다. 단순한 줄바꿈만 필요한 다른 상황에서는 `'\n'`도 사용합니다.
 
 <figure class="concept-figure">
-  <a href="/cpp-jeongseok/assets/illustrations/00-3-read-follow-output.webp" aria-label="문장 실행과 출력 비교 개념도 크게 보기">
-    <img src="/cpp-jeongseok/assets/illustrations/00-3-read-follow-output.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="왼쪽 노트에 세 줄의 추상적인 문장이 있고 가운데 줄에 커서가 놓여 있습니다. 오른쪽 모니터에는 두 출력 막대가 쌓여 있으며 하나의 화살표가 노트에서 모니터로 향합니다.">
-  </a>
-  <figcaption>AI로 생성한 개념 일러스트입니다. 문장을 하나씩 살펴보고 지금까지의 출력과 비교하는 학습 과정을 비유합니다. CPU의 실제 내부 동작이나 디버거 화면을 재현한 그림은 아닙니다.</figcaption>
+<a href="/cpp-jeongseok/assets/illustrations/00-3-read-follow-output.webp"><img src="/cpp-jeongseok/assets/illustrations/00-3-read-follow-output.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="세 출력문 중 Close 문장에 다음 실행 위치 표시가 있고, 옆 콘솔에는 이미 출력한 Ready와 Open 두 줄만 쌓여 있는 가상 단계 실행 화면."></a>
+<div class="figure-example"><strong>현재 화면과 다음 실행</strong><ul><li>현재 출력: Ready 다음 줄 Open</li><li>노란 표시: Close를 출력할 다음 문장 — 아직 실행 전</li><li>한 단계 더 실행하면 기존 두 줄 아래 Close가 추가됩니다. 본문의 std::endl은 줄바꿈과 flush를 요청합니다.</li></ul></div>
+<figcaption>AI 생성 개념 일러스트입니다. 앞의 두 출력문이 처리되어 Ready와 Open이 쌓였고, 노란 표시의 Close 출력문은 다음에 실행할 문장입니다. 그림의 문자열 안 \n은 줄바꿈 문자입니다. 본문의 std::endl은 줄바꿈에 더해 출력 버퍼 비우기(flush)도 요청합니다. 실제 디버거 화면이 아닙니다.</figcaption>
 </figure>
 
 한 문장을 처리할 때마다 ‘이번에 추가되는 출력’과 ‘이미 출력한 내용’을 구분하면 실행을 놓치기 어렵습니다. 다음 표의 마지막 줄은 화면 출력이 아니라 `main`에서 돌아가는 동작입니다.

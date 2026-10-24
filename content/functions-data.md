@@ -183,9 +183,11 @@ int main()
 
 마지막 호출은 원본 자체가 `const`인 목록을 전달합니다. 읽기만 요구하는 함수이므로 이 목록도 받을 수 있습니다. 이 함수는 수정 가능한 목록과 수정 불가능한 목록을 모두 읽을 수 있습니다. 반면 `std::vector<int>&`처럼 `const`가 없는 참조 매개변수는 수정 가능한 대상이 필요하며, 함수가 원본을 바꿀 가능성을 갖는 인터페이스입니다. 이번 통계 함수에는 필요하지 않습니다.
 
-![하나의 점수 자료를 읽고 별도의 계산 결과를 만드는 개념도](/cpp-jeongseok/assets/illustrations/02-4-read-data.webp)
-
-*AI로 생성한 개념 그림입니다. 실제 메모리 배치나 측정값을 나타내지 않습니다.*
+<figure class="concept-figure">
+<a href="/cpp-jeongseok/assets/illustrations/02-4-read-data.webp"><img src="/cpp-jeongseok/assets/illustrations/02-4-read-data.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="40, 70, 90이 적힌 원본 점수표 하나를 계산기가 읽고, 별도 결과 화면에 합계 200을 표시합니다."></a>
+<div class="figure-example"><strong>같은 점수 목록을 읽고 합계 반환</strong><ul><li>scores: 40 · 70 · 90 → sumScores(view) → 200</li><li>const <code>std::vector</code>&lt;<code>int</code>&gt;&amp;는 기존 목록을 읽는 참조 매개변수입니다.</li><li>scores[0]을 50으로 바꾸면 같은 view로 계산한 합은 210입니다. const 참조는 복사·스냅샷이 아니며 그 참조를 통한 수정을 막습니다.</li></ul></div>
+<figcaption>AI 생성 개념 일러스트. 원본 점수 목록을 읽어 합계를 계산한 뒤 별도의 결과값을 돌려줍니다. 원본 목록을 복사하거나 참조를 별도 데이터로 만드는 과정은 아닙니다.</figcaption>
+</figure>
 
 그림은 기존 자료를 읽어 결과를 만드는 관계를 나타낸 비유입니다. 참조를 만들 때 목록을 하나 더 복사하는 것은 아니며, `const` 참조를 통한 수정은 허용되지 않습니다. 그림 속 상자나 도구는 메모리 배치나 실제 프로그램 객체의 개수를 뜻하지 않습니다.
 
