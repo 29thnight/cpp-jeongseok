@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>struct와 enum class · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=3938c64580d8"><script src="/cpp-jeongseok/assets/app.js?v=404a6e272dde" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">03-1 / STRUCT AND ENUM CLASS</p><h1>struct와 enum class: 관련된 값을 묶고 상태를 표현하기</h1><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-23">2026년 10월 23일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><p>작은 편집팀에서 원고 작업을 관리한다고 해 봅시다. 작업마다 제목, 담당자, 예상 시간이 있고, 진행 상태도 기록해야 합니다. 제목 목록과 담당자 목록을 따로 만들면 같은 위치의 값들이 한 작업을 가리킨다는 약속을 계속 지켜야 합니다. 작업 하나를 전달할 때도 인자가 늘어납니다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>struct와 enum class · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=ecb7cc048a27"><script src="/cpp-jeongseok/assets/app.js?v=404a6e272dde" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">03-1 / STRUCT AND ENUM CLASS</p><h1>struct와 enum class: 관련된 값을 묶고 상태를 표현하기</h1><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-23">2026년 10월 23일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><p>작은 편집팀에서 원고 작업을 관리한다고 해 봅시다. 작업마다 제목, 담당자, 예상 시간이 있고, 진행 상태도 기록해야 합니다. 제목 목록과 담당자 목록을 따로 만들면 같은 위치의 값들이 한 작업을 가리킨다는 약속을 계속 지켜야 합니다. 작업 하나를 전달할 때도 인자가 늘어납니다.</p>
 <p>이번 절에서는 관련된 값을 <code>struct</code>로 묶어 <code>Task</code>라는 타입을 만들고, 진행 상태는 <code>enum class</code>로 이름 붙입니다. 이어서 앞 절에서 익힌 const 참조와 값 반환을 사용자 정의 타입에도 적용합니다. 마지막에는 여러 작업을 모아 완료 개수와 미완료 작업의 예상 시간을 계산합니다.</p>
 <h2 id="section-1">이번 절을 마치면</h2>
 <ol>
@@ -108,16 +108,16 @@ Joon / 50
     <span class="hljs-enumerator">Done</span>
 };
 
-<span class="hljs-function"><span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-title">stateName</span><span class="hljs-params">(<span class="hljs-user-type">TaskState</span> <span class="hljs-local">state</span>)</span> </span>{
-    <span class="hljs-control">if</span> (<span class="hljs-local">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Todo</span>) {
+<span class="hljs-function"><span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-title">stateName</span><span class="hljs-params">(<span class="hljs-user-type">TaskState</span> <span class="hljs-parameter">state</span>)</span> </span>{
+    <span class="hljs-control">if</span> (<span class="hljs-parameter">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Todo</span>) {
         <span class="hljs-control">return</span> <span class="hljs-string">&quot;Todo&quot;</span>;
     }
 
-    <span class="hljs-control">if</span> (<span class="hljs-local">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Doing</span>) {
+    <span class="hljs-control">if</span> (<span class="hljs-parameter">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Doing</span>) {
         <span class="hljs-control">return</span> <span class="hljs-string">&quot;Doing&quot;</span>;
     }
 
-    <span class="hljs-control">if</span> (<span class="hljs-local">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Done</span>) {
+    <span class="hljs-control">if</span> (<span class="hljs-parameter">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Done</span>) {
         <span class="hljs-control">return</span> <span class="hljs-string">&quot;Done&quot;</span>;
     }
 
@@ -215,31 +215,31 @@ Joon / 50
     <span class="hljs-user-type">TaskState</span> <span class="hljs-member">state</span> = <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Todo</span>;
 };
 
-<span class="hljs-function"><span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-title">stateName</span><span class="hljs-params">(<span class="hljs-user-type">TaskState</span> <span class="hljs-local">state</span>)</span> </span>{
-    <span class="hljs-control">if</span> (<span class="hljs-local">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Todo</span>) {
+<span class="hljs-function"><span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-title">stateName</span><span class="hljs-params">(<span class="hljs-user-type">TaskState</span> <span class="hljs-parameter">state</span>)</span> </span>{
+    <span class="hljs-control">if</span> (<span class="hljs-parameter">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Todo</span>) {
         <span class="hljs-control">return</span> <span class="hljs-string">&quot;Todo&quot;</span>;
     }
 
-    <span class="hljs-control">if</span> (<span class="hljs-local">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Doing</span>) {
+    <span class="hljs-control">if</span> (<span class="hljs-parameter">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Doing</span>) {
         <span class="hljs-control">return</span> <span class="hljs-string">&quot;Doing&quot;</span>;
     }
 
-    <span class="hljs-control">if</span> (<span class="hljs-local">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Done</span>) {
+    <span class="hljs-control">if</span> (<span class="hljs-parameter">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Done</span>) {
         <span class="hljs-control">return</span> <span class="hljs-string">&quot;Done&quot;</span>;
     }
 
     <span class="hljs-control">return</span> <span class="hljs-string">&quot;Unknown&quot;</span>;
 }
 
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTask</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">Task</span>&amp; <span class="hljs-local">task</span>)</span> </span>{
-    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-local">task</span>.<span class="hljs-member">title</span> &lt;&lt; <span class="hljs-string">&quot; / &quot;</span> &lt;&lt; <span class="hljs-local">task</span>.<span class="hljs-member">owner</span> &lt;&lt; <span class="hljs-string">&quot; / &quot;</span>
-              &lt;&lt; <span class="hljs-local">task</span>.<span class="hljs-member">plannedMinutes</span> &lt;&lt; <span class="hljs-string">&quot; / &quot;</span> &lt;&lt; <span class="hljs-title function_">stateName</span>(<span class="hljs-local">task</span>.<span class="hljs-member">state</span>) &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printTask</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">Task</span>&amp; <span class="hljs-parameter">task</span>)</span> </span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-parameter">task</span>.<span class="hljs-member">title</span> &lt;&lt; <span class="hljs-string">&quot; / &quot;</span> &lt;&lt; <span class="hljs-parameter">task</span>.<span class="hljs-member">owner</span> &lt;&lt; <span class="hljs-string">&quot; / &quot;</span>
+              &lt;&lt; <span class="hljs-parameter">task</span>.<span class="hljs-member">plannedMinutes</span> &lt;&lt; <span class="hljs-string">&quot; / &quot;</span> &lt;&lt; <span class="hljs-title function_">stateName</span>(<span class="hljs-parameter">task</span>.<span class="hljs-member">state</span>) &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
 }
 
-<span class="hljs-function"><span class="hljs-user-type">Task</span> <span class="hljs-title">withState</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">Task</span>&amp; <span class="hljs-local">task</span>, <span class="hljs-user-type">TaskState</span> <span class="hljs-local">state</span>)</span> </span>{
-    <span class="hljs-user-type">Task</span> <span class="hljs-local">result</span> = <span class="hljs-local">task</span>;
+<span class="hljs-function"><span class="hljs-user-type">Task</span> <span class="hljs-title">withState</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">Task</span>&amp; <span class="hljs-parameter">task</span>, <span class="hljs-user-type">TaskState</span> <span class="hljs-parameter">state</span>)</span> </span>{
+    <span class="hljs-user-type">Task</span> <span class="hljs-local">result</span> = <span class="hljs-parameter">task</span>;
 
-    <span class="hljs-local">result</span>.<span class="hljs-member">state</span> = <span class="hljs-local">state</span>;
+    <span class="hljs-local">result</span>.<span class="hljs-member">state</span> = <span class="hljs-parameter">state</span>;
 
     <span class="hljs-control">return</span> <span class="hljs-local">result</span>;
 }
@@ -296,10 +296,10 @@ Review / Mina / 30 / Doing
     <span class="hljs-type">int</span> <span class="hljs-member">unfinishedMinutes</span> = <span class="hljs-number">0</span>;
 };
 
-<span class="hljs-function"><span class="hljs-user-type">TaskSummary</span> <span class="hljs-title">summarize</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-user-type">Task</span>&gt;&amp; <span class="hljs-local">tasks</span>)</span> </span>{
+<span class="hljs-function"><span class="hljs-user-type">TaskSummary</span> <span class="hljs-title">summarize</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-user-type">Task</span>&gt;&amp; <span class="hljs-parameter">tasks</span>)</span> </span>{
     <span class="hljs-user-type">TaskSummary</span> <span class="hljs-local">result</span>{};
 
-    <span class="hljs-control">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span>&amp; <span class="hljs-local">task</span> : <span class="hljs-local">tasks</span>) {
+    <span class="hljs-control">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span>&amp; <span class="hljs-local">task</span> : <span class="hljs-parameter">tasks</span>) {
         <span class="hljs-control">if</span> (<span class="hljs-local">task</span>.<span class="hljs-member">state</span> == <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Done</span>) {
             ++<span class="hljs-local">result</span>.<span class="hljs-member">doneCount</span>;
         } <span class="hljs-control">else</span> {
@@ -310,10 +310,10 @@ Review / Mina / 30 / Doing
     <span class="hljs-control">return</span> <span class="hljs-local">result</span>;
 }
 
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printSummary</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">TaskSummary</span>&amp; <span class="hljs-local">summary</span>)</span> </span>{
-    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Done: &quot;</span> &lt;&lt; <span class="hljs-local">summary</span>.<span class="hljs-member">doneCount</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printSummary</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">TaskSummary</span>&amp; <span class="hljs-parameter">summary</span>)</span> </span>{
+    <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Done: &quot;</span> &lt;&lt; <span class="hljs-parameter">summary</span>.<span class="hljs-member">doneCount</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
     <span class="hljs-namespace">std</span>::<span class="hljs-global">cout</span> &lt;&lt; <span class="hljs-string">&quot;Unfinished planned minutes: &quot;</span>
-              &lt;&lt; <span class="hljs-local">summary</span>.<span class="hljs-member">unfinishedMinutes</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+              &lt;&lt; <span class="hljs-parameter">summary</span>.<span class="hljs-member">unfinishedMinutes</span> &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
 }
 
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
@@ -382,10 +382,10 @@ Unfinished planned minutes: 0
 </code></pre>
 <p>이름 있는 값으로 초기화하면 의도가 드러납니다. 출력은 <code>stateName</code>이 돌려준 문자열을 사용합니다.</p>
 <h3 id="section-34">해설 4 원본을 복사한 뒤 복사본만 변경한다</h3>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-user-type">Task</span> <span class="hljs-title">withOwner</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">Task</span>&amp; <span class="hljs-local">task</span>, <span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span>&amp; owner)</span> </span>{
-    <span class="hljs-user-type">Task</span> <span class="hljs-local">result</span> = <span class="hljs-local">task</span>;
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-user-type">Task</span> <span class="hljs-title">withOwner</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-user-type">Task</span>&amp; <span class="hljs-parameter">task</span>, <span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span>&amp; <span class="hljs-parameter">owner</span>)</span> </span>{
+    <span class="hljs-user-type">Task</span> <span class="hljs-local">result</span> = <span class="hljs-parameter">task</span>;
 
-    <span class="hljs-local">result</span>.<span class="hljs-member">owner</span> = owner;
+    <span class="hljs-local">result</span>.<span class="hljs-member">owner</span> = <span class="hljs-parameter">owner</span>;
 
     <span class="hljs-control">return</span> <span class="hljs-local">result</span>;
 }
@@ -417,12 +417,12 @@ Unfinished planned minutes: 0
 </code></pre>
 <p><code>-1</code>은 음수이므로, <code>abc</code>는 정수 추출에 실패하므로 <code>Invalid minutes</code>를 출력합니다. <code>0</code>은 허용 범위에 있으므로 <code>Review / Mina / 0 / Todo</code>, <code>25</code>는 <code>Review / Mina / 25 / Todo</code>를 출력합니다. 검사를 객체 생성 앞에 둔 것은 이 경로에서 잘못된 시간의 작업을 만들지 않기 위해서입니다. 다른 코드가 나중에 멤버에 음수를 대입하는 것까지 막지는 못합니다.</p>
 <h3 id="section-36">해설 6 조건을 만족하는 원소만 누적한다</h3>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">unfinishedMinutesFor</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-user-type">Task</span>&gt;&amp; <span class="hljs-local">tasks</span>,
-                         <span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span>&amp; owner)</span> </span>{
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">unfinishedMinutesFor</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-user-type">Task</span>&gt;&amp; <span class="hljs-parameter">tasks</span>,
+                         <span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span>&amp; <span class="hljs-parameter">owner</span>)</span> </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-number">0</span>;
 
-    <span class="hljs-control">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span>&amp; <span class="hljs-local">task</span> : <span class="hljs-local">tasks</span>) {
-        <span class="hljs-control">if</span> (<span class="hljs-local">task</span>.<span class="hljs-member">owner</span> == owner &amp;&amp; <span class="hljs-local">task</span>.<span class="hljs-member">state</span> != <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Done</span>) {
+    <span class="hljs-control">for</span> (<span class="hljs-type">const</span> <span class="hljs-keyword">auto</span>&amp; <span class="hljs-local">task</span> : <span class="hljs-parameter">tasks</span>) {
+        <span class="hljs-control">if</span> (<span class="hljs-local">task</span>.<span class="hljs-member">owner</span> == <span class="hljs-parameter">owner</span> &amp;&amp; <span class="hljs-local">task</span>.<span class="hljs-member">state</span> != <span class="hljs-user-type">TaskState</span><span class="hljs-scope">::</span><span class="hljs-enumerator">Done</span>) {
             <span class="hljs-local">total</span> += <span class="hljs-local">task</span>.<span class="hljs-member">plannedMinutes</span>;
         }
     }

@@ -1,3 +1,4 @@
+import './check-variable-roles.mjs';
 import './check-keywords.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync,readdirSync} from 'node:fs';

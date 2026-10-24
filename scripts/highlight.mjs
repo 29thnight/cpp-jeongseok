@@ -1,5 +1,6 @@
 import hljs from 'highlight.js/lib/core';
 import cpp from 'highlight.js/lib/languages/cpp';
+import {variableRoles} from './variable-roles.mjs';
 import {cpp20Keywords, contextualIdentifiers} from './cpp-keywords.mjs';
 
 const keywordClasses = new Map();
@@ -50,23 +51,12 @@ const qualifiedStandard = prefix => /\bstd\s*::\s*$/.test(prefix);
 const standardTokenClass = word => standardStreams.has(word) ? 'hljs-global'
   : streamManipulators.has(word) ? 'hljs-title function_' : null;
 
-// Lexical supplementation, not compiler/IntelliSense semantic analysis.
-// Find simple declarations (including nested template types and range-for).
-// Ignore comments and literals so they cannot invent variable names.
-function declaredNames(source) {
-  const clean = source.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, ' ');
-  const names = new Set();
-  const declaration = /\b(?:const\s+)?(?:auto|int|float|double|bool|char|(?:std::)?[A-Za-z_]\w*(?:<[^;{}=]+>)?)(?:\s*[*&])?\s+([A-Za-z_]\w*)\s*(?=[{=;,:])/g;
-  for (const match of clean.matchAll(declaration)) names.add(match[1]);
-  return names;
-}
-
 // Position-based supplementation for the simple declarations used in lessons.
 // Keep roles separate: a field name can also be a local name in another scope.
 function declarationRoles(source) {
   const clean = source.replace(/R"([^ ()\\\t\r\n]{0,16})\([\s\S]*?\)\1"|\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|^\s*#[^\n]*/gm,
     text => text.replace(/[^\n]/g, ' '));
-  const tokens = [...clean.matchAll(/[A-Za-z_]\w*|::|->|[^\s]/g)].map(m => ({word:m[0],start:m.index}));
+  const tokens = [...clean.matchAll(/[A-Za-z_]\w*|::|->|&&|[^\s]/g)].map(m => ({word:m[0],start:m.index}));
   const roles = new Map(), types = new Set(), enums = new Set(), bodyKinds = new Map();
   const reserved = cpp20Keywords;
   // These are bounded lexical patterns, not a C++ semantic parser. In
@@ -108,8 +98,8 @@ function declarationRoles(source) {
   // assuming a particular spelling or capitalization convention.
   const declarations=[];
   const valueNames=new Set([...clean.matchAll(/\b(?:auto|int|float|double|bool|char|long|short)\s*[*&]*\s+([A-Za-z_]\w*)/g)].map(m=>m[1]));
-  for(const m of clean.matchAll(/\b([A-Za-z_]\w*)(?:\s*<[^;{}=]+>)?(?:\s*[*&])?\s+([A-Za-z_]\w*)\s*(?=[{=;,:)(])/g)) {
-    if(reserved.has(m[1]) && !['auto','int','float','double','bool','char','long','short','unsigned','signed'].includes(m[1]))continue;
+  for(const m of clean.matchAll(/\b([A-Za-z_]\w*)(?:\s*<[^;{}=]+>)?(?:\s*[*&]+\s*|\s+)([A-Za-z_]\w*)\s*(?=[{=;,:)(\[])/g)) {
+    if(reserved.has(m[1]) && !['auto','int','float','double','bool','char','long','short','unsigned','signed','void'].includes(m[1]))continue;
     if(reserved.has(m[2]))continue;
     if(!reserved.has(m[1]) && !contextualRoles.has(m.index) && m[1]!=='std' && !standardTypes.has(m[1]) && !valueNames.has(m[1]))types.add(m[1]);
     declarations.push({start:m.index+m[0].lastIndexOf(m[2]),name:m[2]});
@@ -134,13 +124,15 @@ function declarationRoles(source) {
     if(types.has(t.word)){roles.set(t.start,'hljs-user-type');continue;}
     if(declarationAt.has(t.start)&&scopes.at(-1)==='record'&&next!=='(')roles.set(t.start,'hljs-member');
   }
+  for (const [position, role] of variableRoles(tokens, declarations, bodyKinds, types)) {
+    if (!roles.has(position) || roles.get(position) === 'hljs-member') roles.set(position, role);
+  }
   return {roles,types};
 }
 
 const unescapeHtml = text => text.replace(/&quot;/g,'"').replace(/&#x27;|&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 
 export function highlightCpp(source, context = '') {
-  const variables = declaredNames(source);
   const {roles} = declarationRoles(source+'\n'+context);
   const html = hljs.highlight(source, { language: 'cpp', ignoreIllegals: true }).value
     .replace(new RegExp(`<span class="hljs-keyword">(${[...controlKeywords].join('|')})</span>`, 'g'), '<span class="hljs-control">$1</span>');
@@ -204,7 +196,6 @@ export function highlightCpp(source, context = '') {
         if (category) return `<span class="${category}">${word}</span>`;
         if (standardTypes.has(word)) return `<span class="hljs-stl-type">${word}</span>`;
       }
-      if (variables.has(word)) return `<span class="hljs-local">${word}</span>`;
       return word;
     });
   }).join('');

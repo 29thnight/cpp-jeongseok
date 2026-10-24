@@ -66,10 +66,11 @@ Microsoft의 [Visual Studio C++ Enhanced 스타일 테마](https://github.com/mi
 
 - 키워드/기본 타입: `#569CD6`, 제어 흐름: `#D8A0DF`
 - STL 타입: `#4EC9B0`, 지역변수: `#9CDCFE`, 함수: `#DCDCAA`
+- 매개변수: `#9A9A9A`, 멤버변수: `#DADADA` (선언·초기화·참조를 같은 분류로 표시)
 - 문자열: `#CE9178`, 숫자: `#B5CEA8`, 주석: `#57A64A`
 - 배경: `#1E1E1E`
 
-구문 강조는 highlight.js와 선언 패턴을 보완한 정적 어휘 분석입니다. 컴파일러나 IntelliSense의 완전한 의미 분석은 아니며 복잡한 별칭, 매크로, 이름 가림 등을 정확히 구분한다는 보장은 없습니다. 현재 소개 예제의 `std::vector`, `std::string`, `topic`, `topics` 선언과 사용은 테스트로 검증합니다. 본문 인라인 코드는 별도 스타일을 유지합니다.
+구문 강조는 highlight.js와 선언 패턴을 보완한 정적 어휘 분석입니다. 컴파일러나 IntelliSense의 완전한 의미 분석은 아니며 복잡한 별칭, 매크로, 템플릿의 종속 이름 등을 정확히 구분한다는 보장은 없습니다. 현재 소개 예제의 `std::vector`, `std::string`, `topic`, `topics` 선언과 사용은 테스트로 검증합니다. 본문 인라인 코드는 별도 스타일을 유지합니다.
 
 표지의 C++ 글자에만 Noto Sans Bold를 자체 호스팅하여 사용합니다. 본문과 코드 등 나머지 텍스트는 D2Coding입니다. Noto Sans의 SIL OFL 1.1 및 출처는 `assets/fonts/NotoSans-LICENSE.txt`에 포함했습니다.
 

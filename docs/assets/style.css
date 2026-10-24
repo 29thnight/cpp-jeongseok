@@ -56,3 +56,5 @@
 .prose tbody tr:nth-child(even){background:#f8fafc}
 
 .curriculum-group{margin-top:32px}.curriculum-group>h3{font-size:17px;margin:0;padding-bottom:12px;border-bottom:1px solid var(--line)}
+
+.prose pre .hljs-parameter{color:#9a9a9a}

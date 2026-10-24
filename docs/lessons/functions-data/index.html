@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>함수로 자료 처리하기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=3938c64580d8"><script src="/cpp-jeongseok/assets/app.js?v=404a6e272dde" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">02-4 / PROCESSING DATA</p><h1>함수로 자료 처리하기</h1><p class="article-deck">const 참조 매개변수, 값 반환, 간단한 통계 프로그램</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-22">2026년 10월 22일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><p>이번 수업에서는 점수 목록을 함수에 전달해 합계, 평균, 기준 점수 이상인 사람 수를 구합니다. 함수가 목록 전체를 새로 보관할 필요는 없습니다. 기존 목록을 읽고 계산한 결과만 돌려주면 됩니다. 이때 쓸 도구가 <code>const</code> 참조 매개변수와 값 반환입니다.</p>
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="값과 타입에서 수명과 소유권, 현대적인 설계까지. C++20을 기준으로 함께 쌓아가는 한국어 C++ 교재."><meta name="theme-color" content="#202024"><title>함수로 자료 처리하기 · C++의 정석</title><link rel="icon" href="/cpp-jeongseok/assets/cpp-logo.png" type="image/png"><link rel="stylesheet" href="/cpp-jeongseok/assets/style.css?v=ecb7cc048a27"><script src="/cpp-jeongseok/assets/app.js?v=404a6e272dde" defer></script></head><body><a class="skip" href="#main">본문으로 건너뛰기</a><header class="masthead"><div class="wrap masthead-inner"><a class="brand" href="/cpp-jeongseok/"><img class="brand-icon" src="/cpp-jeongseok/assets/cpp-logo.png" width="918" height="1032" alt=""><span>C++의 정석<span class="brand-sub">THE MODERN C++ BOOK</span></span></a><nav aria-label="주요 메뉴"><a href="/cpp-jeongseok/#curriculum" >강좌 목차</a><a href="/cpp-jeongseok/#about">교재 소개</a><a href="https://github.com/29thnight/cpp-jeongseok">GitHub <span aria-hidden="true">↗</span></a></nav></div></header><div class="edition-bar"><div class="wrap"><span>제1판 <span class="draft-dot"></span> 집필 중</span><span>예제 기준 <strong>C++20</strong></span><span class="edition-note">천천히, 단단하게 배우는 C++</span></div></div><main id="main" class="wrap lesson-layout"><article><header class="article-header"><a class="back-link" href="/cpp-jeongseok/#curriculum">← 전체 강좌</a><p class="eyebrow">02-4 / PROCESSING DATA</p><h1>함수로 자료 처리하기</h1><p class="article-deck">const 참조 매개변수, 값 반환, 간단한 통계 프로그램</p><div class="article-meta"><span class="author-mark" aria-hidden="true">29</span><span><strong>29thnight</strong><br><time datetime="2026-10-22">2026년 10월 22일</time></span><span class="meta-divider"></span><span>제1판<br>C++20 기준</span></div></header><div class="prose"><p>이번 수업에서는 점수 목록을 함수에 전달해 합계, 평균, 기준 점수 이상인 사람 수를 구합니다. 함수가 목록 전체를 새로 보관할 필요는 없습니다. 기존 목록을 읽고 계산한 결과만 돌려주면 됩니다. 이때 쓸 도구가 <code>const</code> 참조 매개변수와 값 반환입니다.</p>
 <p>앞 수업에서 함수의 값 매개변수, 지역 변수, 선언과 정의를 배웠습니다. <code>std::string</code>, <code>std::vector</code>, 범위 기반 <code>for</code>, 기초적인 <code>auto</code>도 알고 있다고 가정합니다. 이번에는 참조를 처음 소개합니다. 포인터, 사용자 정의 자료형, 함수 템플릿, 예외 처리는 필요하지 않습니다. 코드에 등장하는 <code>std::vector&lt;int&gt;</code>는 이미 배운 정수 목록으로 사용합니다.</p>
 <p>수업을 마치면 다음을 할 수 있어야 합니다.</p>
 <ul>
@@ -72,11 +72,11 @@
 <p>한편 <code>scores[0] = 50;</code>은 가능합니다. 이때 <code>view[0]</code>으로 읽으면 50이 나옵니다. 원본과 참조의 관계는 유지되고, 읽기 전용이라는 제한도 유지됩니다. <a href="https://learn.microsoft.com/en-us/cpp/cpp/const-cpp?view=msvc-170">Microsoft의 <code>const</code> 설명</a></p>
 <h2 id="section-5">3 참조를 함수의 매개변수에 사용하기</h2>
 <p>값 매개변수를 받는 다음 선언을 떠올려 봅시다.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt; scores)</span></span>;
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-parameter">scores</span>)</span></span>;
 </code></pre>
 <p>이미 존재하는 <code>std::vector&lt;int&gt;</code> 변수를 인수로 넘기면 매개변수는 별도의 목록으로 초기화됩니다. 함수가 그 매개변수의 원소를 바꾸어도 호출자가 가진 원래 목록을 바꾸는 것은 아닙니다. 함수가 자체 목록을 필요로 한다면 의미 있는 선택입니다. 하지만 합계 계산처럼 읽기만 할 목적이라면 목록 전체의 복사본이 필요하지 않습니다.</p>
 <p>이번 수업에서는 다음과 같이 선언합니다.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; scores)</span></span>;
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span></span>;
 </code></pre>
 <p>오른쪽부터 단어를 억지로 번역하기보다는 다음 세 부분을 확인하세요.</p>
 <ol>
@@ -93,11 +93,11 @@
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span>
 </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-number">0</span>;
 
-    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-local">scores</span>) {
+    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-parameter">scores</span>) {
         <span class="hljs-local">total</span> += <span class="hljs-local">score</span>;
     }
 
@@ -133,7 +133,7 @@
 <p>아닙니다. <code>int threshold</code>처럼 작은 설정값은 값으로 전달해도 자연스럽습니다. 이번 수업의 기준은 “무조건 참조가 빠르다”가 아닙니다. 자료 목록을 읽는 함수라는 의도를 드러내면서, 그 목록을 매개변수용으로 복사하지 않는 것입니다. 실제 성능은 자료, 작업, 빌드 조건 등에 따라 확인해야 합니다.</p>
 <h2 id="section-8">4 계산한 결과는 값으로 돌려주기</h2>
 <p>함수에는 들어오는 자료와 나가는 결과가 있습니다. 두 방향의 전달 방식이 같아야 하는 것은 아닙니다.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>, <span class="hljs-type">int</span> threshold)</span></span>;
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>, <span class="hljs-type">int</span> <span class="hljs-parameter">threshold</span>)</span></span>;
 </code></pre>
 <p>이 선언은 다음처럼 읽습니다. 목록은 읽기 전용 참조로 받고, 기준 점수는 값으로 받으며, 기준 이상인 원소의 개수는 정수 값으로 돌려줍니다. <code>scores</code>와 <code>threshold</code>는 입력이고 반환값은 계산 결과입니다.</p>
 <p>지역 변수 <code>count</code>를 만들어 0부터 세면 됩니다. 자료가 100개 이하라면 <code>count</code>도 0부터 100 사이입니다. <code>score &gt;= threshold</code>라는 조건에서 <code>&gt;=</code>를 썼으므로 기준과 같은 점수도 포함됩니다. 함수 이름도 이 의미를 담아 <code>countAtLeast</code>라고 정했습니다.</p>
@@ -144,12 +144,12 @@
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>, <span class="hljs-type">int</span> threshold)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>, <span class="hljs-type">int</span> <span class="hljs-parameter">threshold</span>)</span>
 </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">count</span> = <span class="hljs-number">0</span>;
 
-    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-local">scores</span>) {
-        <span class="hljs-control">if</span> (<span class="hljs-local">score</span> &gt;= threshold) {
+    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-parameter">scores</span>) {
+        <span class="hljs-control">if</span> (<span class="hljs-local">score</span> &gt;= <span class="hljs-parameter">threshold</span>) {
             ++<span class="hljs-local">count</span>;
         }
     }
@@ -157,11 +157,11 @@
     <span class="hljs-control">return</span> <span class="hljs-local">count</span>;
 }
 
-<span class="hljs-function"><span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-title">makeSummary</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-local">count</span>)</span>
+<span class="hljs-function"><span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-title">makeSummary</span><span class="hljs-params">(<span class="hljs-type">int</span> <span class="hljs-parameter">count</span>)</span>
 </span>{
     <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">string</span> <span class="hljs-local">text</span> = <span class="hljs-string">&quot;Reached target: &quot;</span>;
 
-    <span class="hljs-local">text</span> += <span class="hljs-namespace">std</span>::<span class="hljs-title function_">to_string</span>(<span class="hljs-local">count</span>);
+    <span class="hljs-local">text</span> += <span class="hljs-namespace">std</span>::<span class="hljs-title function_">to_string</span>(<span class="hljs-parameter">count</span>);
 
     <span class="hljs-control">return</span> <span class="hljs-local">text</span>;
 }
@@ -234,11 +234,11 @@
 <span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
 
 <span class="hljs-comment">// Preconditions: at most 100 scores, each in [0, 100].</span>
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>, <span class="hljs-type">int</span> threshold)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>, <span class="hljs-type">int</span> <span class="hljs-parameter">threshold</span>)</span></span>;
 
 <span class="hljs-comment">// Additional precondition: scores is not empty.</span>
-<span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">averageScore</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>)</span></span>;
+<span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">averageScore</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span></span>;
 
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
 </span>{
@@ -286,23 +286,23 @@
     }
 }
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span>
 </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-number">0</span>;
 
-    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-local">scores</span>) {
+    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-parameter">scores</span>) {
         <span class="hljs-local">total</span> += <span class="hljs-local">score</span>;
     }
 
     <span class="hljs-control">return</span> <span class="hljs-local">total</span>;
 }
 
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>, <span class="hljs-type">int</span> threshold)</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>, <span class="hljs-type">int</span> <span class="hljs-parameter">threshold</span>)</span>
 </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">count</span> = <span class="hljs-number">0</span>;
 
-    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-local">scores</span>) {
-        <span class="hljs-control">if</span> (<span class="hljs-local">score</span> &gt;= threshold) {
+    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-parameter">scores</span>) {
+        <span class="hljs-control">if</span> (<span class="hljs-local">score</span> &gt;= <span class="hljs-parameter">threshold</span>) {
             ++<span class="hljs-local">count</span>;
         }
     }
@@ -310,10 +310,10 @@
     <span class="hljs-control">return</span> <span class="hljs-local">count</span>;
 }
 
-<span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">averageScore</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>)</span>
+<span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">averageScore</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span>
 </span>{
-    <span class="hljs-type">const</span> <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-title function_">sumScores</span>(<span class="hljs-local">scores</span>);
-    <span class="hljs-type">const</span> <span class="hljs-type">double</span> <span class="hljs-local">count</span> = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">double</span>&gt;(<span class="hljs-local">scores</span>.<span class="hljs-title function_">size</span>());
+    <span class="hljs-type">const</span> <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-title function_">sumScores</span>(<span class="hljs-parameter">scores</span>);
+    <span class="hljs-type">const</span> <span class="hljs-type">double</span> <span class="hljs-local">count</span> = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">double</span>&gt;(<span class="hljs-parameter">scores</span>.<span class="hljs-title function_">size</span>());
 
     <span class="hljs-control">return</span> <span class="hljs-local">total</span> / <span class="hljs-local">count</span>;
 }
@@ -413,9 +413,9 @@ Average: no data
 <p>파일: <code>examples/fail_01_modify_const.cpp</code></p>
 <pre><code class="language-cpp hljs"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
 
-<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">replaceFirst</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>)</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">replaceFirst</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span>
 </span>{
-    <span class="hljs-local">scores</span>[<span class="hljs-number">0</span>] = <span class="hljs-number">100</span>; <span class="hljs-comment">// Intentional compile error: cannot modify through const reference.</span>
+    <span class="hljs-parameter">scores</span>[<span class="hljs-number">0</span>] = <span class="hljs-number">100</span>; <span class="hljs-comment">// Intentional compile error: cannot modify through const reference.</span>
 }
 
 <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
@@ -475,11 +475,11 @@ Average: no data
 <p>A, B, C는 선택지를 표시한 것입니다. 오류인 줄은 실행하지 않고, 나머지 줄만 순서대로 실행한다고 가정하세요. “원본이 const로 바뀌었기 때문”이라는 설명이 왜 맞지 않는지도 쓰세요.</p>
 <h3 id="section-27">문제 4 평균 오류 수정</h3>
 <p>다음 함수는 비어 있지 않은 검증된 목록을 받는다고 가정합니다. 점수 80, 81에 대해 80.5가 아니라 80을 반환하는 이유를 설명하고 수정하세요. 빈 목록일 때 이 함수를 호출하지 않는 <code>if</code> 문도 작성하세요.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">averageScore</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; scores)</span>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">averageScore</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span>
 </span>{
-    <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-title function_">sumScores</span>(scores);
+    <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-title function_">sumScores</span>(<span class="hljs-parameter">scores</span>);
 
-    <span class="hljs-control">return</span> <span class="hljs-local">total</span> / scores.<span class="hljs-title function_">size</span>();
+    <span class="hljs-control">return</span> <span class="hljs-local">total</span> / <span class="hljs-parameter">scores</span>.<span class="hljs-title function_">size</span>();
 }
 </code></pre>
 <h3 id="section-28">문제 5 수명과 반환 타입</h3>
@@ -509,8 +509,8 @@ Average: no data
 <p><code>copy</code>는 <code>alias</code>가 가리키는 값 20으로 초기화한 별도 정수입니다. <code>alias = second;</code>는 <code>first</code>에 30을 대입합니다. 참조 대상을 <code>second</code>로 바꾸지 않습니다. 그러므로 그 뒤 <code>second</code>가 90이 되어도 <code>alias</code>와 <code>first</code>는 30입니다. <code>copy</code>는 처음 복사한 20으로 남습니다.</p>
 <p>잘못 풀었다면 대입문을 실행할 때마다 <code>alias</code>라는 이름을 <code>first</code>로 바꾸어 읽어 보세요. 참조 선언을 이미 마친 뒤에는 어느 대상의 값을 바꾸는지 추적하기가 쉬워집니다.</p>
 <h3 id="section-32">해설 2</h3>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>)</span></span>;
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>, <span class="hljs-type">int</span> threshold)</span></span>;
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sumScores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countAtLeast</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>, <span class="hljs-type">int</span> <span class="hljs-parameter">threshold</span>)</span></span>;
 </code></pre>
 <p>목록은 기존 자료를 읽을 뿐이므로 읽기 전용 참조로 받습니다. 따라서 이 매개변수를 위한 목록 전체 복사본을 만들지 않고, 이 경로를 통해 원본을 수정할 수도 없습니다. 기준값은 하나의 작은 정수 입력이므로 값으로 받습니다.</p>
 <p><code>int</code>를 반환하는 이유는 결과가 합계 또는 개수라는 값이기 때문입니다. 계산에 쓴 지역 변수의 참조를 돌려줄 필요가 없습니다. 반환 타입까지 <code>const int&amp;</code>로 바꾸면 오히려 지역 변수의 수명 문제를 만들 수 있습니다.</p>
@@ -519,10 +519,10 @@ Average: no data
 <p>원래 선언은 <code>std::vector&lt;int&gt; scores</code>이므로 <code>scores</code> 자체는 수정 가능한 목록입니다. <code>const</code>는 <code>view</code>를 통한 수정만 제한합니다. 원본까지 <code>const std::vector&lt;int&gt; scores{50, 70};</code>로 선언했다면 B도 허용되지 않지만, 제시된 코드는 그렇지 않습니다.</p>
 <h3 id="section-34">해설 4</h3>
 <p>반환 타입은 함수 결과의 타입입니다. <code>total / scores.size()</code>가 먼저 정수 나눗셈으로 계산된 뒤 <code>double</code>로 변환되면 소수 부분은 이미 사라졌습니다. 이번 범위에서는 다음처럼 개수를 실수로 변환하면 됩니다.</p>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">averageScore</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; scores)</span>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">averageScore</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>)</span>
 </span>{
-    <span class="hljs-type">const</span> <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-title function_">sumScores</span>(scores);
-    <span class="hljs-type">const</span> <span class="hljs-type">double</span> <span class="hljs-local">count</span> = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">double</span>&gt;(scores.<span class="hljs-title function_">size</span>());
+    <span class="hljs-type">const</span> <span class="hljs-type">int</span> <span class="hljs-local">total</span> = <span class="hljs-title function_">sumScores</span>(<span class="hljs-parameter">scores</span>);
+    <span class="hljs-type">const</span> <span class="hljs-type">double</span> <span class="hljs-local">count</span> = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-type">double</span>&gt;(<span class="hljs-parameter">scores</span>.<span class="hljs-title function_">size</span>());
 
     <span class="hljs-control">return</span> <span class="hljs-local">total</span> / <span class="hljs-local">count</span>;
 }
@@ -551,12 +551,12 @@ Average: no data
 </code></pre>
 <p>위험한 것은 일반적인 자동 지역 변수의 <strong>참조</strong>를 반환하여 수명 이후에 사용하게 만드는 것입니다. 지역 변수의 <strong>값</strong>을 반환하는 것은 기본적인 올바른 패턴입니다. 또한 값 반환을 고쳤다고 “항상 문자열 전체를 한 번 복사한다”라고 단정하지 않습니다. 언어가 허용하는 복사 생략이나 이동이 있을 수 있습니다.</p>
 <h3 id="section-36">해설 6</h3>
-<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countInRange</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-local">scores</span>, <span class="hljs-type">int</span> <span class="hljs-local">low</span>, <span class="hljs-type">int</span> high)</span>
+<pre><code class="language-cpp hljs"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">countInRange</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-namespace">std</span>::<span class="hljs-stl-type">vector</span>&lt;<span class="hljs-type">int</span>&gt;&amp; <span class="hljs-parameter">scores</span>, <span class="hljs-type">int</span> <span class="hljs-parameter">low</span>, <span class="hljs-type">int</span> <span class="hljs-parameter">high</span>)</span>
 </span>{
     <span class="hljs-type">int</span> <span class="hljs-local">count</span> = <span class="hljs-number">0</span>;
 
-    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-local">scores</span>) {
-        <span class="hljs-control">if</span> (<span class="hljs-local">low</span> &lt;= <span class="hljs-local">score</span> &amp;&amp; <span class="hljs-local">score</span> &lt;= high) {
+    <span class="hljs-control">for</span> (<span class="hljs-type">int</span> <span class="hljs-local">score</span> : <span class="hljs-parameter">scores</span>) {
+        <span class="hljs-control">if</span> (<span class="hljs-parameter">low</span> &lt;= <span class="hljs-local">score</span> &amp;&amp; <span class="hljs-local">score</span> &lt;= <span class="hljs-parameter">high</span>) {
             ++<span class="hljs-local">count</span>;
         }
     }
