@@ -4,6 +4,8 @@ import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 const html=readFileSync('docs/index.html','utf8');
 const app=readFileSync('docs/assets/app.js','utf8');
+const curriculum=JSON.parse(readFileSync('curriculum/state.json','utf8'));
+const statusLabels={not_started:'준비 중',writing:'집필 중',example_validation:'예제 검증 중',awaiting_review:'검수 대기',needs_revision:'수정 중',ready_to_publish:'게시 준비',published:'읽기 가능',blocked:'준비 지연'};
 const listeners={};
 const input={value:'',addEventListener:(name,fn)=>listeners[name]=fn,focus(){this.focused=true;}};
 const form={querySelector:()=>input,addEventListener:(name,fn)=>listeners[name]=fn};
@@ -19,7 +21,8 @@ for(let cycle=0;cycle<2;cycle++){
  search('  00-2  ',1,1);
  search('모듈과 코루틴',4,1);
  search('CONST',curriculumCount('const'),modules.filter(g=>g.querySelectorAll().some(r=>r.dataset.search.toLocaleLowerCase('ko').includes('const'))).length);
- search('03-3 준비 중',1,1);
+ // Progress changes legitimately; exercise every current lesson/status pair.
+ for(const lesson of curriculum.lessons) search(`${lesson.id} ${statusLabels[lesson.status]}`,1,1);
  search('없는검색결과xyz',0,0);assert(groups.every(g=>g.hidden));
  listeners.reset();assert.equal(input.value,'');assert(input.focused);assert.equal(rows.filter(r=>!r.hidden).length,58);assert(modules.every(g=>!g.hidden));assert(groups.every(g=>!g.hidden));assert(result.hidden);
  search('   ',58,14);assert(result.hidden);

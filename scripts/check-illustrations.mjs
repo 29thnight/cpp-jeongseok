@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 
 // Lock every byte outside illustration figures, including all examples and lesson prose.
 // Two explicitly authorized illustration-dependent sentences are excluded as well.
-// All other prose, examples, headings, and curriculum data remain byte-locked.
+// All other lesson prose, examples, and headings remain byte-locked.
+// Progress is mutable: validate its schema/policy rather than freezing a revision.
+execFileSync('python3', ['scripts/curriculum.py', 'validate'], {stdio: 'pipe'});
 function unchangedBody(file, text) {
   text=text.replace(/<figure class="concept-figure">[\s\S]*?<\/figure>/g,'[LESSON_FIGURE]');
   if(file==='content/string-values.md') text=text.replace(/^그림 설명: [^\n]+$/m,'[ILLUSTRATION_DESCRIPTION]');
@@ -57,4 +60,4 @@ for(const slug of readdirSync('docs/lessons')) {
 }
 assert.equal(count,14);
 assert.deepEqual([...seen].map(s=>s.split('/').pop().split('?')[0]).sort(),readdirSync('assets/illustrations').sort(),'Only published web assets belong in public illustrations');
-console.log('PASS: 14 accessible figures, real WebP dimensions, exact copied assets, AI captions, full-size links, private-marker exclusion and unchanged non-figure prose/curriculum');
+console.log('PASS: 14 accessible figures, real WebP dimensions, exact copied assets, AI captions, full-size links, private-marker exclusion and unchanged non-figure prose and valid curriculum');
